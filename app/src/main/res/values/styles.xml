@@ -1,11 +1,27 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+    </style>
+    <style name="AppTheme.ToolBar" parent="AppTheme">
+        <item name="android:background">@color/colorToolbar</item>
+        <item name="android:textColor">@color/colorToolbarText</item>
+    </style>
+
+    <style name="AppTheme.PopWindow" parent="AppTheme">
+        <item name="android:background">@color/colorPopwindow</item>
+        <item name="android:textColor">@color/colorToolbarText</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="AnimationPop" >
+        <item name="android:windowEnterAnimation">@anim/popin</item>
+        <item name="android:windowExitAnimation">@anim/popout</item>
     </style>
 
 
