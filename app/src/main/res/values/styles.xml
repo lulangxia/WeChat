@@ -13,4 +13,15 @@
         <item name="android:textColor">@color/colorToolbarText</item>
     </style>
 
+    <style name="AppTheme.PopWindow" parent="AppTheme">
+        <item name="android:background">@color/colorPopwindow</item>
+        <item name="android:textColor">@color/colorToolbarText</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="AnimationPop" >
+        <item name="android:windowEnterAnimation">@anim/popin</item>
+        <item name="android:windowExitAnimation">@anim/popout</item>
+    </style>
+
 </resources>

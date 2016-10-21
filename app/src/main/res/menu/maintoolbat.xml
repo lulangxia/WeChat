@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/action_add"
-        android:icon="@mipmap/adm"
+        android:icon="@mipmap/main_activtiy_add_normal"
         app:showAsAction="always"
         android:title="add"/>
 

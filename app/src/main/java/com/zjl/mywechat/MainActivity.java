@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -25,9 +26,9 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
     @Override
     protected void initView() {
-        mTabLayout = bindView(R.id.titles_main);
-        mViewPager = bindView(R.id.fragments_main);
-        mToolbar = bindView(R.id.toolbar);
+        mTabLayout = bindView(R.id.tb_titles_main);
+        mViewPager = bindView(R.id.vp_fragments_main);
+        mToolbar = bindView(R.id.toolbar_main);
 
     }
 
@@ -36,6 +37,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         mToolbar.setTitle("微信");
         mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
+
         mToolbar.setOnMenuItemClickListener(this);
 
 
@@ -52,7 +54,11 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.maintoolbat,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
@@ -61,6 +67,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 Toast.makeText(MainActivity.this, "搜索", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_add:
+                AddPopwindow addPopwindow = new AddPopwindow(this);
+                addPopwindow.showPopupWindow(mToolbar);
                 Toast.makeText(MainActivity.this, "添加", Toast.LENGTH_SHORT).show();
                 break;
 

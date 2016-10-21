@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="right"
+              android:orientation="vertical">
+
+    <LinearLayout
+
+        style="@style/AppTheme.PopWindow"
+        android:layout_width="212dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingRight="12dp">
+
+        <RelativeLayout
+            android:id="@+id/re_chatroom"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            >
+
+            <ImageView
+
+                android:layout_height="@dimen/popwin_imgsize"
+                android:layout_width="@dimen/popwin_imgsize"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="13dp"
+                android:src="@mipmap/popwindow_add_icon1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="63dp"
+                android:text="发起群聊"
+                android:textColor="@color/colorToolbarText"
+
+                />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/colorPopwindowLine"/>
+
+        <RelativeLayout
+            android:id="@+id/re_addfriends"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/popwin_imgsize"
+                android:layout_height="@dimen/popwin_imgsize"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="13dp"
+                android:src="@mipmap/popwindow_add_icon2"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorToolbarText"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="63dp"
+                android:text="添加朋友"
+                />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/colorPopwindowLine"/>
+
+        <RelativeLayout
+            android:id="@+id/re_saoyisao"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/popwin_imgsize"
+                android:layout_height="@dimen/popwin_imgsize"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="13dp"
+                android:src="@mipmap/popwindow_add_icon3"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorToolbarText"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="63dp"
+                android:text="扫一扫"
+                />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/colorPopwindowLine"/>
+
+        <RelativeLayout
+            android:id="@+id/re_help"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/popwin_imgsize"
+                android:layout_height="@dimen/popwin_imgsize"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="13dp"
+                android:src="@mipmap/popwindow_add_icon4"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorToolbarText"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="63dp"
+                android:text="帮助与反馈"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

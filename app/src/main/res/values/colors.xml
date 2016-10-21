@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorToolbar">#000000</color>
     <color name="colorToolbarText">#ffffff</color>
+    <color name="colorPopwindow">#22292C</color>
+    <color name="colorPopwindowLine">#191B1C</color>
 </resources>
