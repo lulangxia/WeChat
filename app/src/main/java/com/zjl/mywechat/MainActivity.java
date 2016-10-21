@@ -4,7 +4,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
+
 import com.zjl.mywechat.find.FragmentFind;
+
+import com.zjl.mywechat.my.FragmentMy;
+
 
 import java.util.ArrayList;
 
@@ -33,7 +37,8 @@ public class MainActivity extends BaseAty {
         fragments.add(new TestFragment());
         fragments.add(new TestFragment());
         fragments.add(new FragmentFind());
-        fragments.add(new TestFragment());
+        fragments.add(new FragmentMy());
+
 
         MainAdapter mainAdapter = new MainAdapter(getSupportFragmentManager(),this);
         mainAdapter.setFragments(fragments);
