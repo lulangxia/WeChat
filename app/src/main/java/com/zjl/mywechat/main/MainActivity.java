@@ -62,6 +62,11 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         mViewPager.setAdapter(mainAdapter);
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setTabTextColors(0xff999999,0xff45c01a);
+        mTabLayout.getTabAt(0).setIcon(R.drawable.tab_weixin);
+        mTabLayout.getTabAt(1).setIcon(R.drawable.tab_contact_list);
+        mTabLayout.getTabAt(2).setIcon(R.drawable.tab_find);
+        mTabLayout.getTabAt(3).setIcon(R.drawable.tab_profile);
     }
 
     @Override
