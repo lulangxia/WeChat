@@ -1,4 +1,4 @@
-package com.zjl.mywechat;
+package com.zjl.mywechat.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

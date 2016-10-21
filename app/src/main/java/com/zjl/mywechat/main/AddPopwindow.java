@@ -1,4 +1,4 @@
-package com.zjl.mywechat;
+package com.zjl.mywechat.main;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,12 +7,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.zjl.mywechat.R;
 
 
 /**
@@ -33,9 +33,9 @@ public class AddPopwindow extends PopupWindow {
         // 设置SelectPicPopupWindow的View
         this.setContentView(conentView);
         // 设置SelectPicPopupWindow弹出窗体的宽
-        this.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        this.setWidth(LayoutParams.MATCH_PARENT);
         // 设置SelectPicPopupWindow弹出窗体的高
-        this.setHeight(LayoutParams.WRAP_CONTENT);
+        this.setHeight(LayoutParams.MATCH_PARENT);
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
         this.setOutsideTouchable(true);
@@ -49,7 +49,12 @@ public class AddPopwindow extends PopupWindow {
         // 设置SelectPicPopupWindow弹出窗体动画效果
         this.setAnimationStyle(R.style.AnimationPop);
 
-
+        conentView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddPopwindow.this.dismiss();
+            }
+        });
         RelativeLayout re_addfriends = (RelativeLayout) conentView.findViewById(R.id.re_addfriends);
         RelativeLayout re_chatroom = (RelativeLayout) conentView.findViewById(R.id.re_chatroom);
         re_addfriends.setOnClickListener(new View.OnClickListener() {
