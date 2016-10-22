@@ -17,6 +17,8 @@
         </activity>
         <activity android:name=".login_register.LoginActivity">
         </activity>
+        <activity android:name=".login_register.RegisterActivity">
+        </activity>
     </application>
 
 </manifest>
