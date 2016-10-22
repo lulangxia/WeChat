@@ -13,13 +13,13 @@ import com.bumptech.glide.Glide;
 /**
  * Created by dllo on 16/10/19.
  */
-public class BaseViewHolder {
+public class BaseListViewHolder {
     private SparseArray<View> mViews;
     private int mPosition;
     private View mConvertView;
     private Context mContext;
 
-    public BaseViewHolder(Context context, ViewGroup parent, int layoutId, int position) {
+    public BaseListViewHolder(Context context, ViewGroup parent, int layoutId, int position) {
         mPosition = position;
         mViews = new SparseArray<>();
         mContext = context;
@@ -27,11 +27,11 @@ public class BaseViewHolder {
         mConvertView.setTag(this);
     }
 
-    public static BaseViewHolder get(Context context, View convertView, ViewGroup parent, int layoutId, int position) {
+    public static BaseListViewHolder get(Context context, View convertView, ViewGroup parent, int layoutId, int position) {
         if (convertView == null) {
-            return new BaseViewHolder(context, parent, layoutId, position);
+            return new BaseListViewHolder(context, parent, layoutId, position);
         } else {
-            BaseViewHolder holder = (BaseViewHolder) convertView.getTag();
+            BaseListViewHolder holder = (BaseListViewHolder) convertView.getTag();
             holder.mPosition = position;
             return holder;
         }
@@ -48,13 +48,13 @@ public class BaseViewHolder {
         return (T) view;
     }
 
-    public BaseViewHolder setText(int viewId, String string){
+    public BaseListViewHolder setText(int viewId, String string){
         TextView tv = getView(viewId);
         tv.setText(string);
         return this;
     }
 
-    public BaseViewHolder setImage(int viewId, String imgUrl){
+    public BaseListViewHolder setImage(int viewId, String imgUrl){
         ImageView iv = getView(viewId);
         Glide.with(mContext).load(imgUrl).into(iv);
         return this;

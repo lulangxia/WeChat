@@ -5,17 +5,13 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#ffffff"
+    android:orientation="vertical"
     tools:context="com.zjl.mywechat.login_register.LoginActivity">
 
-    <android.support.v7.widget.Toolbar
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <include
         android:id="@+id/toolbar_login"
-        style="@style/AppTheme.ToolBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
-    </android.support.v7.widget.Toolbar>
+        layout="@layout/toolbar"/>
 
 
     <LinearLayout
@@ -35,7 +31,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="国家和地区"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,13 +41,13 @@
                 android:layout_marginRight="10dp"
                 android:text="中国"
                 android:textColor="#45c01a"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_alignParentBottom="true"
-                android:background="#dbdbdb" />
+                android:background="#dbdbdb"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -69,7 +65,7 @@
                 android:paddingLeft="90dp"
                 android:singleLine="true"
                 android:textColorHint="#DDDDDD"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:layout_width="90dp"
@@ -79,7 +75,7 @@
                 android:layout_marginLeft="24dp"
                 android:text="+86"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -97,7 +93,7 @@
                 android:paddingLeft="90dp"
                 android:singleLine="true"
                 android:textColorHint="#DDDDDD"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/tv_password"
@@ -108,7 +104,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="密码"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
         </RelativeLayout>
 
         <Button
@@ -122,7 +118,7 @@
             android:paddingTop="7dp"
             android:text="登录"
             android:textColor="@drawable/fx_login_btn_text_color"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/tv_wenti"
@@ -132,7 +128,7 @@
             android:layout_marginTop="10dp"
             android:text="登录遇到问题？"
             android:textColor="#576B95"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -150,7 +146,7 @@
             android:gravity="center"
             android:text="注册"
             android:textColor="#353535"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
 
     </RelativeLayout>
