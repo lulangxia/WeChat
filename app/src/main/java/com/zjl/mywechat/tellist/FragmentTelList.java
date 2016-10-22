@@ -33,13 +33,11 @@ public class FragmentTelList extends BaseFragment {
     private String[] indexStr = {"☆", "↑", "A", "B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "W", "X", "Y", "Z"};
     // 没排序的
     private ArrayList<TelListBean> telListBeen;
-    // 排好序的
+    // 排好序的？/ 姓氏的汉字排序？
     private ArrayList<TelListBean> newTelListBeen;
     // 索引
     private HashMap<String, Integer> selector;
 
-
-    // 还差排序    以及索引的对应（似乎现在是1-1， 2-2的对应关系，而不是字母-字的对应）
 
 
 
@@ -68,13 +66,11 @@ public class FragmentTelList extends BaseFragment {
             TelListBean bean2 = new TelListBean("李四" + i, "456");
             telListBeen.add(bean2);
         }
-
         telListBeen.add(new TelListBean("王五", "1"));
-
         telListBeen.add(new TelListBean("孙六", "1"));
 
-
         newTelListBeen = new ArrayList<>();
+
 
         initSendInternet();
 
@@ -93,13 +89,7 @@ public class FragmentTelList extends BaseFragment {
         });
 
 
-
-
-//        TelListViewAdapter adapter = new TelListViewAdapter(getContext(), telListBeen, R.layout.item_main_tellist);
-//        lvPeople.setAdapter(adapter);
-
     }
-
 
 
 
@@ -119,7 +109,7 @@ public class FragmentTelList extends BaseFragment {
         }
 
 
-
+        // 绑定适配器
         LvAdapter adapter = new LvAdapter(getContext());
         adapter.setArrayList(newTelListBeen);
         lvPeople.setAdapter(adapter);
@@ -130,7 +120,7 @@ public class FragmentTelList extends BaseFragment {
 
 
 
-    // 排序？
+    // 根据索引排序（封装好了的）
     private String[] sortIndex(ArrayList<TelListBean> telListBeen) {
         TreeSet<String> set = new TreeSet<String>();
         // 获取初始化数据源中的首字母，添加到set中
@@ -160,7 +150,7 @@ public class FragmentTelList extends BaseFragment {
 
 
 
-    // ListView排序
+    // ListView内容的排序
     private void sortList(String[] allNames) {
         for (int i = 0; i < allNames.length; i++) {
             if (allNames[i].length() != 1) {
@@ -182,6 +172,7 @@ public class FragmentTelList extends BaseFragment {
 
 
 
+    // 根据索引拿到ListView的东西
     private void getIndexView() {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height);
         for (int i = 0; i < indexStr.length; i++) {
@@ -210,7 +201,6 @@ public class FragmentTelList extends BaseFragment {
                             }
                             tvCharacter.setVisibility(View.VISIBLE);
                             tvCharacter.setText(indexStr[index]);
-
                         }
                     }
                     switch (event.getAction()) {
