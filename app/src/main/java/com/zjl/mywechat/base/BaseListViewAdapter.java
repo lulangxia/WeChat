@@ -43,13 +43,13 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        BaseViewHolder viewHolder = BaseViewHolder.get(mContext, convertView, parent, layoutId, position);
+        BaseListViewHolder viewHolder = BaseListViewHolder.get(mContext, convertView, parent, layoutId, position);
         convent(viewHolder, getItem(position));
         return viewHolder.getConvertView();
     }
 
 
-    public abstract void convent(BaseViewHolder viewHolder, T t);
+    public abstract void convent(BaseListViewHolder viewHolder, T t);
 
 
 

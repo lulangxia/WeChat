@@ -2,6 +2,8 @@ package com.zjl.mywechat.tellist;
 
 
 import android.graphics.Color;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,6 @@ import java.util.HashMap;
 import java.util.TreeSet;
 
 
-
 public class FragmentTelList extends BaseFragment {
 
     private ListView lvPeople;
@@ -30,15 +31,13 @@ public class FragmentTelList extends BaseFragment {
     private int height;
 
     // 字典对应
-    private String[] indexStr = {"☆", "↑", "A", "B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "W", "X", "Y", "Z"};
+    private String[] indexStr = {"↑", "☆", "A", "B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "W", "X", "Y", "Z", "#"};
     // 没排序的
     private ArrayList<TelListBean> telListBeen;
-    // 排好序的？/ 姓氏的汉字排序？
+    // 含字母的姓名列表
     private ArrayList<TelListBean> newTelListBeen;
     // 索引
     private HashMap<String, Integer> selector;
-
-
 
 
     @Override
@@ -48,15 +47,18 @@ public class FragmentTelList extends BaseFragment {
 
     @Override
     protected void initView() {
+        Log.d("FragmentTelList", "view");
         lvPeople = bindView(R.id.lv_main_tellist);
         tvCharacter = bindView(R.id.tv_tellist_character);
         llCharacters = bindView(R.id.ll_main_tellist);
-        tvCharacter.setVisibility(View.INVISIBLE);
+        tvCharacter.setVisibility(View.GONE);
     }
 
     @Override
     protected void initData() {
-
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.contract_fragment, null);
+        lvPeople.addHeaderView(view);
+        Log.d("FragmentTelList", "data");
         telListBeen = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             TelListBean bean = new TelListBean("张三" + i, "123");
@@ -75,7 +77,7 @@ public class FragmentTelList extends BaseFragment {
 
 //        flag = false;
 
-        // 观察者
+        // 观察者，设定高度用的，重新加载页面时，需要再调用一次
         ViewTreeObserver observer = llCharacters.getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -88,15 +90,14 @@ public class FragmentTelList extends BaseFragment {
                 return true;
             }
         });
-
-
     }
-
-
 
 
     private void initSendInternet() {
         // 网络解析
+
+
+        // 将汉字变成拼音并且排好序
         String[] allNames = sortIndex(telListBeen);
         sortList(allNames);
         selector = new HashMap<String, Integer>();
@@ -104,6 +105,7 @@ public class FragmentTelList extends BaseFragment {
             for (int j = 0; j < newTelListBeen.size(); j++) {
                 // 添加索引
                 if (newTelListBeen.get(j).getName().equals(indexStr[i])) {
+                    // 索引内容： <字母，数字>
                     selector.put(indexStr[i], j);
                 }
             }
@@ -116,9 +118,7 @@ public class FragmentTelList extends BaseFragment {
     }
 
 
-
-
-    // 根据索引排序（封装好了的）
+    // 名字排序并在前面添加字母（封装好了的，不必改）
     private String[] sortIndex(ArrayList<TelListBean> telListBeen) {
         TreeSet<String> set = new TreeSet<String>();
         // 获取初始化数据源中的首字母，添加到set中
@@ -145,10 +145,7 @@ public class FragmentTelList extends BaseFragment {
     }
 
 
-
-
-
-    // ListView内容的排序
+    // ListView内容，添加了字母且排好序的TelListArr
     private void sortList(String[] allNames) {
         for (int i = 0; i < allNames.length; i++) {
             if (allNames[i].length() != 1) {
@@ -158,16 +155,11 @@ public class FragmentTelList extends BaseFragment {
                         newTelListBeen.add(p);
                     }
                 }
-            } else {
-                newTelListBeen.add(new TelListBean(allNames[i], ""));
-            }
+        } else {
+            newTelListBeen.add(new TelListBean(allNames[i], ""));
+        }
         }
     }
-
-
-
-
-
 
 
     // 根据索引拿到ListView的东西
@@ -186,8 +178,12 @@ public class FragmentTelList extends BaseFragment {
                     int index = (int) (y / height);
                     if (index > -1 && index < indexStr.length) {
                         String key = indexStr[index];
-                        // selector没数据、、、
-                        // 需要把数据索引添加到那里面去！
+                        // 需要把数据索引添加到那里面去
+                        if (index == 0) {
+                            lvPeople.setSelectionFromTop(0, 0);
+                            tvCharacter.setVisibility(View.VISIBLE);
+                            tvCharacter.setText(indexStr[index]);
+                        }
                         if (selector.containsKey(key)) {
                             int pos = selector.get(key);
                             if (lvPeople.getHeaderViewsCount() > 0) {
@@ -201,10 +197,10 @@ public class FragmentTelList extends BaseFragment {
                     }
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            llCharacters.setBackgroundColor(Color.parseColor("#00ffffff"));
+                            llCharacters.setBackgroundColor(0x5f9a9a9a);
                             break;
                         case MotionEvent.ACTION_UP:
-                            llCharacters.setBackgroundColor(Color.parseColor("#00ffffff"));
+                            llCharacters.setBackgroundColor(Color.parseColor("#00000000"));
                             tvCharacter.setVisibility(View.INVISIBLE);
                             break;
                         case MotionEvent.ACTION_MOVE:
@@ -216,6 +212,14 @@ public class FragmentTelList extends BaseFragment {
 
         }
 
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        flag = false;
+        Log.d("FragmentTelList", "res");
     }
 
 

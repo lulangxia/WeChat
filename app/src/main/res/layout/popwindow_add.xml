@@ -9,6 +9,7 @@
 
         style="@style/AppTheme.PopWindow"
         android:layout_width="200dp"
+        android:layout_marginRight="10dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingRight="12dp">
