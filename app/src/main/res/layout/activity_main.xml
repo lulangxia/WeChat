@@ -7,13 +7,7 @@
     android:orientation="vertical"
   >
 
-    <android.support.v7.widget.Toolbar
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/toolbar_main"
-        style="@style/AppTheme.ToolBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
-    </android.support.v7.widget.Toolbar>
+  <include layout="@layout/toolbar" android:id="@+id/toolbar_main"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_fragments_main"

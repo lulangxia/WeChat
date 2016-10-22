@@ -8,4 +8,6 @@
     <color name="colorPopwindow">#22292C</color>
     <color name="colorPopwindowLine">#191B1C</color>
     <color name="colormaintablayout">#BABABA</color>
+
+    <color name="common_botton_bar_blue">#46c01b</color>
 </resources>
