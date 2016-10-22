@@ -10,15 +10,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.zjl.mywechat.BaseFragment;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-public class FragmentTelList extends BaseFragment{
+
+
+public class FragmentTelList extends BaseFragment {
 
     private ListView lvPeople;
     private TextView tvCharacter;

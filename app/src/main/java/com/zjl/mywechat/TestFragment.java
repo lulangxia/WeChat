@@ -1,5 +1,7 @@
 package com.zjl.mywechat;
 
+import com.zjl.mywechat.base.BaseFragment;
+
 /**
  * Created by dllo on 16/10/20.
  */

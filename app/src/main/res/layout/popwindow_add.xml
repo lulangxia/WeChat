@@ -8,7 +8,7 @@
     <LinearLayout
 
         style="@style/AppTheme.PopWindow"
-        android:layout_width="212dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingRight="12dp">
@@ -20,9 +20,8 @@
             >
 
             <ImageView
-
-                android:layout_height="@dimen/popwin_imgsize"
                 android:layout_width="@dimen/popwin_imgsize"
+                android:layout_height="@dimen/popwin_imgsize"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="13dp"
@@ -61,10 +60,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorToolbarText"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="63dp"
                 android:text="添加朋友"
+                android:textColor="@color/colorToolbarText"
                 />
         </RelativeLayout>
 
@@ -90,10 +89,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorToolbarText"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="63dp"
                 android:text="扫一扫"
+                android:textColor="@color/colorToolbarText"
                 />
         </RelativeLayout>
 
@@ -119,10 +118,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorToolbarText"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="63dp"
                 android:text="帮助与反馈"
+                android:textColor="@color/colorToolbarText"
                 />
         </RelativeLayout>
     </LinearLayout>

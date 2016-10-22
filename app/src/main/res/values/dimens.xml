@@ -3,4 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="popwin_imgsize">30dp</dimen>
+    <dimen name="tab_img">30dp</dimen>
+    <dimen name="tab_red">15dp</dimen>
+    <dimen name="tab_text">15sp</dimen>
+    <dimen name="tab_friend">8dp</dimen>
 </resources>

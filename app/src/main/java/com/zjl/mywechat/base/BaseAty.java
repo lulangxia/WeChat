@@ -1,10 +1,9 @@
-package com.zjl.mywechat;
+package com.zjl.mywechat.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
 
 
 /**
@@ -49,6 +48,9 @@ public abstract class BaseAty extends AppCompatActivity {
     protected <T extends View> T bindView(int id) {
         return (T) findViewById(id);
     }
+
+
+
 
 
 

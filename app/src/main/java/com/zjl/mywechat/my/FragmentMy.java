@@ -1,7 +1,7 @@
 package com.zjl.mywechat.my;
 
 
-import com.zjl.mywechat.BaseFragment;
+import com.zjl.mywechat.base.BaseFragment;
 import com.zjl.mywechat.R;
 
 public class FragmentMy extends BaseFragment{
