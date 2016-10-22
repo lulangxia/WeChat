@@ -16,14 +16,14 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
     protected List<T> mDataList;
     protected Context mContext;
     protected LayoutInflater mInflater;
-    protected int layoutId;//item的Id
+    protected int layoutId;//item的R.layout.
 
     public BaseListViewAdapter(Context context, List<T> list, int layoutId) {
         this.layoutId = layoutId;
         mDataList = new ArrayList<>();
         mContext = context;
         mDataList.addAll(list);
-        mInflater = LayoutInflater.from(context);
+        mInflater = LayoutInflater.from(mContext);
     }
 
     @Override
@@ -48,5 +48,10 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
         return viewHolder.getConvertView();
     }
 
+
     public abstract void convent(BaseViewHolder viewHolder, T t);
+
+
+
+
 }
