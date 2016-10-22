@@ -10,15 +10,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.zjl.mywechat.find.FragmentFind;
-import com.zjl.mywechat.my.FragmentMy;
-import com.zjl.mywechat.tellist.FragmentTelList;
-
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.TestFragment;
 import com.zjl.mywechat.base.BaseAty;
-
+import com.zjl.mywechat.find.FragmentFind;
+import com.zjl.mywechat.my.FragmentMy;
+import com.zjl.mywechat.tellist.FragmentTelList;
 
 import java.util.ArrayList;
 

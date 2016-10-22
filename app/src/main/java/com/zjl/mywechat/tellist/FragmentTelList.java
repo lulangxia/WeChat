@@ -71,8 +71,9 @@ public class FragmentTelList extends BaseFragment {
 
         newTelListBeen = new ArrayList<>();
 
-
         initSendInternet();
+
+//        flag = false;
 
         // 观察者
         ViewTreeObserver observer = llCharacters.getViewTreeObserver();
@@ -101,20 +102,17 @@ public class FragmentTelList extends BaseFragment {
         selector = new HashMap<String, Integer>();
         for (int i = 0; i < indexStr.length; i++) {
             for (int j = 0; j < newTelListBeen.size(); j++) {
-                //?
+                // 添加索引
                 if (newTelListBeen.get(j).getName().equals(indexStr[i])) {
                     selector.put(indexStr[i], j);
                 }
             }
         }
 
-
         // 绑定适配器
         LvAdapter adapter = new LvAdapter(getContext());
         adapter.setArrayList(newTelListBeen);
         lvPeople.setAdapter(adapter);
-
-
     }
 
 
@@ -181,8 +179,6 @@ public class FragmentTelList extends BaseFragment {
             tv.setPadding(10, 0, 10, 0);
             tv.setText(indexStr[i]);
             llCharacters.addView(tv);
-
-
             llCharacters.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -214,7 +210,6 @@ public class FragmentTelList extends BaseFragment {
                         case MotionEvent.ACTION_MOVE:
                             break;
                     }
-
                     return true;
                 }
             });
