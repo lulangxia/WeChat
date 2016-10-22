@@ -10,11 +10,15 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.zjl.mywechat.find.FragmentFind;
+import com.zjl.mywechat.my.FragmentMy;
+import com.zjl.mywechat.tellist.FragmentTelList;
+
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.TestFragment;
 import com.zjl.mywechat.base.BaseAty;
-import com.zjl.mywechat.find.FragmentFind;
-import com.zjl.mywechat.my.FragmentMy;
+
 
 import java.util.ArrayList;
 
@@ -54,7 +58,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(new TestFragment());
-        fragments.add(new TestFragment());
+        fragments.add(new FragmentTelList());
         fragments.add(new FragmentFind());
         fragments.add(new FragmentMy());
 
