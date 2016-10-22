@@ -1,4 +1,4 @@
-package com.zjl.mywechat;
+package com.zjl.mywechat.base;
 
 import android.content.Context;
 import android.util.SparseArray;

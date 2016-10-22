@@ -1,4 +1,4 @@
-package com.zjl.mywechat;
+package com.zjl.mywechat.main;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -14,7 +14,6 @@ public class MainAdapter extends FragmentPagerAdapter {
 
     Context mContext;
     private ArrayList<Fragment> mFragments;
-    private final ArrayList<String> mTitles;
 
 
     public void setFragments(ArrayList<Fragment> fragments) {
@@ -23,12 +22,6 @@ public class MainAdapter extends FragmentPagerAdapter {
 
     public MainAdapter(FragmentManager fm, Context context) {
         super(fm);
-        mTitles = new ArrayList<>();
-        mContext = context;
-        mTitles.add("微信");
-        mTitles.add("通讯录");
-        mTitles.add("发现");
-        mTitles.add("我");
     }
 
     @Override
@@ -41,8 +34,5 @@ public class MainAdapter extends FragmentPagerAdapter {
         return mFragments.size();
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mTitles.get(position);
-    }
+
 }

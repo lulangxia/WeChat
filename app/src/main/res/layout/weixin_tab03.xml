@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    >
+
+
+    <ImageView
+        android:id="@+id/friend_tab_main"
+        android:layout_width="@dimen/tab_img"
+        android:layout_height="@dimen/tab_img"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="3dip"
+        android:paddingTop="3dip"
+        android:src="@drawable/tab_find"
+        />
+
+    <TextView
+        android:id="@+id/unknow_msg"
+        android:layout_width="@dimen/tab_friend"
+        android:layout_height="@dimen/tab_friend"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="3dp"
+        android:background="@mipmap/em_unread_count_bg"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:visibility="visible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/friend_tab_main"
+        android:layout_centerHorizontal="true"
+        android:text="朋友圈"
+        android:textColor="@drawable/tab_text_color"
+        android:textSize="@dimen/tab_text"/>
+</RelativeLayout>
