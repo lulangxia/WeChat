@@ -7,4 +7,5 @@
     <dimen name="tab_red">15dp</dimen>
     <dimen name="tab_text">15sp</dimen>
     <dimen name="tab_friend">8dp</dimen>
+    <dimen name="contract_img">35dp</dimen>
 </resources>
