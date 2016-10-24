@@ -1,15 +1,22 @@
 package com.zjl.mywechat.login_register;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.base.BaseAty;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseAty {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+    protected int setLayout() {
+        return R.layout.activity_register;
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+
     }
 }
