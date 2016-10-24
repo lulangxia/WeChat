@@ -1,14 +1,15 @@
 package com.zjl.mywechat.login_register;
 
+import com.zjl.mywechat.base.BaseAty;
+
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.base.BaseAty;
 import com.zjl.mywechat.staticfinal.StringStatic;
 
 public class RegisterActivity extends BaseAty {
