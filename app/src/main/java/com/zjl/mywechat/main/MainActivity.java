@@ -64,6 +64,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         mainAdapter.setFragments(fragments);
         mViewPager.setAdapter(mainAdapter);
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        mTabLayout.setSelectedTabIndicatorColor(Color.TRANSPARENT);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabTextColors(0xff999999, 0xff45c01a);
         mTabLayout.getTabAt(0).setCustomView(R.layout.weixin_tab01);
