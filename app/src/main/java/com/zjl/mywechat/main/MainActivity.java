@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.TestFragment;
 import com.zjl.mywechat.base.BaseAty;
+import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.find.FragmentFind;
 import com.zjl.mywechat.my.FragmentMy;
 import com.zjl.mywechat.tellist.FragmentTelList;
@@ -40,6 +41,17 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         mTabLayout = bindView(R.id.tb_titles_main);
         mViewPager = bindView(R.id.vp_fragments_main);
         mToolbar = bindView(R.id.toolbar_main);
+
+        // 初始化DBTools
+        DBTools dbTools = DBTools.getInstance();
+
+
+
+
+
+
+
+
 
     }
 
