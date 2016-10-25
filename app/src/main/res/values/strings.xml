@@ -1,4 +1,31 @@
 <resources>
     <string name="app_name">MyWeChat</string>
+    <string name="loginground">国家和地区</string>
+    <string name="defautfroud">中国</string>
+    <string name="defaultupnum">+86</string>
+    <string name="defaultusername">你的手机号码</string>
+    <string name="defaultpassowrd">填写密码</string>
+    <string name="password">密码</string>
+    <string name="login">登录</string>
+    <string name="loginquestion">登录遇到问题？</string>
+    <string name="register">注册</string>
+    <string name="registerdefaultname">例如：陈晨</string>
+    <string name="Nickname">昵称</string>
+    <string name="country">国家和地区</string>
+    <string name="defaultcountry">中国</string>
+    <string name="defaultphone">你的手机号码</string>
+    <string name="inpassword">填写密码</string>
+    <string name="newfriend">新的朋友</string>
+    <string name="groupchat">群聊</string>
+    <string name="friendcircle">朋友圈</string>
+    <string name="saoyisao">扫一扫</string>
+    <string name="yaoyiyao">摇一摇</string>
+    <string name="nearlypeople">附近的人</string>
+    <string name="bottle">漂流瓶</string>
+    <string name="buy">购物</string>
+    <string name="game">游戏</string>
+    <string name="startgroup">发起群聊</string>
+    <string name="addfriend">添加朋友</string>
+    <string name="help">帮助与反馈</string>
 
 </resources>

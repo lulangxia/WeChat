@@ -10,4 +10,9 @@
     <color name="colormaintablayout">#BABABA</color>
 
     <color name="common_botton_bar_blue">#46c01b</color>
+
+    <color name="editin">#DDDDDD</color>
+
+    <color name="logintitle">#353535</color>
+    <color name="presstext">#576B95</color>
 </resources>
