@@ -1,4 +1,4 @@
-package com.zjl.mywechat.base;
+package com.zjl.mywechat.main;
 
 import android.app.Application;
 import android.content.Context;
