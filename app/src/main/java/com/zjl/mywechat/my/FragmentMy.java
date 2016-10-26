@@ -1,10 +1,17 @@
 package com.zjl.mywechat.my;
 
 
-import com.zjl.mywechat.base.BaseFragment;
-import com.zjl.mywechat.R;
+import android.content.Intent;
+import android.view.View;
+import android.widget.RelativeLayout;
 
-public class FragmentMy extends BaseFragment{
+import com.zjl.mywechat.R;
+import com.zjl.mywechat.base.BaseFragment;
+
+public class FragmentMy extends BaseFragment {
+
+    private RelativeLayout mOption;
+
     @Override
     protected int setLayout() {
         return R.layout.fragment_main_my;
@@ -12,11 +19,18 @@ public class FragmentMy extends BaseFragment{
 
     @Override
     protected void initView() {
-
+        mOption = bindView(R.id.re_option_my);
     }
 
     @Override
     protected void initData() {
+        mOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(),TestOptionActivity.class));
+            }
+        });
+
 
     }
 }
