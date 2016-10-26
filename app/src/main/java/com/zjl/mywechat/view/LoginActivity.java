@@ -1,4 +1,4 @@
-package com.zjl.mywechat.login_register;
+package com.zjl.mywechat.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,7 +17,6 @@ import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
-import com.zjl.mywechat.main.MainActivity;
 import com.zjl.mywechat.staticfinal.StringStatic;
 
 public class LoginActivity extends BaseAty implements View.OnClickListener {

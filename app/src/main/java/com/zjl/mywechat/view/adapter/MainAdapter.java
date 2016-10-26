@@ -1,4 +1,4 @@
-package com.zjl.mywechat.main;
+package com.zjl.mywechat.view.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

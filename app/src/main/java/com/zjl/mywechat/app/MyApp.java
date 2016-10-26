@@ -1,14 +1,12 @@
-package com.zjl.mywechat.main;
+package com.zjl.mywechat.app;
 
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.controller.EaseUI;
-import com.zjl.mywechat.staticfinal.StringKeyOrType;
 
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +17,7 @@ import java.util.List;
  */
 public class MyApp extends Application {
     private static Context mContext;
-    private static MyApp instance;
+
 
     // 记录是否已经初始化
     private boolean isInit = false;
@@ -36,9 +34,7 @@ public class MyApp extends Application {
 
     }
 
-    public static MyApp getInstance() {
-        return instance;
-    }
+
 
     private void initEasemob() {
         // 获取当前进程 id 并取得进程名
@@ -137,18 +133,6 @@ public class MyApp extends Application {
         return mContext;
     }
 
-    public void setCurrentUserName(String username) {
-        this.username = username;
-        Myinfo.getInstance(instance).setUserInfo(StringKeyOrType.KEY_USERNAME, username);
-    }
 
-    public String getCurrentUserName() {
-        if (TextUtils.isEmpty(username)) {
-            username = Myinfo.getInstance(instance).getUserInfo(StringKeyOrType.KEY_USERNAME);
-
-        }
-        return username;
-
-    }
 
 }

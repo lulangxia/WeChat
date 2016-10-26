@@ -1,4 +1,4 @@
-package com.zjl.mywechat.my;
+package com.zjl.mywechat.view;
 
 
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.zjl.mywechat.my;
+package com.zjl.mywechat.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,7 +10,6 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
-import com.zjl.mywechat.login_register.LoginActivity;
 
 /**
  * Created by dllo on 16/10/26.

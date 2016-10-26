@@ -1,4 +1,4 @@
-package com.zjl.mywechat.login_register;
+package com.zjl.mywechat.view;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -28,10 +28,10 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
-import com.zjl.mywechat.main.MyApp;
+import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.staticfinal.StringStatic;
 import com.zjl.mywechat.widget.FXAlertDialog;
-import com.zjl.mywechat.widget.FXConstant;
+import com.zjl.mywechat.staticfinal.FXConstant;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.zjl.mywechat.tellist;
+package com.zjl.mywechat.view;
 
 
 import android.graphics.Color;
@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseFragment;
+import com.zjl.mywechat.view.adapter.LvAdapter;
+import com.zjl.mywechat.view.adapter.StringHelper;
+import com.zjl.mywechat.bean.TelListBean;
 
 import java.util.ArrayList;
 import java.util.Arrays;

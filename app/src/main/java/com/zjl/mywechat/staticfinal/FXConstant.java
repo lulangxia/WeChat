@@ -1,4 +1,4 @@
-package com.zjl.mywechat.widget;
+package com.zjl.mywechat.staticfinal;
 
 /**
  * Created by ustc on 2016/6/27.
