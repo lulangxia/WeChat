@@ -33,15 +33,19 @@
 
 
 
+    <!--注册MyApp-->
+
     <application
+        android:name=".base.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
         <!-- 设置环信应用的AppKey -->
-        <meta-data android:name="EASEMOB_APPKEY"  android:value="Your AppKey" />
+        <meta-data android:name="EASEMOB_APPKEY"  android:value="1132161022178628#zjl" />
         <!-- 声明SDK所需的service SDK核心功能-->
         <service android:name="com.hyphenate.chat.EMChatService" android:exported="true"/>
         <!-- 声明SDK所需的receiver -->
@@ -72,6 +76,9 @@
         </activity>
 
         <activity android:name=".login_register.RegisterActivity">
+        </activity>
+
+        <activity android:name=".addfriends.AddFriends">
         </activity>
 
 

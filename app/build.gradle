@@ -26,14 +26,14 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:25.0.0'
-    compile 'com.android.support:recyclerview-v7:25.0.0'
-    compile 'com.github.bumptech.glide:glide:3.5.2'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
     compile files('libs/pinyin4j-2.5.0.jar')
-    compile files('libs/hyphenatechat_3.2.0.jar')
 
     // liteOrm又小又快的数据存储
     compile files('libs/lite-orm-1.9.2.jar')
+
+    compile project(':easeUI_CN')
 
 
 

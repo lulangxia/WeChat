@@ -1,11 +1,11 @@
 package com.zjl.mywechat.database;
 
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
 import com.litesuits.orm.LiteOrm;
-import com.zjl.mywechat.base.MyApp;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -19,18 +19,18 @@ public class DBTools {
     private Handler mHandler;
 
 
-    private DBTools() {
-        mLiteOrm = LiteOrm.newSingleInstance(MyApp.getMcontext(), "MyDataBase.db");
+    private DBTools(Context context) {
+        mLiteOrm = LiteOrm.newSingleInstance(context, "myDataBase.db");
         threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
         mHandler = new Handler(Looper.getMainLooper());
     }
 
     // 单例模式
-    public static DBTools getInstance() {
+    public static DBTools getInstance(Context context) {
         if (sDbTools == null) {
             synchronized (DBTools.class) {
                 if (sDbTools == null) {
-                    sDbTools = new DBTools();
+                    sDbTools = new DBTools(context);
                 }
             }
         }
@@ -38,8 +38,16 @@ public class DBTools {
     }
 
 
+
+    // 需要封装
+
+    // 以类名为表名创建表
+
+
+
     // 插入单条数据
     public <T> void insert(final T bean) {
+
         threadPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -47,6 +55,8 @@ public class DBTools {
             }
         });
     }
+
+
 
     // 插入集合
     public <T> void insert(final ArrayList<T> been) {
@@ -61,13 +71,46 @@ public class DBTools {
 
 
 
+
+    // 删除单条数据
+    public <T> void delete(final T bean) {
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                mLiteOrm.delete(bean);
+            }
+        });
+    }
+
+
+    // 删除全部数据
+    public <T> void delete(final Class<T> clazz) {
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                mLiteOrm.delete(clazz);
+            }
+        });
+    }
+
+
+    // 修改单条数据
+
+
+
+
+
+
     // 查询所有数据
-    public void getAll(final QueryListener<PersonBean> queryListener) {
+    public <T> void getAll(final QueryListener<T> queryListener) {
+
+        final Class<T> clazz = null;
+
         threadPool.execute(new Runnable() {
             @Override
             public void run() {
                 // 参数是(实体类.class)
-                final  ArrayList<PersonBean> been = mLiteOrm.query(PersonBean.class);
+                final  ArrayList<T> been = mLiteOrm.query(clazz);
                 mHandler.post(new HandlerRunnable<>(been, queryListener));
             }
         });

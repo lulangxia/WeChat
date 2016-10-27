@@ -1,20 +1,34 @@
 package com.zjl.mywechat.database;
 
 
+import com.litesuits.orm.db.annotation.PrimaryKey;
+import com.litesuits.orm.db.enums.AssignType;
+
 public class PersonBean {
 
-    private String id;
+    @PrimaryKey(AssignType.AUTO_INCREMENT)
+    // id自增,没必要写set方法
+    private int id;
+
     private String name;
     private String nickName;
     private String imgUrl;
+    private String password;
 
 
+    public String getPassword() {
+        return password;
+    }
 
-    public String getId() {
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

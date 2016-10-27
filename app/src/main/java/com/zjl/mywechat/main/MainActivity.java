@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.TestFragment;
 import com.zjl.mywechat.base.BaseAty;
+import com.zjl.mywechat.base.MyApp;
 import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.find.FragmentFind;
 import com.zjl.mywechat.my.FragmentMy;
@@ -43,7 +44,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         mToolbar = bindView(R.id.toolbar_main);
 
         // 初始化DBTools
-        DBTools dbTools = DBTools.getInstance();
+        DBTools dbTools = DBTools.getInstance(MyApp.getMcontext());
 
 
 
@@ -76,6 +77,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         mainAdapter.setFragments(fragments);
         mViewPager.setAdapter(mainAdapter);
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        mTabLayout.setSelectedTabIndicatorColor(Color.TRANSPARENT);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabTextColors(0xff999999, 0xff45c01a);
         mTabLayout.getTabAt(0).setCustomView(R.layout.weixin_tab01);

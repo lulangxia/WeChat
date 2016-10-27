@@ -5,7 +5,7 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/colorToolbarText"
     android:orientation="vertical"
     tools:context="com.zjl.mywechat.login_register.LoginActivity">
 
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="国家和地区"
+                android:text="@string/loginground"
                 android:textColor="#353535"
                 android:textSize="16sp"/>
 
@@ -39,7 +39,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:text="中国"
+                android:text="@string/defautfroud"
                 android:textColor="#45c01a"
                 android:textSize="16sp"/>
 
@@ -60,12 +60,12 @@
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:background="@drawable/fx_bg_et"
-                android:hint="你的手机号码"
+                android:hint="@string/defaultusername"
                 android:inputType="phone"
                 android:paddingLeft="90dp"
                 android:singleLine="true"
-                android:textColorHint="#DDDDDD"
-                android:textSize="16sp"/>
+                android:textColorHint="@color/editin"
+                android:textSize="@dimen/logintextsize"/>
 
             <TextView
                 android:layout_width="90dp"
@@ -73,8 +73,9 @@
                 android:layout_alignLeft="@id/et_usertel"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="24dp"
-                android:text="+86"
-                android:textColor="#353535"
+                android:text="@string/defaultupnum"
+                android:textColor="@color/logintitle"
+
                 android:textSize="16sp"/>
         </RelativeLayout>
 
@@ -88,12 +89,12 @@
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:background="@drawable/fx_bg_et"
-                android:hint="填写密码"
+                android:hint="@string/defaultpassowrd"
                 android:inputType="textPassword"
                 android:paddingLeft="90dp"
                 android:singleLine="true"
-                android:textColorHint="#DDDDDD"
-                android:textSize="16sp"/>
+                android:textColorHint="@color/editin"
+                android:textSize="@dimen/logintextsize"/>
 
             <TextView
                 android:id="@+id/tv_password"
@@ -102,8 +103,8 @@
                 android:layout_alignLeft="@id/et_password"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="密码"
-                android:textColor="#353535"
+                android:text="@string/password"
+                android:textColor="@color/logintitle"
                 android:textSize="16sp"/>
         </RelativeLayout>
 
@@ -116,7 +117,7 @@
             android:enabled="false"
             android:paddingBottom="7dp"
             android:paddingTop="7dp"
-            android:text="登录"
+            android:text="@string/login"
             android:textColor="@drawable/fx_login_btn_text_color"
             android:textSize="18sp"/>
 
@@ -126,8 +127,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginTop="10dp"
-            android:text="登录遇到问题？"
-            android:textColor="#576B95"
+            android:text="@string/loginquestion"
+            android:textColor="@color/presstext"
             android:textSize="14sp"/>
     </LinearLayout>
 
@@ -144,9 +145,8 @@
             android:layout_margin="33dp"
             android:background="@drawable/fx_bg_btn_gray"
             android:gravity="center"
-            android:text="注册"
-            android:textColor="#353535"
-            android:textSize="15sp"/>
+            android:text="@string/register"
+            android:textSize="@dimen/logintextsize"/>
 
 
     </RelativeLayout>

@@ -3,6 +3,7 @@ package com.zjl.mywechat.main;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.addfriends.AddFriends;
 
 
 /**
@@ -62,6 +64,8 @@ public class AddPopwindow extends PopupWindow {
             public void onClick(View v) {
                 Toast.makeText(context, "添加朋友", Toast.LENGTH_SHORT).show();
                 AddPopwindow.this.dismiss();
+                Intent intent = new Intent(context, AddFriends.class);
+                context.startActivity(intent);
 
             }
 

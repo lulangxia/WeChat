@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="63dp"
-                android:text="发起群聊"
+                android:text="@string/startgroup"
                 android:textColor="@color/colorToolbarText"
 
                 />
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="63dp"
-                android:text="添加朋友"
+                android:text="@string/addfriend"
                 android:textColor="@color/colorToolbarText"
                 />
         </RelativeLayout>
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="63dp"
-                android:text="扫一扫"
+                android:text="@string/saoyisao"
                 android:textColor="@color/colorToolbarText"
                 />
         </RelativeLayout>
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="63dp"
-                android:text="帮助与反馈"
+                android:text="@string/help"
                 android:textColor="@color/colorToolbarText"
                 />
         </RelativeLayout>
