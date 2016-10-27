@@ -62,10 +62,9 @@ public class LoginActivity extends BaseAty implements View.OnClickListener {
         if (EMClient.getInstance().isLoggedInBefore()) {
             autoLogin = true;
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
+            finish();
             return;
         }
-
 
 
         // 如果用户名改变，清空密码
@@ -214,30 +213,22 @@ public class LoginActivity extends BaseAty implements View.OnClickListener {
 
         @Override
         public void afterTextChanged(Editable arg0) {
-
         }
 
         @Override
-        public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-                                      int arg3) {
-
+        public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
         }
 
         @Override
-        public void onTextChanged(CharSequence cs, int start, int before,
-                                  int count) {
-
+        public void onTextChanged(CharSequence cs, int start, int before, int count) {
             boolean Sign1 = mUsername.getText().length() > 0;
             boolean Sign2 = mPassword.getText().length() > 0;
 
-
             if (Sign1 & Sign2) {
-
                 mLogin.setEnabled(true);
             }
             // 在layout文件中，对Button的text属性应预先设置默认值，否则刚打开程序的时候Button是无显示的
             else {
-
                 mLogin.setEnabled(false);
             }
         }

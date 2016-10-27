@@ -16,5 +16,7 @@ public class ChatActivity extends AppCompatActivity {
         EaseChatFragment easeChatFragment = new EaseChatFragment();
         easeChatFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(R.id.chat_fr, easeChatFragment).commit();
+
+
     }
 }
