@@ -5,11 +5,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
@@ -64,7 +68,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
 
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(new TestFragment());
+        fragments.add(new FragmentConversationList());
         fragments.add(new FragmentTelList());
         fragments.add(new FragmentFind());
         fragments.add(new FragmentMy());
@@ -114,4 +118,33 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         }
         return true;
     }
+
+    public void updateUnreadLabel() {
+        int count = getUnreadMsgCountTotal();
+        Log.d("MainActivity", "count:" + count);
+        if (count > 0) {
+            mUnreadnum.setText(String.valueOf(count));
+            mUnreadnum.setVisibility(View.VISIBLE);
+        } else {
+            mUnreadnum.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * get unread message count
+     *
+     * @return
+     */
+    public int getUnreadMsgCountTotal() {
+        int unreadMsgCountTotal = 0;
+        int chatroomUnreadMsgCount = 0;
+        unreadMsgCountTotal = EMClient.getInstance().chatManager().getUnreadMsgsCount();
+        Log.d("MainActivity", "unreadMsgCountTotal:" + unreadMsgCountTotal);
+        for(EMConversation conversation:EMClient.getInstance().chatManager().getAllConversations().values()){
+            if(conversation.getType() == EMConversation.EMConversationType.ChatRoom)
+                chatroomUnreadMsgCount=chatroomUnreadMsgCount+conversation.getUnreadMsgCount();
+        }
+        return unreadMsgCountTotal-chatroomUnreadMsgCount;
+    }
+
 }

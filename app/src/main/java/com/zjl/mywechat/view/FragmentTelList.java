@@ -84,6 +84,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                             }
                         }
                     });
+
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -103,7 +104,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String chatId = ((EaseUser)listView.getItemAtPosition(position)).getUsername();
+                String chatId = ((EaseUser) listView.getItemAtPosition(position)).getUsername();
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra(EaseConstant.EXTRA_USER_ID, chatId);
                 intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
@@ -115,6 +116,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 
     @Override
     public void refresh() {
+        setUpView();
         super.refresh();
 
 
