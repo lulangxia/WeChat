@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <!--1、加好友-->
+    <!--聊天-->
+    <!--MVP-->
+    <!--群聊-->
+
+
+    <!--朋友圈-->
+
+    <!--2、二维码，红包-->
+    <!--直播-->
+
+    <include
+        android:id="@+id/toolbar_request"
+        layout="@layout/toolbar"/>
+
+
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_request"
+        >
+    </ListView>
+
+
+
+
+</LinearLayout>

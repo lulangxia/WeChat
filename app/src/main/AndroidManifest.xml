@@ -84,6 +84,8 @@
         <activity android:name=".view.ChatActivity">
         </activity>
 
+        <activity android:name=".addfriends.RequestActivity">
+        </activity>
 
 
         <activity android:name=".addfriends.AddFriends">
