@@ -145,7 +145,9 @@ public class AddFriends extends BaseAty implements View.OnClickListener {
             public void run() {
 
                 try {
-                    EMClient.getInstance().contactManager().addContact(etNum.getText().toString(), "加好友");
+                    // 第一个参数是你的名字，第二个参数是加好友的验证消息
+                    EMClient.getInstance().contactManager().addContact(etNum.getText().toString(), "加个好友");
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
