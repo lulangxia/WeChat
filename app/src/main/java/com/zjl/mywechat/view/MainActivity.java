@@ -11,16 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.view.adapter.MainAdapter;
+import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/main/MainActivity.java
-import com.zjl.mywechat.base.MyApp;
-import com.zjl.mywechat.database.DBTools;
-import com.zjl.mywechat.find.FragmentFind;
-import com.zjl.mywechat.my.FragmentMy;
-import com.zjl.mywechat.tellist.FragmentTelList;
-=======
->>>>>>> 32d47988801e7d38be65cf983b6bf02701bfdd44:app/src/main/java/com/zjl/mywechat/view/MainActivity.java
+import com.zjl.mywechat.database.DBTools;import com.zjl.mywechat.view.adapter.MainAdapter;
 
 import java.util.ArrayList;
 
@@ -47,7 +40,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         mToolbar = bindView(R.id.toolbar_main);
 
         // 初始化DBTools
-        DBTools dbTools = DBTools.getInstance(MyApp.getMcontext());
+        DBTools dbTools = DBTools.getInstance(MyApp.getmContext());
 
 
 
