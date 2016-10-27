@@ -13,12 +13,11 @@ import android.widget.Toast;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
-<<<<<<< HEAD
-import com.zjl.mywechat.database.DBTools;import com.zjl.mywechat.view.adapter.MainAdapter;
-=======
+
 import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.view.adapter.MainAdapter;
->>>>>>> 0435e9904a2766f8975e25673c0450e275f46473
+
+
 
 import java.util.ArrayList;
 
