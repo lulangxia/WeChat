@@ -1,6 +1,7 @@
 package com.zjl.mywechat.view;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -8,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
@@ -23,6 +25,8 @@ import com.zjl.mywechat.staticfinal.Constant;
 public class FragmentConversationList extends EaseConversationListFragment {
 
     private TextView mErrorText;
+
+    private EMMessageListener msgListener;
 
     @Override
     protected void initView() {
@@ -43,6 +47,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("FragmentConversationLis", "position:" + position);
                 EMConversation conversation = conversationListView.getItem(position);
                 String username = conversation.getUserName();
                 if (username.equals(EMClient.getInstance().getCurrentUser()))
@@ -66,7 +71,23 @@ public class FragmentConversationList extends EaseConversationListFragment {
             }
         });
 
+        //发广播,未读消息数
+        int allnum = 0;
+        Log.d("FragmentConversationLis", "allnum0:" + allnum);
+        Log.d("FragmentConversationLis", "conversationListView.getCount():" + conversationListView.getCount());
+        for (int i = 0; i < conversationListView.getCount()-1; i++) {
+            EMConversation conversation = conversationListView.getItem(i);
+            allnum += conversation.getUnreadMsgCount();
+        }
+        Log.d("FragmentConversationLis", "allnum:" + allnum);
+
+        Intent numIntent = new Intent(Constant.UNREAD_MSG);
+        numIntent.putExtra(Constant.UNREAD_MSG_CONVERSA, allnum);
+        getActivity().sendBroadcast(numIntent);
+
+
     }
+
 
     @Override
     protected void onConnectionDisconnected() {
@@ -86,17 +107,15 @@ public class FragmentConversationList extends EaseConversationListFragment {
         if (tobeDeleteCons == null) {
             return true;
         }
-        if(tobeDeleteCons.getType() == EMConversation.EMConversationType.GroupChat){
+        if (tobeDeleteCons.getType() == EMConversation.EMConversationType.GroupChat) {
             EaseAtMessageHelper.get().removeAtMeGroup(tobeDeleteCons.getUserName());
         }
 
         refresh();
 
         // update unread count
-        ((MainActivity) getActivity()).updateUnreadLabel();
         return true;
     }
-
 
 
 }

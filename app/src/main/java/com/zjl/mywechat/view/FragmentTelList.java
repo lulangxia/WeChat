@@ -14,6 +14,7 @@ import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.addfriends.RequestActivity;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,10 +35,14 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.contract_fragment, null);
         headerView.findViewById(R.id.re_newfriends).setOnClickListener(this);
         headerView.findViewById(R.id.re_chatroom).setOnClickListener(this);
+
         listView.addHeaderView(headerView);
         this.titleBar.setVisibility(View.GONE);
         getView().findViewById(R.id.search_bar_view).setVisibility(View.GONE);
         registerForContextMenu(listView);
+
+
+
 
     }
 
@@ -124,6 +129,31 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 
     @Override
     public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.re_newfriends:
+
+                // 跳转
+                Intent intent = new Intent(getActivity(), RequestActivity.class);
+                startActivity(intent);
+
+
+
+
+
+
+                break;
+
+            case R.id.re_chatroom:
+
+
+
+
+                break;
+
+
+
+        }
 
     }
 }

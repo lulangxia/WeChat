@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="9dp"
+
             android:src="@mipmap/em_login_error_icon" />
 
         <TextView

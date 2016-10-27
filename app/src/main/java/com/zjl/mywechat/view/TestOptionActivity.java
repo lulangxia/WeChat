@@ -58,6 +58,8 @@ public class TestOptionActivity extends BaseAty {
                         // show login screen
                       // MyApp.getInstance().setCurrentUserName("");
                         startActivity(new Intent(TestOptionActivity.this, LoginActivity.class));
+
+                        MainActivity.instance.finish();
                         finish();
                     }
                 });

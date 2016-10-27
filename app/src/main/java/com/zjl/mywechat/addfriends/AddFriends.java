@@ -46,6 +46,13 @@ public class AddFriends extends BaseAty implements View.OnClickListener {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.mipmap.fx_icon_back_n);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         etNum = bindView(R.id.et_addfriend_usertel);
         // 查询按钮
