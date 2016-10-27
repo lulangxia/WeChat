@@ -91,11 +91,6 @@
 
         <activity android:name=".view.TestOptionActivity"/>
 
-
-
-
-        
->>>>>>> 171cf75b1cb2418f3460189ff4715484dc421a69
     </application>
 
 </manifest>
