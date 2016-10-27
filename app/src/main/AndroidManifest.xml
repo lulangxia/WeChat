@@ -84,9 +84,6 @@
         <activity android:name=".view.TestOptionActivity"/>
 
 
-
-
-        
     </application>
 
 </manifest>

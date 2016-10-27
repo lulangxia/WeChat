@@ -35,7 +35,7 @@ public class TestOptionActivity extends BaseAty {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-logout();
+                logout();
             }
         });
 
