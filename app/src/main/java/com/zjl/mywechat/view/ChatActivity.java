@@ -1,76 +1,20 @@
 package com.zjl.mywechat.view;
 
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-import android.view.View;
-
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroup;
-import com.hyphenate.easeui.EaseConstant;
-import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseChatFragment;
-import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.zjl.mywechat.R;
 
-
-public class ChatActivity extends EaseChatFragment {
-
+public class ChatActivity extends AppCompatActivity {
 
     @Override
-    protected void setUpView() {
-        titleBar.setTitle(toChatUsername);
-        if (chatType == EaseConstant.CHATTYPE_SINGLE) {
-            // set title
-            if (EaseUserUtils.getUserInfo(toChatUsername) != null) {
-                EaseUser user = EaseUserUtils.getUserInfo(toChatUsername);
-                if (user != null) {
-                    titleBar.setTitle(user.getNick());
-                }
-            }
-            titleBar.setRightImageResource(com.hyphenate.easeui.R.drawable.ease_mm_title_remove);
-        } else {
-            titleBar.setRightImageResource(com.hyphenate.easeui.R.drawable.ease_to_group_details_normal);
-            if (chatType == EaseConstant.CHATTYPE_GROUP) {
-                //group chat
-                EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
-                if (group != null)
-                    titleBar.setTitle(group.getGroupName());
-                // listen the event that user moved out group or group is dismissed
-             //   groupListener = new EaseChatFragment.GroupListener();
-                EMClient.getInstance().groupManager().addGroupChangeListener(groupListener);
-            } else {
-                onChatRoomViewCreation();
-            }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat);
 
-        }
-        if (chatType != EaseConstant.CHATTYPE_CHATROOM) {
-            onConversationInit();
-            onMessageListInit();
-        }
-
-        titleBar.setLeftLayoutClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        titleBar.setRightLayoutClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (chatType == EaseConstant.CHATTYPE_SINGLE) {
-                    emptyHistory();
-                } else {
-                    toGroupDetails();
-                }
-            }
-        });
-
-        setRefreshLayoutListener();
-
-        // show forward message if the message is not null
-        String forward_msg_id = getArguments().getString("forward_msg_id");
-        if (forward_msg_id != null) {
-            forwardMessage(forward_msg_id);
-        }
+        EaseChatFragment easeChatFragment = new EaseChatFragment();
+        easeChatFragment.setArguments(getIntent().getExtras());
+        getSupportFragmentManager().beginTransaction().add(R.id.chat_fr, easeChatFragment).commit();
     }
 }
