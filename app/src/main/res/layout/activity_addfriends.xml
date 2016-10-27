@@ -16,6 +16,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:background="#fff"
+        android:id="@+id/rl_addperson"
         >
 
         <EditText
@@ -39,7 +40,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:src="@mipmap/fx_icon_search_green"
-            android:id="@+id/btn_search"
+            android:id="@+id/iv_search"
             android:clickable="true"
             android:layout_alignParentRight="true"
             />
@@ -79,6 +80,57 @@
         android:visibility="gone"
         >
     </ListView>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/btn_list_item_bg"
+        android:clickable="true"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:id="@+id/add_person_hide"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/iv_my_wallet"
+            android:text="要查找的用户名"
+            android:id="@+id/tv_add_personname"
+            />
+
+        <ImageView
+            android:id="@+id/iv_my_wallet"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/profile_pressed"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加"
+            android:id="@+id/btn_addperson"
+            android:layout_alignParentRight="true"
+
+            />
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+
 
 
 
