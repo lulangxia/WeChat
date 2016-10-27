@@ -1,4 +1,4 @@
-package com.zjl.mywechat.main;
+package com.zjl.mywechat.view;
 
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
@@ -11,11 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.TestFragment;
+import com.zjl.mywechat.view.adapter.MainAdapter;
 import com.zjl.mywechat.base.BaseAty;
-import com.zjl.mywechat.find.FragmentFind;
-import com.zjl.mywechat.my.FragmentMy;
-import com.zjl.mywechat.tellist.FragmentTelList;
 
 import java.util.ArrayList;
 

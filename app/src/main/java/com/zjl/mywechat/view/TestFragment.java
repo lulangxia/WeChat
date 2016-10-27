@@ -1,5 +1,6 @@
-package com.zjl.mywechat;
+package com.zjl.mywechat.view;
 
+import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseFragment;
 
 /**
