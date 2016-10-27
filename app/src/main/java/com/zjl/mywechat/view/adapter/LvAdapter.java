@@ -1,4 +1,4 @@
-package com.zjl.mywechat.tellist;
+package com.zjl.mywechat.view.adapter;
 
 
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.bean.TelListBean;
 
 import java.util.ArrayList;
 

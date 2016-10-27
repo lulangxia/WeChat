@@ -1,4 +1,4 @@
-package com.zjl.mywechat.tellist;
+package com.zjl.mywechat.view.adapter;
 
 
 import net.sourceforge.pinyin4j.PinyinHelper;

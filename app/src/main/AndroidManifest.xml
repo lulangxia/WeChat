@@ -31,12 +31,10 @@
 
 
 
-
-
     <!--注册MyApp-->
 
     <application
-        android:name=".base.MyApp"
+        android:name=".app.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -64,7 +62,11 @@
 
 
 
-        <activity android:name=".main.MainActivity">
+        <activity android:name=".view.MainActivity">
+
+        </activity>
+
+        <activity android:name=".view.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -72,19 +74,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".login_register.LoginActivity">
+        <activity android:name=".view.RegisterActivity">
         </activity>
 
-        <activity android:name=".login_register.RegisterActivity">
-        </activity>
 
         <activity android:name=".addfriends.AddFriends">
         </activity>
 
+        <activity android:name=".view.TestOptionActivity"/>
 
 
 
 
+        
     </application>
 
 </manifest>

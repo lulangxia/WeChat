@@ -1,4 +1,4 @@
-package com.zjl.mywechat.tellist;
+package com.zjl.mywechat.bean;
 
 
 public class TelListBean {

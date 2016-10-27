@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorToolbarText"
     android:orientation="vertical"
-    tools:context="com.zjl.mywechat.login_register.LoginActivity">
+    tools:context="com.zjl.mywechat.view.LoginActivity">
 
     <include
         android:id="@+id/toolbar_login"
@@ -110,11 +110,11 @@
 
         <Button
             android:id="@+id/btn_login"
+            android:enabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:background="@drawable/fx_bg_btn_green"
-            android:enabled="false"
             android:paddingBottom="7dp"
             android:paddingTop="7dp"
             android:text="@string/login"
