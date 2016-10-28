@@ -123,7 +123,7 @@
     <string name="Hands_free">免提</string>
     <string name="hang_up">挂断</string>
     <string name="answer">接听</string>
-    <string name="unable_to_connect">不能连接到服务器</string>
+    <string name="unable_to_connect">无法连接到服务器</string>
     <string name="newchat">新建聊天</string>
     <string name="agree">同意</string>
     <string name="refuse">拒绝</string>

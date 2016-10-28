@@ -62,7 +62,7 @@ public class AddPopwindow extends PopupWindow {
         re_addfriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "添加朋友", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, "添加朋友", Toast.LENGTH_SHORT).show();
                 AddPopwindow.this.dismiss();
                 Intent intent = new Intent(context, AddFriends.class);
                 context.startActivity(intent);
@@ -74,7 +74,7 @@ public class AddPopwindow extends PopupWindow {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "进入聊天", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "进入群聊", Toast.LENGTH_SHORT).show();
                 AddPopwindow.this.dismiss();
 
             }
