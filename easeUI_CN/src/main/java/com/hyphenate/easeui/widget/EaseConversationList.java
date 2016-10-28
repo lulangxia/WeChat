@@ -60,6 +60,8 @@ public class EaseConversationList extends ListView {
         timeSize = ta.getDimension(R.styleable.EaseConversationList_cvsListTimeTextSize, 0);
         
         ta.recycle();
+
+
         
     }
 

@@ -131,9 +131,11 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             Log.d("UnReadBroadcastReceiver", "num:" + num);
             if (num <= 0) {
                 mUnreadnum.setVisibility(View.INVISIBLE);
+                mToolbar.setTitle("微信");
             } else {
                 mUnreadnum.setVisibility(View.VISIBLE);
                 mUnreadnum.setText(num + "");
+                mToolbar.setTitle("微信"+"("+num+")");
             }
         }
 

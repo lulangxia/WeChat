@@ -75,8 +75,9 @@ public class FragmentConversationList extends EaseConversationListFragment {
         int allnum = 0;
         Log.d("FragmentConversationLis", "allnum0:" + allnum);
         Log.d("FragmentConversationLis", "conversationListView.getCount():" + conversationListView.getCount());
-        for (int i = 0; i < conversationListView.getCount()-1; i++) {
+        for (int i = 0; i < conversationListView.getCount()/2; i++) {
             EMConversation conversation = conversationListView.getItem(i);
+            Log.d("FragmentConversationLis", "i:" + i);
             allnum += conversation.getUnreadMsgCount();
         }
         Log.d("FragmentConversationLis", "allnum:" + allnum);
