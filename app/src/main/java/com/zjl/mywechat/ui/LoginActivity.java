@@ -1,4 +1,4 @@
-package com.zjl.mywechat.view;
+package com.zjl.mywechat.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -51,7 +51,7 @@ public class LoginActivity extends BaseAty implements View.OnClickListener {
         mToolbar.setTitle("使用手机号登陆");
         mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.toolback);
+        mToolbar.setNavigationIcon(R.drawable.fx_top_bar_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,8 +126,8 @@ public class LoginActivity extends BaseAty implements View.OnClickListener {
             @Override
             public void onSuccess() {
                 //
-                //  EMClient.getInstance().groupManager().loadAllGroups();
-                //  EMClient.getInstance().chatManager().loadAllConversations();
+                EMClient.getInstance().groupManager().loadAllGroups();
+                EMClient.getInstance().chatManager().loadAllConversations();
 
                 runOnUiThread(new Runnable() {
                     @Override

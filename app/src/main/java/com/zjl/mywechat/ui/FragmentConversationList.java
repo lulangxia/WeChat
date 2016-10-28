@@ -1,4 +1,4 @@
-package com.zjl.mywechat.view;
+package com.zjl.mywechat.ui;
 
 import android.content.Intent;
 import android.util.Log;
@@ -30,6 +30,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
     @Override
     protected void initView() {
+        Log.d("FragmentConversationLis", "initview");
         super.initView();
         View errorView = (LinearLayout) View.inflate(getActivity(), R.layout.fragment_conversationlist, null);
         errorItemContainer.addView(errorView);
@@ -40,6 +41,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
     @Override
     protected void setUpView() {
+        Log.d("FragmentConversationLis", "setupview");
         super.setUpView();
         // register context menu
         registerForContextMenu(conversationListView);
@@ -103,7 +105,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
+        Log.d("FragmentConversationLis", "2");
         EMConversation tobeDeleteCons = conversationListView.getItem(((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position);
         if (tobeDeleteCons == null) {
             return true;

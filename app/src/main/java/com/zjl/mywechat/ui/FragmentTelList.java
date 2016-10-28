@@ -1,7 +1,8 @@
-package com.zjl.mywechat.view;
+package com.zjl.mywechat.ui;
 
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,7 +32,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
     @Override
     protected void initView() {
         super.initView();
-
+        Log.d("FragmentTelList", "initview");
         View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.contract_fragment, null);
         headerView.findViewById(R.id.re_newfriends).setOnClickListener(this);
         headerView.findViewById(R.id.re_chatroom).setOnClickListener(this);
@@ -49,7 +50,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 
     @Override
     protected void setUpView() {
-
+        Log.d("FragmentTelList", "setupview");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -93,6 +94,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Log.d("FragmentTelList", "runonui");
                             setContactsMap(mMap);
                         }
                     });

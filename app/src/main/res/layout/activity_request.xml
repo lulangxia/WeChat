@@ -5,16 +5,7 @@
               android:layout_height="match_parent">
 
 
-    <!--1、加好友-->
-    <!--聊天-->
-    <!--MVP-->
-    <!--群聊-->
 
-
-    <!--朋友圈-->
-
-    <!--2、二维码，红包-->
-    <!--直播-->
 
     <include
         android:id="@+id/toolbar_request"

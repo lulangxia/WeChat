@@ -93,6 +93,11 @@ public class MyApp extends Application {
         options.setDeleteMessagesAsExitGroup(false);
         // 设置是否允许聊天室的Owner 离开并删除聊天室的会话
         options.allowChatroomOwnerLeave(true);
+
+
+
+
+
         // 设置google GCM推送id，国内可以不用设置
         // options.setGCMNumber(MLConstants.ML_GCM_NUMBER);
         // 设置集成小米推送的appid和appkey

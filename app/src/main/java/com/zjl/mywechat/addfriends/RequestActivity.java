@@ -3,13 +3,10 @@ package com.zjl.mywechat.addfriends;
 
 import android.graphics.Color;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 
-import com.hyphenate.EMContactListener;
-import com.hyphenate.chat.EMClient;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
@@ -46,41 +43,6 @@ public class RequestActivity extends BaseAty {
 
 
         lv = bindView(R.id.lv_request);
-
-
-
-
-
-
-        EMClient.getInstance().contactManager().setContactListener(new EMContactListener() {
-            @Override
-            public void onContactAdded(String s) {
-                Log.d("RequestActivity", "加好友");
-            }
-
-            @Override
-            public void onContactDeleted(String s) {
-                Log.d("RequestActivity", "加好友");
-            }
-
-            @Override
-            public void onContactInvited(String s, String s1) {
-                Log.d("RequestActivity", "加好友");
-            }
-
-            @Override
-            public void onContactAgreed(String s) {
-                // 同意了请求？
-                Log.d("RequestActivity", "加好友");
-            }
-
-            @Override
-            public void onContactRefused(String s) {
-                // 被拒绝了请求？
-                Log.d("RequestActivity", "加好友");
-            }
-        });
-
 
 
         // 里面的数据要从网络端获取
