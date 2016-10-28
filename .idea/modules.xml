@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/WeChat.iml" filepath="$PROJECT_DIR$/WeChat.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/easeUI_CN/easeUI_CN.iml" filepath="$PROJECT_DIR$/easeUI_CN/easeUI_CN.iml" />
+      <module fileurl="file://$PROJECT_DIR$/librar/librar.iml" filepath="$PROJECT_DIR$/librar/librar.iml" />
     </modules>
   </component>
 </project>
