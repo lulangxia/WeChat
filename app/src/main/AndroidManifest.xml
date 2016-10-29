@@ -22,17 +22,12 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-
-
-
-    <!--注册MyApp-->
-
-
+    <!-- 注册MyApp -->
     <application
         android:name=".app.MyApp"
         android:allowBackup="true"
-        android:label="@string/app_name"
         android:icon="@mipmap/logo"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -58,35 +53,42 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".ui.MainActivity">
         </activity>
-        <activity android:name=".view.LoginActivity">
+        <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.RegisterActivity">
+        <activity android:name=".ui.RegisterActivity">
         </activity>
 
 
 
 
-        <activity android:name=".view.ChatActivity">
-        </activity>
 
+
+
+        <activity android:name=".ui.ChatActivity">
+
+        </activity>
         <activity android:name=".addfriends.RequestActivity">
         </activity>
-
-
         <activity android:name=".addfriends.AddFriends">
         </activity>
 
-        <activity android:name=".view.TestOptionActivity"/>
+
+
 
 
         <activity android:name=".view.SocialMainActivity">
+        </activity>
+
+
+        <activity android:name=".ui.TestOptionActivity"/>
+        <activity android:name=".ui.SearchActivity">
         </activity>
 
     </application>

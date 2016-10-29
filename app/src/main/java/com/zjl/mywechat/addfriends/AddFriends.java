@@ -44,7 +44,7 @@ public class AddFriends extends BaseAty implements View.OnClickListener {
         toolbar.setTitle("添加朋友");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.mipmap.fx_icon_back_n);
+        toolbar.setNavigationIcon(R.drawable.fx_top_bar_back);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

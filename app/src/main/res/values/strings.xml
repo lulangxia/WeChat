@@ -28,6 +28,7 @@
     <string name="addfriend">添加朋友</string>
     <string name="help">帮助与反馈</string>
     <string name="query">查找</string>
+    <string name="deletepopwindow">删除联系人</string>
 
 
 </resources>

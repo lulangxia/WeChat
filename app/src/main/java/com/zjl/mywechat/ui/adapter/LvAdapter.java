@@ -1,4 +1,4 @@
-package com.zjl.mywechat.view.adapter;
+package com.zjl.mywechat.ui.adapter;
 
 
 import android.content.Context;

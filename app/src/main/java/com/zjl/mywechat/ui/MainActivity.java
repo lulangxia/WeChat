@@ -1,4 +1,4 @@
-package com.zjl.mywechat.view;
+package com.zjl.mywechat.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,7 +22,7 @@ import com.zjl.mywechat.base.BaseAty;
 
 import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.staticfinal.Constant;
-import com.zjl.mywechat.view.adapter.MainAdapter;
+import com.zjl.mywechat.ui.adapter.MainAdapter;
 
 
 

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorToolbarText"
     android:orientation="vertical"
-    tools:context="com.zjl.mywechat.view.LoginActivity">
+    tools:context="com.zjl.mywechat.ui.LoginActivity">
 
     <include
         android:id="@+id/toolbar_login"

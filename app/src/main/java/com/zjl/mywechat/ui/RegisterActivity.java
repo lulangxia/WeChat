@@ -1,4 +1,4 @@
-package com.zjl.mywechat.view;
+package com.zjl.mywechat.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -72,7 +72,7 @@ public class RegisterActivity extends BaseAty {
         mToolbar.setTitle("填写手机号");
         mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.toolback);
+        mToolbar.setNavigationIcon(R.drawable.fx_top_bar_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
