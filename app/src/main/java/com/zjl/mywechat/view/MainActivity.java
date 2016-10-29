@@ -19,9 +19,12 @@ import android.widget.Toast;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
+
 import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.staticfinal.Constant;
 import com.zjl.mywechat.view.adapter.MainAdapter;
+
+
 
 import java.util.ArrayList;
 

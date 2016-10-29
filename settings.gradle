@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':librar'
 include ':easeUI_CN'
