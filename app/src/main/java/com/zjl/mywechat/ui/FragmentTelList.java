@@ -1,11 +1,17 @@
 package com.zjl.mywechat.ui;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -41,8 +47,6 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         this.titleBar.setVisibility(View.GONE);
         getView().findViewById(R.id.search_bar_view).setVisibility(View.GONE);
         registerForContextMenu(listView);
-
-
 
 
     }
@@ -119,11 +123,32 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 
             }
         });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String username = ((EaseUser) listView.getItemAtPosition(position)).getUsername();
+                showPopwindow(username);
+//                try {
+//                    EMClient.getInstance().contactManager().deleteContact(chatId);
+//                } catch (HyphenateException e) {
+//                    e.printStackTrace();
+//                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refresh();
+                    }
+                });
+
+                return true;
+            }
+        });
     }
 
     @Override
     public void refresh() {
-        setUpView();
+      // setUpView();
         super.refresh();
 
 
@@ -140,21 +165,70 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                 startActivity(intent);
 
 
-
-
-
-
                 break;
 
             case R.id.re_chatroom:
 
 
-
-
                 break;
 
 
+        }
 
+    }
+
+    private void showPopwindow(final String username) {
+        final PopupWindow deletePop = new PopupWindow();
+        LayoutInflater inflater = (LayoutInflater) getContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View conentView = inflater.inflate(R.layout.deletepopwindow, null);
+
+        // 设置SelectPicPopupWindow的View
+        deletePop.setContentView(conentView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        deletePop.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        deletePop.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        deletePop.setFocusable(true);
+        deletePop.setOutsideTouchable(true);
+        // 刷新状态
+        deletePop.update();
+        // 实例化一个ColorDrawable颜色为半透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        deletePop.setBackgroundDrawable(dw);
+
+        // 设置SelectPicPopupWindow弹出窗体动画效果
+        deletePop.setAnimationStyle(R.style.AnimationPop);
+
+        conentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deletePop.dismiss();
+            }
+        });
+        TextView deteText = (TextView) conentView.findViewById(R.id.delete_pop);
+        deteText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Toast.makeText(getContext(), "shanchu", Toast.LENGTH_SHORT).show();
+                try {
+                    EMClient.getInstance().contactManager().deleteContact(username);
+                    Thread.sleep(2000);
+                    deletePop.dismiss();
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        if (!deletePop.isShowing()) {
+            // 以下拉方式显示popupwindow
+            deletePop.showAtLocation(listView, Gravity.TOP, 0, 0);
+        } else {
+            deletePop.dismiss();
         }
 
     }
