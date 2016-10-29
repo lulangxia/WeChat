@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.zjl.mywechat.view.SocialMainActivity;
 import com.zjl.mywechat.base.BaseFragment;
 import com.zjl.mywechat.R;
 
-public class FragmentFind  extends BaseFragment implements View.OnClickListener {
+public class FragmentFind extends BaseFragment implements View.OnClickListener {
 
 
 	private RelativeLayout mFriend;
