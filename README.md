@@ -12,6 +12,8 @@ AddFriends类命名不对
 
 LayoutInflater不要使用Application的Context去初始化,需要使用Activity对象    
 
-ui包下的类需要重新分包
+ui包下的类需要重新分包    
+
+整体的进度需要再快点
 
 
