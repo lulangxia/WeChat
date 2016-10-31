@@ -138,16 +138,20 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 
             }
         });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String username = ((EaseUser) listView.getItemAtPosition(position)).getUsername();
+                showPopwindow(username);
+
+
+                return true;
+            }
+        });
     }
 
 
-    @Override
-    public void refresh() {
-        setUpView();
-        super.refresh();
-
-
-    }
     @Override
     public void onClick(View v) {
 
@@ -208,6 +212,12 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refresh();
+                    }
+                });
             }
         });
         if (!deletePop.isShowing()) {

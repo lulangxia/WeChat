@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickListener,MainView {
+public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickListener, MainView {
 
 
     private TabLayout mTabLayout;
@@ -269,6 +269,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     public void showUnKnownView() {
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -282,6 +283,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d("UnReadBroadcastReceiver", "收到广播");
+            flag = intent.getBooleanExtra(Constant.UNREAD_MSG_CONVERSA_SINGLE, false);
             if (flag) {
                 mFirstNum = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
                 Log.d("UnReadBroadcastReceiver", "num:" + mFirstNum);
@@ -302,17 +304,15 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                     mUnreadnum.setVisibility(View.VISIBLE);
                     mUnreadnum.setText(num + "");
                 }
-                int unAgreeNum = intent.getIntExtra("num", 0);
-                Log.d("UnReadBroadcastReceiver", "unAgreeNum:" + unAgreeNum);
-
-                if (unAgreeNum <= 0) {
-                    mUnagreenum.setVisibility(View.INVISIBLE);
-                } else {
-                    mUnagreenum.setVisibility(View.VISIBLE);
-                    mUnagreenum.setText(unAgreeNum + "");
-                }
-
-
+//                int unAgreeNum = intent.getIntExtra("num", 0);
+//                Log.d("UnReadBroadcastReceiver", "unAgreeNum:" + unAgreeNum);
+//
+//                if (unAgreeNum <= 0) {
+//                    mUnagreenum.setVisibility(View.INVISIBLE);
+//                } else {
+//                    mUnagreenum.setVisibility(View.VISIBLE);
+//                    mUnagreenum.setText(unAgreeNum + "");
+//                }
             }
         }
     }

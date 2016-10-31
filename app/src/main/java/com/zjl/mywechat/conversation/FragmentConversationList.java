@@ -37,6 +37,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
     private TextView mErrorText;
 
     private EMMessageListener msgListener;
+    private Intent mNumIntent;
 
 
     @Override
@@ -61,6 +62,8 @@ public class FragmentConversationList extends EaseConversationListFragment {
     protected void setUpView() {
         super.setUpView();
         // register context menu
+        mNumIntent = new Intent(Constant.UNREAD_MSG);
+
         registerForContextMenu(conversationListView);
         conversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -83,9 +86,12 @@ public class FragmentConversationList extends EaseConversationListFragment {
                         }
 
                     }
+
                     // it's single chat
                     intent.putExtra(Constant.EXTRA_USER_ID, username);
                     startActivity(intent);
+
+
                 }
             }
         });
@@ -96,7 +102,6 @@ public class FragmentConversationList extends EaseConversationListFragment {
                 EMConversation conversation = conversationListView.getItem(position);
                 String username = conversation.getUserName();
                 showPopwindow(username);
-
 
                 return true;
             }
@@ -113,9 +118,9 @@ public class FragmentConversationList extends EaseConversationListFragment {
         }
         Log.d("FragmentConversationLis", "allnum:" + allnum);
 
-        Intent numIntent = new Intent(Constant.UNREAD_MSG);
-        numIntent.putExtra(Constant.UNREAD_MSG_CONVERSA, allnum);
-        getActivity().sendBroadcast(numIntent);
+
+        mNumIntent.putExtra(Constant.UNREAD_MSG_CONVERSA, allnum);
+        getActivity().sendBroadcast(mNumIntent);
 
 
     }
@@ -149,7 +154,6 @@ public class FragmentConversationList extends EaseConversationListFragment {
         // update unread count
         return true;
     }
-
 
 
     private void showPopwindow(final String username) {
@@ -230,7 +234,6 @@ public class FragmentConversationList extends EaseConversationListFragment {
         Log.d("FragmentConversationLis", "unr");
         EventBus.getDefault().unregister(this);
     }
-
 
 
 }
