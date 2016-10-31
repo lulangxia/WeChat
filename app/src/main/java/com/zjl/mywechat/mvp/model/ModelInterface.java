@@ -16,7 +16,7 @@ public interface ModelInterface<T> {
     void insertDB(T bean);
 
     // 删除
-    void delete(Object bean);
+    void delete(T bean);
 
     // 查询
     void query(OnFinishListener listener);

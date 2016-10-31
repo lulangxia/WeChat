@@ -54,6 +54,11 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     private int mFirstNum = 0;
 
     private int num = 0;
+
+    private int unAgreeNum = 0;
+
+
+
     private MainPresenter presenter;
 
 
@@ -82,6 +87,10 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
     @Override
     protected void initData() {
+
+
+
+
 
         mToolbar.setTitle("微信");
         mToolbar.setTitleTextColor(Color.WHITE);
@@ -126,6 +135,11 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         filter.addAction(Constant.UNREAD_MSG);
         filter.addAction("加好友");
         registerReceiver(myBroadcastReceiver, filter);
+
+
+
+
+
 
         EMMessageListener msgListener = new EMMessageListener() {
 
@@ -182,6 +196,12 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         };
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
 
+
+
+
+
+
+        // 邀请信息
         EMClient.getInstance().contactManager().setContactListener(new EMContactListener() {
 
             @Override
@@ -193,60 +213,94 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             @Override
             public void onContactRefused(String username) {
                 //好友请求被拒绝
+                Log.d("MainActivity", "邀请2");
             }
 
 
             @Override
             public void onContactInvited(String username, String reason) {
+                Log.d("MainActivity", "邀请3");
+
 
                 // 发个广播
-                Intent intent = new Intent("加好友");
-                int num = 0;
-                intent.putExtra("num", ++num);
-                intent.putExtra("name", username);
-                intent.putExtra("reason", reason);
-                sendBroadcast(intent);
+//                Intent intent = new Intent("加好友");
+//                intent.putExtra("num", ++unAgreeNum);
+//                intent.putExtra("name", username);
+//                intent.putExtra("reason", reason);
+//                sendBroadcast(intent);
 
+
+                Log.d("MainActivity", username);
+
+
+                // EventBus
                 RequestBean bean = new RequestBean();
                 bean.setName(username);
                 bean.setReason(reason);
-//                bean.setIsRead(0);
+                Log.d("MainActivity", bean.getName());
+                EventBus.getDefault().post(bean);
+
+
+
 
                 presenter.onInsert(bean);
 
+
+                presenter.onQuery();
+
+
+
+
                 ArrayList<RequestBean> arr = DBTools.getInstance().getmLiteOrm().query(RequestBean.class);
+                Log.d("MainActivity", "arr.size():" + arr.size());
+
+
                 for (int i = 0; i < arr.size(); i++) {
                     Log.d("MainActivity", "litOrmLog");
                     Log.d("MainActivity", arr.get(i).getName());
                 }
 
 
-                // 发送数据
-                EventBus.getDefault().post(bean);
+
+
 
                 // 跳转，传值，MainActivity显示角标，新的朋友右侧显示1+
                 // 点进去是一个listView，存储主动请求和被动请求（数据库），右边填写同意or不同意
-
             }
+
 
             @Override
             public void onContactDeleted(String username) {
                 //被删除时回调此方法
-
-
+                Log.d("MainActivity", "邀请4");
             }
-
 
             @Override
             public void onContactAdded(String username) {
                 //增加了联系人时回调此方法
-
-
+                Log.d("MainActivity", "邀请5");
             }
 
-
         });
+
+
+
+        if (unAgreeNum <= 0) {
+            mUnagreenum.setVisibility(View.INVISIBLE);
+        } else {
+            mUnagreenum.setVisibility(View.VISIBLE);
+            mUnagreenum.setText(unAgreeNum + "");
+        }
+
+
+
+
+
     }
+
+
+
+
 
 
     @Override
@@ -271,20 +325,38 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         return true;
     }
 
+
+
+
+
+
+
     @Override
     public void showMessageView() {
 
     }
 
     @Override
-    public void showUnAgreeView() {
+    public <T> void showUnAgreeView(ArrayList<T> arraylist) {
 
     }
+
 
     @Override
     public void showUnKnownView() {
 
     }
+
+    @Override
+    public void showNullMessage() {
+
+    }
+
+
+
+
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -298,6 +370,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d("UnReadBroadcastReceiver", "收到广播");
+            // 第一次运行时，上面和下面的消息数目匹配中间的
             if (flag) {
                 mFirstNum = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
                 Log.d("UnReadBroadcastReceiver", "num:" + mFirstNum);
@@ -318,18 +391,14 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                     mUnreadnum.setVisibility(View.VISIBLE);
                     mUnreadnum.setText(num + "");
                 }
-                int unAgreeNum = intent.getIntExtra("num", 0);
-                Log.d("UnReadBroadcastReceiver", "unAgreeNum:" + unAgreeNum);
-
-                if (unAgreeNum <= 0) {
-                    mUnagreenum.setVisibility(View.INVISIBLE);
-                } else {
-                    mUnagreenum.setVisibility(View.VISIBLE);
-                    mUnagreenum.setText(unAgreeNum + "");
-                }
-
-
             }
+
+
+
+
+
+
+
         }
     }
 

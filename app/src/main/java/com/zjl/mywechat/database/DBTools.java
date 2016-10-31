@@ -27,8 +27,6 @@ public class DBTools {
     }
 
 
-
-
     // 单例模式
     public static DBTools getInstance() {
         if (sDbTools == null) {
@@ -51,10 +49,12 @@ public class DBTools {
     // 以类名为表名创建表
 
 
-
     // 插入单条数据（传入单个对象）
     public <T> void insert(final T bean) {
-
+        if (bean == null) {
+            Log.d("DBTools", "kong");
+            return;
+        }
         threadPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -63,7 +63,6 @@ public class DBTools {
             }
         });
     }
-
 
 
     // 插入集合
@@ -75,9 +74,6 @@ public class DBTools {
             }
         });
     }
-
-
-
 
 
     // 删除单条数据(传一个bean)
@@ -105,29 +101,23 @@ public class DBTools {
     // 修改单条数据
 
 
-
-
-
-
     // 查询所有数据
-    public <T> void getAll(final QueryListener<T> queryListener) {
+    public <T> void getAll(final QueryListener<T> queryListener,final Class<T> clazz) {
 
-        final Class<T> clazz = null;
+     //   final Class<T> clazz = null;
 
         threadPool.execute(new Runnable() {
             @Override
             public void run() {
                 // 参数是(实体类.class)
-                final  ArrayList<T> been = mLiteOrm.query(clazz);
+                final ArrayList<T> been = mLiteOrm.query(clazz);
                 mHandler.post(new HandlerRunnable<>(been, queryListener));
             }
         });
     }
 
 
-
-
-    class QueryRunnable<T> implements Runnable{
+    class QueryRunnable<T> implements Runnable {
         private Class<T> mTClass;
         private QueryListener<T> queryListener;
 
@@ -135,15 +125,13 @@ public class DBTools {
             this.mTClass = mTClass;
             this.queryListener = queryListener;
         }
+
         @Override
         public void run() {
             ArrayList<T> tArrayList = mLiteOrm.query(mTClass);
             mHandler.post(new HandlerRunnable<>(tArrayList, queryListener));
         }
     }
-
-
-
 
 
     class HandlerRunnable<T> implements Runnable {
@@ -155,6 +143,7 @@ public class DBTools {
             mTArrayList = tArrayList;
             mTQueryListener = queryListener;
         }
+
         @Override
         public void run() {
             mTQueryListener.onQuery(mTArrayList);
@@ -162,16 +151,12 @@ public class DBTools {
     }
 
 
-
-
     // 查询完成后的回调接口
-    public interface QueryListener<T>{
+    public interface QueryListener<T> {
         // 将接口用泛型去实现
         // 当查询完成后,将查到的数据作为data 返回给Activity等
         void onQuery(ArrayList<T> persons);
     }
-
-
 
 
 }

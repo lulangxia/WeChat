@@ -7,6 +7,8 @@ import com.zjl.mywechat.mvp.model.ModelInterface;
 import com.zjl.mywechat.mvp.model.OnFinishListener;
 import com.zjl.mywechat.mvp.view.MainView;
 
+import java.util.ArrayList;
+
 public class MainPresenter {
 
     private MainView view;
@@ -21,8 +23,16 @@ public class MainPresenter {
 
 
 
+
+
     public <T> void onInsert(T bean) {
         model.insertDB(bean);
+    }
+
+
+
+    public <T> void onDelete(T bean) {
+        model.delete(bean);
     }
 
 
@@ -32,24 +42,19 @@ public class MainPresenter {
 
         model.query(new OnFinishListener() {
             @Override
-            public void onSuccess() {
-                view.showMessageView();
-
+            public <T> void onSuccess(ArrayList<T> arrayList) {
+                view.showUnAgreeView(arrayList);
                 Log.d("MainPresenter", "显示联系人的信息");
-
             }
 
             @Override
             public void onError() {
-                view.showMessageView();
-
+                // 提示列表为空
+                view.showNullMessage();
             }
         });
 
 
-//        view.showMessageView();
-//        view.showUnAgreeView();
-//        view.showUnKnownView();
 
 
     }

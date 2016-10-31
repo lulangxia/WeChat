@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
@@ -58,15 +59,37 @@ public class Lv extends BaseAdapter{
         viewHolder.tvName.setText(arrayList.get(position).getName());
         viewHolder.tvReason.setText(arrayList.get(position).getReason());
 
-        // 同意
+
+
+        if (arrayList.get(position).getIsRead() == 0) {
+            // 消息还未读，那就是默认布局
+        } else {
+            // 消息已读，选择出已经同意还是拒绝
+            viewHolder.btnAgree.setVisibility(View.GONE);
+            viewHolder.btnDisAgree.setVisibility(View.GONE);
+            viewHolder.tvIsAgree.setVisibility(View.VISIBLE);
+            // 已同意/拒绝
+            if (arrayList.get(position).getIsAgree() == 0) {
+                viewHolder.tvIsAgree.setText("已拒绝");
+            } else {
+                viewHolder.tvIsAgree.setText("已同意");
+            }
+        }
+
+
+
+
+
+
         final ViewHolder finalViewHolder = viewHolder;
 
-
+        // 同意
         viewHolder.btnAgree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     EMClient.getInstance().contactManager().acceptInvitation(arrayList.get(position).getName());
+                    Toast.makeText(mContext, "同意", Toast.LENGTH_SHORT).show();
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
@@ -74,7 +97,6 @@ public class Lv extends BaseAdapter{
                 finalViewHolder.btnDisAgree.setVisibility(View.GONE);
                 finalViewHolder.tvIsAgree.setVisibility(View.VISIBLE);
                 finalViewHolder.tvIsAgree.setText("已同意");
-
             }
         });
 
@@ -85,18 +107,17 @@ public class Lv extends BaseAdapter{
             public void onClick(View v) {
 
                 try {
+                    Toast.makeText(mContext, "拒绝成功", Toast.LENGTH_SHORT).show();
                     EMClient.getInstance().contactManager().declineInvitation(arrayList.get(position).getName());
-                    finalViewHolder.btnAgree.setVisibility(View.GONE);
-                    finalViewHolder.btnDisAgree.setVisibility(View.GONE);
-                    finalViewHolder.tvIsAgree.setVisibility(View.VISIBLE);
-                    finalViewHolder.tvIsAgree.setText("已拒绝");
+
 
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
-
-
-
+                finalViewHolder.btnAgree.setVisibility(View.GONE);
+                finalViewHolder.btnDisAgree.setVisibility(View.GONE);
+                finalViewHolder.tvIsAgree.setVisibility(View.VISIBLE);
+                finalViewHolder.tvIsAgree.setText("已拒绝");
             }
         });
 
