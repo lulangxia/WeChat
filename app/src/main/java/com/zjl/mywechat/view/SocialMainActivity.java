@@ -15,7 +15,6 @@ public class SocialMainActivity extends BaseAty {
 
     @Override
     protected void initView() {
-
     }
 
     @Override

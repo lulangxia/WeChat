@@ -16,17 +16,20 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
-
 import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.staticfinal.Constant;
 import com.zjl.mywechat.ui.adapter.MainAdapter;
 
-
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickListener {
@@ -40,6 +43,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     private TextView mUnknow;
     public static MainActivity instance = null;
     private UnReadBroadcastReceiver myBroadcastReceiver;
+    private int mFirstNum = 0;
 
     @Override
     protected int setLayout() {
@@ -103,6 +107,59 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         filter.addAction(Constant.UNREAD_MSG);
         registerReceiver(myBroadcastReceiver, filter);
 
+
+        EMMessageListener msgListener = new EMMessageListener() {
+
+            @Override
+            public void onMessageReceived(final List<EMMessage> messages) {
+                //收到消息
+                Log.d("MainActivity", "收到消息");
+                Log.d("MainActivity", "messages.size():" + messages.size());
+                Log.d("MainActivity", messages.get(0).getBody().toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("MainActivity", "消息增加");
+                        mFirstNum = mFirstNum + messages.size();
+                        mUnreadnum.setText(mFirstNum + "");
+                        mUnreadnum.setVisibility(View.VISIBLE);
+                        mToolbar.setTitle("微信" + "(" + mFirstNum + ")");
+                        Boolean newmsg = true;
+                        EventBus.getDefault().post(newmsg);
+                    }
+                });
+            }
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> messages) {
+                //收到透传消息
+                Log.d("MainActivity", "透传消息");
+            }
+
+            @Override
+            public void onMessageReadAckReceived(List<EMMessage> messages) {
+                //收到已读回执
+                Log.d("MainActivity", "收到已读回执");
+
+            }
+
+            @Override
+            public void onMessageDeliveryAckReceived(List<EMMessage> message) {
+                //收到已送达回执
+                Log.d("MainActivity", "收到已送达回执");
+
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage message, Object change) {
+                Log.d("MainActivity", change.toString());
+                //消息状态变动
+            }
+        };
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
+
+        //EMClient.getInstance().chatManager().removeMessageListener(msgListener);
+
     }
 
     @Override
@@ -128,21 +185,31 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     }
 
     class UnReadBroadcastReceiver extends BroadcastReceiver {
+        private boolean flag = true;
+
         @Override
         public void onReceive(Context context, Intent intent) {
-            int num = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
-            Log.d("UnReadBroadcastReceiver", "num:" + num);
-            if (num <= 0) {
-                mUnreadnum.setVisibility(View.INVISIBLE);
-                mToolbar.setTitle("微信");
-            } else {
-                mUnreadnum.setVisibility(View.VISIBLE);
-                mUnreadnum.setText(num + "");
-                mToolbar.setTitle("微信"+"("+num+")");
+            Log.d("UnReadBroadcastReceiver", "收到广播");
+            if (flag) {
+                mFirstNum = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
+                Log.d("UnReadBroadcastReceiver", "num:" + mFirstNum);
+                if (mFirstNum <= 0) {
+                    mUnreadnum.setVisibility(View.INVISIBLE);
+                    mToolbar.setTitle("微信");
+                } else {
+                    mUnreadnum.setVisibility(View.VISIBLE);
+                    mUnreadnum.setText(mFirstNum + "");
+                    mToolbar.setTitle("微信" + "(" + mFirstNum + ")");
+                }
+                flag = false;
             }
         }
 
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(myBroadcastReceiver);
+    }
 }

@@ -61,6 +61,8 @@ public class LoginActivity extends BaseAty implements View.OnClickListener {
 
         if (EMClient.getInstance().isLoggedInBefore()) {
             autoLogin = true;
+            EMClient.getInstance().groupManager().loadAllGroups();
+            EMClient.getInstance().chatManager().loadAllConversations();
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
             return;
@@ -126,14 +128,16 @@ public class LoginActivity extends BaseAty implements View.OnClickListener {
             @Override
             public void onSuccess() {
                 //
-                EMClient.getInstance().groupManager().loadAllGroups();
-                EMClient.getInstance().chatManager().loadAllConversations();
+
+
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mDialog.dismiss();
+                        Log.d("LoginActivity", "denglu");
+                        EMClient.getInstance().groupManager().loadAllGroups();
                         EMClient.getInstance().chatManager().loadAllConversations();
+                        mDialog.dismiss();
                         //                        Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
 //                        MyApp.getInstance().setCurrentUserName(mUsername.getText().toString().trim());
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);

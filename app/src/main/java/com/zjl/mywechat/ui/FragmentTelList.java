@@ -60,11 +60,12 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
             public void run() {
                 try {
                     mMap = new HashMap<>();
-                    List<String> usernames = EMClient.getInstance().contactManager().getAllContactsFromServer();
+                    final List<String> usernames = EMClient.getInstance().contactManager().getAllContactsFromServer();
                     for (int i = 0; i < usernames.size(); i++) {
                         EaseUser easeUser = new EaseUser(usernames.get(i));
                         mMap.put(usernames.get(i), easeUser);
                     }
+                    Log.d("FragmentTelList", "mMap.get(usernames.get(0))111:" + mMap.get(usernames.get(0)));
                     Iterator<Map.Entry<String, EaseUser>> iterator = mMap.entrySet().iterator();
                     List<String> blackList = EMClient.getInstance().contactManager().getBlackListUsernames();
                     while (iterator.hasNext()) {
@@ -99,6 +100,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                         @Override
                         public void run() {
                             Log.d("FragmentTelList", "runonui");
+                            Log.d("FragmentTelList", "mMap.get(usernames.get(0)):" + mMap.get(usernames.get(0)));
                             setContactsMap(mMap);
                         }
                     });
@@ -146,13 +148,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         });
     }
 
-    @Override
-    public void refresh() {
-      // setUpView();
-        super.refresh();
 
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -215,11 +211,8 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                // Toast.makeText(getContext(), "shanchu", Toast.LENGTH_SHORT).show();
                 try {
                     EMClient.getInstance().contactManager().deleteContact(username);
-                    Thread.sleep(2000);
                     deletePop.dismiss();
                 } catch (HyphenateException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }

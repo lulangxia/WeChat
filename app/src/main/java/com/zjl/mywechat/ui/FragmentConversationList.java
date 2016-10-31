@@ -24,6 +24,10 @@ import com.hyphenate.util.NetUtils;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.staticfinal.Constant;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 /**
  * Created by dllo on 16/10/27.
  */
@@ -34,9 +38,16 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
     private EMMessageListener msgListener;
 
+
+
     @Override
     protected void initView() {
-        Log.d("FragmentConversationLis", "initview");
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+            Log.d("FragmentConversationLis", "re");
+        }
+
+       // Log.d("FragmentConversationLis", "initview");
         super.initView();
         View errorView = (LinearLayout) View.inflate(getActivity(), R.layout.fragment_conversationlist, null);
         errorItemContainer.addView(errorView);
@@ -55,7 +66,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("FragmentConversationLis", "position:" + position);
+               // Log.d("FragmentConversationLis", "position:" + position);
                 EMConversation conversation = conversationListView.getItem(position);
                 String username = conversation.getUserName();
                 if (username.equals(EMClient.getInstance().getCurrentUser()))
@@ -84,7 +95,8 @@ public class FragmentConversationList extends EaseConversationListFragment {
                 EMConversation conversation = conversationListView.getItem(position);
                 String username = conversation.getUserName();
                 showPopwindow(username);
-                refresh();
+
+
                 return true;
             }
         });
@@ -92,9 +104,9 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
         //发广播,未读消息数
         int allnum = 0;
-        Log.d("FragmentConversationLis", "allnum0:" + allnum);
+      //  Log.d("FragmentConversationLis", "allnum0:" + allnum);
         Log.d("FragmentConversationLis", "conversationListView.getCount():" + conversationListView.getCount());
-        for (int i = 0; i < conversationListView.getCount() / 2; i++) {
+        for (int i = 0; i < conversationListView.getCount(); i++) {
             EMConversation conversation = conversationListView.getItem(i);
             Log.d("FragmentConversationLis", "i:" + i);
             allnum += conversation.getUnreadMsgCount();
@@ -122,7 +134,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        Log.d("FragmentConversationLis", "2");
+     //   Log.d("FragmentConversationLis", "2");
         EMConversation tobeDeleteCons = conversationListView.getItem(((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position);
         if (tobeDeleteCons == null) {
             return true;
@@ -177,7 +189,12 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
                 //删除和某个user会话，如果需要保留聊天记录，传false
                 EMClient.getInstance().chatManager().deleteConversation(username, true);
-
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refresh();
+                    }
+                });
 
                 deletePop.dismiss();
 
@@ -190,6 +207,25 @@ public class FragmentConversationList extends EaseConversationListFragment {
             deletePop.dismiss();
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void uiRefresh(Boolean msg) {
+       // Log.d("FragmentConversationLis", "sub");
+        if (msg) {
+            refresh();
+            Log.d("FragmentConversationLis", "sub");
+
+        }
+
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("FragmentConversationLis", "unr");
+        EventBus.getDefault().unregister(this);
     }
 
 

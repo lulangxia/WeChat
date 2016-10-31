@@ -30,4 +30,6 @@ public class Constant extends EaseConstant {
 
 	public static final String UNREAD_MSG = "unreadmessage";
 	public static final String UNREAD_MSG_CONVERSA = "conversation";
+
+	private final static int MSG_REFRESH = 2;
 }
