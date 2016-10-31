@@ -1,4 +1,4 @@
-package com.zjl.mywechat.staticfinal;
+package com.zjl.mywechat.tool.stringvalue;
 
 /**
  * Created by dllo on 16/10/22.

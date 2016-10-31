@@ -1,4 +1,4 @@
-package com.zjl.mywechat.ui;
+package com.zjl.mywechat.widget;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.addfriends.AddFriends;
+import com.zjl.mywechat.addfriends.AddFriendsActivity;
 
 
 /**
@@ -64,7 +64,7 @@ public class AddPopwindow extends PopupWindow {
             public void onClick(View v) {
                // Toast.makeText(context, "添加朋友", Toast.LENGTH_SHORT).show();
                 AddPopwindow.this.dismiss();
-                Intent intent = new Intent(context, AddFriends.class);
+                Intent intent = new Intent(context, AddFriendsActivity.class);
                 context.startActivity(intent);
 
             }

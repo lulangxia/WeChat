@@ -1,4 +1,4 @@
-package com.zjl.mywechat.view;
+package com.zjl.mywechat.socalfriend;
 
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;

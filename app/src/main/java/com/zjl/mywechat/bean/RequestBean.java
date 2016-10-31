@@ -1,4 +1,4 @@
-package com.zjl.mywechat.addfriends;
+package com.zjl.mywechat.bean;
 
 
 public class RequestBean {

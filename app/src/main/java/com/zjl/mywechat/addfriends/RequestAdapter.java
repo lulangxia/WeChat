@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.zjl.mywechat.base.BaseListViewAdapter;
 import com.zjl.mywechat.base.BaseListViewHolder;
+import com.zjl.mywechat.bean.RequestBean;
 
 import java.util.List;
 

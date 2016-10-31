@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.zjl.mywechat.ui.ChatActivity">
+    tools:context="com.zjl.mywechat.conversation.ChatActivity">
     <FrameLayout
         android:id="@+id/chat_fr"
         android:layout_width="match_parent"

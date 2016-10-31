@@ -12,6 +12,7 @@ import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
 import com.zjl.mywechat.base.BaseListViewAdapter;
 import com.zjl.mywechat.base.BaseListViewHolder;
+import com.zjl.mywechat.bean.RequestBean;
 
 import java.util.ArrayList;
 

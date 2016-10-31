@@ -21,7 +21,7 @@ import com.zjl.mywechat.base.BaseAty;
 
 
 // 添加好友
-public class AddFriends extends BaseAty implements View.OnClickListener {
+public class AddFriendsActivity extends BaseAty implements View.OnClickListener {
 
 
     private EditText etNum;
@@ -150,13 +150,13 @@ public class AddFriends extends BaseAty implements View.OnClickListener {
                         @Override
                         public void run() {
                             progressDialog.dismiss();
-                            Toast.makeText(AddFriends.this, "请求已发送，请等待", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddFriendsActivity.this, "请求已发送，请等待", Toast.LENGTH_SHORT).show();
                         }
                     });
 
 
                 } catch (HyphenateException e) {
-                    Toast.makeText(AddFriends.this, "发送请求失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddFriendsActivity.this, "发送请求失败", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
 
                 }

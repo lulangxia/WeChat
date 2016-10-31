@@ -1,4 +1,4 @@
-package com.zjl.mywechat.ui;
+package com.zjl.mywechat.main;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,9 +22,14 @@ import com.hyphenate.chat.EMMessage;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
+import com.zjl.mywechat.contacts.FragmentTelList;
+import com.zjl.mywechat.conversation.FragmentConversationList;
 import com.zjl.mywechat.database.DBTools;
-import com.zjl.mywechat.staticfinal.Constant;
+import com.zjl.mywechat.me.FragmentMy;
+import com.zjl.mywechat.socalfriend.FragmentFind;
+import com.zjl.mywechat.tool.stringvalue.Constant;
 import com.zjl.mywechat.ui.adapter.MainAdapter;
+import com.zjl.mywechat.widget.AddPopwindow;
 
 import org.greenrobot.eventbus.EventBus;
 

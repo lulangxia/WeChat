@@ -1,4 +1,4 @@
-package com.zjl.mywechat.ui;
+package com.zjl.mywechat.contacts;
 
 
 import android.content.Context;
@@ -22,6 +22,7 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.addfriends.RequestActivity;
+import com.zjl.mywechat.conversation.ChatActivity;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -65,7 +66,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                         EaseUser easeUser = new EaseUser(usernames.get(i));
                         mMap.put(usernames.get(i), easeUser);
                     }
-                    Log.d("FragmentTelList", "mMap.get(usernames.get(0))111:" + mMap.get(usernames.get(0)));
+//                    Log.d("FragmentTelList", "mMap.get(usernames.get(0))111:" + mMap.get(usernames.get(0)));
                     Iterator<Map.Entry<String, EaseUser>> iterator = mMap.entrySet().iterator();
                     List<String> blackList = EMClient.getInstance().contactManager().getBlackListUsernames();
                     while (iterator.hasNext()) {
@@ -100,7 +101,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                         @Override
                         public void run() {
                             Log.d("FragmentTelList", "runonui");
-                            Log.d("FragmentTelList", "mMap.get(usernames.get(0)):" + mMap.get(usernames.get(0)));
+//                            Log.d("FragmentTelList", "mMap.get(usernames.get(0)):" + mMap.get(usernames.get(0)));
                             setContactsMap(mMap);
                         }
                     });
