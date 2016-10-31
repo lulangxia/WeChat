@@ -155,7 +155,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
             @Override
             public void onMessageReadAckReceived(List<EMMessage> list) {
-
+                //收到已读回执
+                Log.d("MainActivity", "收到已读回执");
             }
 
 
