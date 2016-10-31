@@ -26,7 +26,6 @@ public class RequestAdapter extends BaseListViewAdapter<RequestBean>{
 
 
 
-
     }
 
 

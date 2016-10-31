@@ -4,6 +4,10 @@ package com.zjl.mywechat.database;
 import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.enums.AssignType;
 
+// 存放自己的信息
+// 存放好友信息
+
+
 public class PersonBean {
 
     @PrimaryKey(AssignType.AUTO_INCREMENT)
@@ -13,7 +17,7 @@ public class PersonBean {
     private String name;
     private String nickName;
     private String imgUrl;
-    private String password;
+    private String password;// 存个人信息
 
 
     public String getPassword() {

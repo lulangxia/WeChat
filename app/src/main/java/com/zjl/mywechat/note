@@ -1,24 +1,3 @@
-package com.zjl.mywechat.database;
-
-
-public interface DataAction {
-
-    // 添加
-    void inset();
-
-
-
-    // 删除
-    void delete();
-
-
-
-    // 查询
-    void query();
-
-
-
-
 
 
 
@@ -48,4 +27,8 @@ public interface DataAction {
     // throw是抛出异常
     // throws是声明可能出现的异常
     */
-}
+
+
+
+
+

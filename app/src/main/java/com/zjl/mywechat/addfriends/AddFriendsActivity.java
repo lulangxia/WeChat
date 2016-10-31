@@ -1,10 +1,13 @@
 package com.zjl.mywechat.addfriends;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,11 +20,12 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
 
 
 // 添加好友
-public class AddFriends extends BaseAty implements View.OnClickListener {
+public class AddFriendsActivity extends BaseAty implements View.OnClickListener {
 
 
     private EditText etNum;
@@ -31,6 +35,7 @@ public class AddFriends extends BaseAty implements View.OnClickListener {
     private Button btnAdd;
     private RelativeLayout rl;
     private ProgressDialog progressDialog;
+    private EditText etAddReason;
 
     @Override
     protected int setLayout() {
@@ -129,45 +134,45 @@ public class AddFriends extends BaseAty implements View.OnClickListener {
 //        }
 
 
+        showDialog();
 
 
+    }
 
 
-        // 添加好友进度提示窗口
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("正在发送请求");
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+    private void showDialog() {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(AddFriendsActivity.this);
+        View viewAdd = LayoutInflater.from(MyApp.getmContext()).inflate(R.layout.dialog_addrequest, null);
+        etAddReason = (EditText) viewAdd.findViewById(R.id.et_dialog_addrequest);
 
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        dialog.
+                setTitle("添加" + etNum.getText().toString() + "为好友").
+                setNegativeButton("确定发送", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                try {
-                    // 第一个参数是你的名字，第二个参数是加好友的验证消息
-                    EMClient.getInstance().contactManager().addContact(etNum.getText().toString(), "加个好友");
+                        // 添加好友进度提示窗口
+//                        progressDialog = new ProgressDialog(MyApp.getmContext());
+//                        progressDialog.setMessage("正在发送请求");
+//                        progressDialog.setCanceledOnTouchOutside(false);
+//                        progressDialog.show();
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressDialog.dismiss();
-                            Toast.makeText(AddFriends.this, "请求已发送，请等待", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        newThreadAddFriends();
 
-
-                } catch (HyphenateException e) {
-                    Toast.makeText(AddFriends.this, "发送请求失败", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-
-                }
-
-
-            }
-        }).start();
+                    }
+                }).
+                setPositiveButton("取消发送", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).
+                    setView(viewAdd);
 
 
+        dialog.show();
 
 
 
@@ -177,16 +182,55 @@ public class AddFriends extends BaseAty implements View.OnClickListener {
 
 
 
+    private void newThreadAddFriends() {
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+
+
+
+                    if (!etAddReason.getText().toString().equals("")) {
+                        // 第一个参数是你的名字，第二个参数是加好友的验证消息
+                        EMClient.getInstance().contactManager().addContact(etNum.getText().toString(), etAddReason.getText().toString());
+                    } else {
+                        // 默认验证消息
+                        EMClient.getInstance().contactManager().addContact(etNum.getText().toString(), "交个朋友吧");
+
+                    }
+
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+//                            progressDialog.dismiss();
+                            Toast.makeText(AddFriendsActivity.this, "请求已发送，请等待", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+                } catch (HyphenateException e) {
+                    Toast.makeText(AddFriendsActivity.this, "发送请求失败", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+
+                }
+
+
+            }
+        }).start();
+
+    }
 
 
 
 
-
-
-
-
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
 
 

@@ -88,7 +88,7 @@
         </activity>
 
 
-        <activity android:name=".addfriends.AddFriends">
+        <activity android:name=".addfriends.AddFriendsActivity">
         </activity>
 
         <activity android:name=".view.TestOptionActivity"/>

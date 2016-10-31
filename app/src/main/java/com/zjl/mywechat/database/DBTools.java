@@ -1,11 +1,12 @@
 package com.zjl.mywechat.database;
 
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.litesuits.orm.LiteOrm;
+import com.zjl.mywechat.app.MyApp;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -19,21 +20,26 @@ public class DBTools {
     private Handler mHandler;
 
 
-    private DBTools(Context context) {
-        mLiteOrm = LiteOrm.newSingleInstance(context, "myDataBase.db");
+    private DBTools() {
+        mLiteOrm = LiteOrm.newSingleInstance(MyApp.getmContext(), "myDataBase.db");
         threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
         mHandler = new Handler(Looper.getMainLooper());
     }
 
+
+
+
     // 单例模式
-    public static DBTools getInstance(Context context) {
+    public static DBTools getInstance() {
         if (sDbTools == null) {
             synchronized (DBTools.class) {
                 if (sDbTools == null) {
-                    sDbTools = new DBTools(context);
+                    sDbTools = new DBTools();
+                    Log.d("DBTools", "sDbTools");
                 }
             }
         }
+
         return sDbTools;
     }
 
@@ -45,7 +51,7 @@ public class DBTools {
 
 
 
-    // 插入单条数据
+    // 插入单条数据（传入单个对象）
     public <T> void insert(final T bean) {
 
         threadPool.execute(new Runnable() {
@@ -72,7 +78,7 @@ public class DBTools {
 
 
 
-    // 删除单条数据
+    // 删除单条数据(传一个bean)
     public <T> void delete(final T bean) {
         threadPool.execute(new Runnable() {
             @Override
@@ -157,7 +163,7 @@ public class DBTools {
 
 
     // 查询完成后的回调接口
-    interface QueryListener<T>{
+    public interface QueryListener<T>{
         // 将接口用泛型去实现
         // 当查询完成后,将查到的数据作为data 返回给Activity等
         void onQuery(ArrayList<T> persons);

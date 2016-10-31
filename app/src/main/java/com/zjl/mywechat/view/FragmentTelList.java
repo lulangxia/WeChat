@@ -1,10 +1,15 @@
 package com.zjl.mywechat.view;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -27,6 +32,7 @@ import java.util.Map;
 public class FragmentTelList extends EaseContactListFragment implements View.OnClickListener {
 
     private Map<String, EaseUser> mMap;
+    private TextView tvUnAgreeNum;
 
     @Override
     protected void initView() {
@@ -41,7 +47,13 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         getView().findViewById(R.id.search_bar_view).setVisibility(View.GONE);
         registerForContextMenu(listView);
 
+        tvUnAgreeNum = (TextView) headerView.findViewById(R.id.tv_unread);
 
+
+        UnAgreeRequest receiver = new UnAgreeRequest();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("加好友");
+        getActivity().registerReceiver(receiver, filter);
 
 
     }
@@ -132,28 +144,43 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 
         switch (v.getId()) {
             case R.id.re_newfriends:
-
+                // 将未读好友请求数目变成0
+                num = 0;
                 // 跳转
                 Intent intent = new Intent(getActivity(), RequestActivity.class);
                 startActivity(intent);
-
-
-
-
-
-
                 break;
 
             case R.id.re_chatroom:
 
 
 
-
                 break;
+        }
+    }
 
+
+
+
+
+
+    private int num = 0;// 从数据库里面取
+
+    private class UnAgreeRequest extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            tvUnAgreeNum.setVisibility(View.VISIBLE);
+            tvUnAgreeNum.setText(++num + "");
+            Log.d("UnAgreeRequest", "num:" + num);
 
 
         }
-
     }
+
+
+
+
+
 }
