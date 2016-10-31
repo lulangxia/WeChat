@@ -4,22 +4,22 @@ package com.zjl.mywechat.bean;
 public class RequestBean {
 
     private String name;
-    private String img;
+//    private String img;
     private String reason;
 
-    private int isRead = 0;
+//    private int isRead = 0;
 
     // 判断是否已读（默认是0，来一条新消息就 + 1），总的未读消息数目是所有成员isRead数目之和。
 
 
 
-    public int getIsRead() {
-        return isRead;
-    }
-
-    public void setIsRead(int isRead) {
-        this.isRead = isRead;
-    }
+//    public int getIsRead() {
+//        return isRead;
+//    }
+//
+//    public void setIsRead(int isRead) {
+//        this.isRead = isRead;
+//    }
 
     public RequestBean() {
     }
@@ -46,11 +46,11 @@ public class RequestBean {
         this.name = name;
     }
 
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
+//    public String getImg() {
+//        return img;
+//    }
+//
+//    public void setImg(String img) {
+//        this.img = img;
+//    }
 }

@@ -86,10 +86,12 @@ public class FragmentConversationList extends EaseConversationListFragment {
                         }
 
                     }
-
                     // it's single chat
                     intent.putExtra(Constant.EXTRA_USER_ID, username);
                     startActivity(intent);
+
+                    Integer readnum =conversation.getUnreadMsgCount();
+                    EventBus.getDefault().post(readnum);
 
 
                 }
@@ -102,26 +104,11 @@ public class FragmentConversationList extends EaseConversationListFragment {
                 EMConversation conversation = conversationListView.getItem(position);
                 String username = conversation.getUserName();
                 showPopwindow(username);
-
+                Integer readnum =conversation.getUnreadMsgCount();
+                EventBus.getDefault().post(readnum);
                 return true;
             }
         });
-
-
-        //发广播,未读消息数
-        int allnum = 0;
-        //  Log.d("FragmentConversationLis", "allnum0:" + allnum);
-        Log.d("FragmentConversationLis", "conversationListView.getCount():" + conversationListView.getCount());
-        for (int i = 0; i < conversationListView.getCount(); i++) {
-            EMConversation conversation = conversationListView.getItem(i);
-            allnum += conversation.getUnreadMsgCount();
-        }
-        Log.d("FragmentConversationLis", "allnum:" + allnum);
-
-
-        mNumIntent.putExtra(Constant.UNREAD_MSG_CONVERSA, allnum);
-        getActivity().sendBroadcast(mNumIntent);
-
 
     }
 

@@ -10,8 +10,9 @@ import com.litesuits.orm.db.enums.AssignType;
 
 public class PersonBean {
 
-    @PrimaryKey(AssignType.AUTO_INCREMENT)
+
     // id自增,没必要写set方法
+    @PrimaryKey(AssignType.AUTO_INCREMENT)
     private int id;
 
     private String name;

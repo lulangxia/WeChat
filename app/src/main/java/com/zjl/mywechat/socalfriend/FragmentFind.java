@@ -14,7 +14,7 @@ public class FragmentFind  extends BaseFragment {
 
 	@Override
 	protected void initView() {
-
+		
 	}
 
 	@Override
