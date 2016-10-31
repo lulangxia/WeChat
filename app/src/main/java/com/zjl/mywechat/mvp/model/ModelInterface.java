@@ -3,10 +3,8 @@ package com.zjl.mywechat.mvp.model;
 
 public interface ModelInterface<T> {
 
-
     // 收到消息监听 进行数据库的增删改查操作
     // 耗时操作要用回调的方法去实现
-
 
 
 //     应该分成三个表分别去建？？？？？
