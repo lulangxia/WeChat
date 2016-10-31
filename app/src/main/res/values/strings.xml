@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyWeChat</string>
+    <string name="app_name">蜜汁微信</string>
     <string name="loginground">国家和地区</string>
     <string name="defautfroud">中国</string>
     <string name="defaultupnum">+86</string>
@@ -28,6 +28,7 @@
     <string name="addfriend">添加朋友</string>
     <string name="help">帮助与反馈</string>
     <string name="query">查找</string>
+    <string name="deletepopwindow">删除联系人</string>
 
 
 </resources>

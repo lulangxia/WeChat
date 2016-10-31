@@ -7,8 +7,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.widget.EaseTitleBar;
+
+import java.util.List;
 
 public abstract class EaseBaseFragment extends Fragment{
     protected EaseTitleBar titleBar;
