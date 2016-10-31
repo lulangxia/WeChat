@@ -16,30 +16,21 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/main/MainActivity.java
+import com.hyphenate.EMContactListener;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
-=======
-import com.hyphenate.EMContactListener;
-import com.hyphenate.chat.EMClient;
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/MainActivity.java
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.addfriends.RequestBean;
 import com.zjl.mywechat.base.BaseAty;
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/main/MainActivity.java
+import com.zjl.mywechat.bean.RequestBean;
 import com.zjl.mywechat.contacts.FragmentTelList;
 import com.zjl.mywechat.conversation.FragmentConversationList;
 import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.me.FragmentMy;
-import com.zjl.mywechat.socalfriend.FragmentFind;
-import com.zjl.mywechat.tool.stringvalue.Constant;
-=======
-import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.mvp.presenter.MainPresenter;
 import com.zjl.mywechat.mvp.view.MainView;
-import com.zjl.mywechat.staticfinal.Constant;
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/MainActivity.java
+import com.zjl.mywechat.socalfriend.FragmentFind;
+import com.zjl.mywechat.tool.stringvalue.Constant;
 import com.zjl.mywechat.ui.adapter.MainAdapter;
 import com.zjl.mywechat.widget.AddPopwindow;
 
@@ -49,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickListener ,MainView{
+public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickListener,MainView {
 
 
     private TabLayout mTabLayout;
@@ -127,7 +118,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         mUnagreenum.setVisibility(View.INVISIBLE);
 
 
-
         //接收未读消息数广播接收器
         myBroadcastReceiver = new UnReadBroadcastReceiver();
         IntentFilter filter = new IntentFilter();
@@ -135,8 +125,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         filter.addAction("加好友");
         registerReceiver(myBroadcastReceiver, filter);
 
-
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/main/MainActivity.java
         EMMessageListener msgListener = new EMMessageListener() {
 
             @Override
@@ -166,18 +154,25 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             }
 
             @Override
-            public void onMessageReadAckReceived(List<EMMessage> messages) {
-                //收到已读回执
-                Log.d("MainActivity", "收到已读回执");
-=======
-        // 广播
-//        UnReadBroadcastReceiver receiver = new UnReadBroadcastReceiver();
-//        IntentFilter filter1 = new IntentFilter();
-//        registerReceiver(receiver, filter1);
+            public void onMessageReadAckReceived(List<EMMessage> list) {
+
+            }
 
 
+            @Override
+            public void onMessageDeliveryAckReceived(List<EMMessage> message) {
+                //收到已送达回执
+                Log.d("MainActivity", "收到已送达回执");
 
+            }
 
+            @Override
+            public void onMessageChanged(EMMessage message, Object change) {
+                Log.d("MainActivity", change.toString());
+                //消息状态变动
+            }
+        };
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
 
         EMClient.getInstance().contactManager().setContactListener(new EMContactListener() {
 
@@ -193,6 +188,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 //好友请求被拒绝
                 Toast.makeText(MainActivity.this, username + "拒绝了你的请求", Toast.LENGTH_SHORT).show();
             }
+
 
             @Override
             public void onContactInvited(String username, String reason) {
@@ -213,39 +209,12 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 presenter.onInsert(bean);
 
 
-
-                EventBus eventBus = new EventBus();
-
-
-
-
-//                eventBus.post();
-
-
                 // 跳转，传值，MainActivity显示角标，新的朋友右侧显示1+
                 // 点进去是一个listView，存储主动请求和被动请求（数据库），右边填写同意or不同意
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/MainActivity.java
 
             }
 
             @Override
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/main/MainActivity.java
-            public void onMessageDeliveryAckReceived(List<EMMessage> message) {
-                //收到已送达回执
-                Log.d("MainActivity", "收到已送达回执");
-
-            }
-
-            @Override
-            public void onMessageChanged(EMMessage message, Object change) {
-                Log.d("MainActivity", change.toString());
-                //消息状态变动
-            }
-        };
-        EMClient.getInstance().chatManager().addMessageListener(msgListener);
-
-        //EMClient.getInstance().chatManager().removeMessageListener(msgListener);
-=======
             public void onContactDeleted(String username) {
                 //被删除时回调此方法
                 Toast.makeText(MainActivity.this, "你已被" + username + "删除", Toast.LENGTH_SHORT).show();
@@ -257,13 +226,11 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 //增加了联系人时回调此方法
                 Log.d("MainActivity", "你同意了" + username + "的请求");
             }
+
+
         });
-
-
-
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/MainActivity.java
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -287,26 +254,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         return true;
     }
 
-
-
-    // 继承来的方法
     @Override
     public void showMessageView() {
-
-        // 功能不需要写了
-//         消息列表里边，数字就用集合表示，利用查询的返回值的
-//         ArrayList<int> 根据ArrayList长度去设定
-//         对不同联系人的匹配问题
-
-        // 参数应该传来一个ArrayLis<int>类型的，如果是和=0，就隐藏
-
-        // 监听到新消息后，用presenter立即插入到数据库
-
-        // 点击后，（视为已读，presenter设置isRead参数为0）
-
-        // presenter调用这个方法，将右上角的图标设定数据显示出来
-        // 但是这个数字是要从数据库的查询未读消息数目显示
-
 
     }
 
@@ -319,9 +268,11 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     public void showUnKnownView() {
 
     }
-
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(myBroadcastReceiver);
+    }
 
     // 广播接收者
     class UnReadBroadcastReceiver extends BroadcastReceiver {
@@ -329,7 +280,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
         @Override
         public void onReceive(Context context, Intent intent) {
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/main/MainActivity.java
             Log.d("UnReadBroadcastReceiver", "收到广播");
             if (flag) {
                 mFirstNum = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
@@ -343,40 +293,27 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                     mToolbar.setTitle("微信" + "(" + mFirstNum + ")");
                 }
                 flag = false;
-=======
-            int num = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
-            Log.d("UnReadBroadcastReceiver", "num:" + num);
-            if (num <= 0) {
-                mUnreadnum.setVisibility(View.INVISIBLE);
-            } else {
-                mUnreadnum.setVisibility(View.VISIBLE);
-                mUnreadnum.setText(num + "");
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/MainActivity.java
+                int num = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
+                Log.d("UnReadBroadcastReceiver", "num:" + num);
+                if (num <= 0) {
+                    mUnreadnum.setVisibility(View.INVISIBLE);
+                } else {
+                    mUnreadnum.setVisibility(View.VISIBLE);
+                    mUnreadnum.setText(num + "");
+                }
+                int unAgreeNum = intent.getIntExtra("num", 0);
+                Log.d("UnReadBroadcastReceiver", "unAgreeNum:" + unAgreeNum);
+
+                if (unAgreeNum <= 0) {
+                    mUnagreenum.setVisibility(View.INVISIBLE);
+                } else {
+                    mUnagreenum.setVisibility(View.VISIBLE);
+                    mUnagreenum.setText(unAgreeNum + "");
+                }
+
+
             }
-
-
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/main/MainActivity.java
-=======
-
-            int unAgreeNum = intent.getIntExtra("num", 0);
-            Log.d("UnReadBroadcastReceiver", "unAgreeNum:" + unAgreeNum);
-
-            if (unAgreeNum <= 0) {
-                mUnagreenum.setVisibility(View.INVISIBLE);
-            } else {
-                mUnagreenum.setVisibility(View.VISIBLE);
-                mUnagreenum.setText(unAgreeNum + "");
-            }
-
-
-
         }
     }
 
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/MainActivity.java
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(myBroadcastReceiver);
-    }
 }

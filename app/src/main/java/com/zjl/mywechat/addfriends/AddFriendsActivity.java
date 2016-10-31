@@ -20,7 +20,6 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
 
 
@@ -30,7 +29,7 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
 
     private EditText etNum;
     private ImageView ivSearch;
-//    private ListView lv;
+    //    private ListView lv;
     private TextView tvName;
     private Button btnAdd;
     private RelativeLayout rl;
@@ -69,12 +68,6 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
         btnAdd = bindView(R.id.btn_addperson);
 
 
-
-
-
-
-
-
     }
 
     @Override
@@ -84,8 +77,6 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
         ivSearch.setOnClickListener(this);
 
         btnAdd.setOnClickListener(this);
-
-
 
 
     }
@@ -105,8 +96,6 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
     }
 
 
-
-
     private void search() {
         String str = etNum.getText().toString();
         if (TextUtils.isEmpty(str)) {
@@ -124,7 +113,7 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
         if (EMClient.getInstance().getCurrentUser().equals(etNum.getText().toString())) {
             new EaseAlertDialog(this, "不能添加自己").show();
             return;
-        } else if(EMClient.getInstance().contactManager().getBlackListUsernames().contains(etNum.getText().toString())) {
+        } else if (EMClient.getInstance().contactManager().getBlackListUsernames().contains(etNum.getText().toString())) {
             new EaseAlertDialog(this, "该好友在你的黑名单里面").show();
             return;
         }
@@ -143,27 +132,15 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
     private void showDialog() {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(AddFriendsActivity.this);
-        View viewAdd = LayoutInflater.from(MyApp.getmContext()).inflate(R.layout.dialog_addrequest, null);
+        View viewAdd = LayoutInflater.from(this).inflate(R.layout.dialog_addrequest, null);
         etAddReason = (EditText) viewAdd.findViewById(R.id.et_dialog_addrequest);
 
 
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/addfriends/AddFriendsActivity.java
-                try {
-                    EMClient.getInstance().contactManager().addContact(etNum.getText().toString(), "加好友");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressDialog.dismiss();
-                            Toast.makeText(AddFriendsActivity.this, "请求已发送，请等待", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-=======
         dialog.
                 setTitle("添加" + etNum.getText().toString() + "为好友").
                 setNegativeButton("确定发送", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/addfriends/AddFriendsActivity.java
 
                         // 添加好友进度提示窗口
 //                        progressDialog = new ProgressDialog(MyApp.getmContext());
@@ -171,13 +148,7 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
 //                        progressDialog.setCanceledOnTouchOutside(false);
 //                        progressDialog.show();
 
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/addfriends/AddFriendsActivity.java
-                } catch (HyphenateException e) {
-                    Toast.makeText(AddFriendsActivity.this, "发送请求失败", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-=======
                         newThreadAddFriends();
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/addfriends/AddFriendsActivity.java
 
                     }
                 }).
@@ -187,17 +158,13 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
                         dialog.dismiss();
                     }
                 }).
-                    setView(viewAdd);
+                setView(viewAdd);
 
 
         dialog.show();
 
 
-
     }
-
-
-
 
 
     private void newThreadAddFriends() {
@@ -208,7 +175,6 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
             public void run() {
 
                 try {
-
 
 
                     if (!etAddReason.getText().toString().equals("")) {
@@ -243,13 +209,10 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
     }
 
 
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
-
 
 
 }

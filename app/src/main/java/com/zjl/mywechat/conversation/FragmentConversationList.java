@@ -1,11 +1,17 @@
 package com.zjl.mywechat.conversation;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,18 +39,16 @@ public class FragmentConversationList extends EaseConversationListFragment {
     private EMMessageListener msgListener;
 
 
-
     @Override
     protected void initView() {
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/conversation/FragmentConversationList.java
+
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
             Log.d("FragmentConversationLis", "re");
         }
 
-       // Log.d("FragmentConversationLis", "initview");
-=======
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/FragmentConversationList.java
+        // Log.d("FragmentConversationLis", "initview");
+
         super.initView();
         View errorView = (LinearLayout) View.inflate(getActivity(), R.layout.fragment_conversationlist, null);
         errorItemContainer.addView(errorView);
@@ -62,7 +66,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // Log.d("FragmentConversationLis", "position:" + position);
+                // Log.d("FragmentConversationLis", "position:" + position);
                 EMConversation conversation = conversationListView.getItem(position);
                 String username = conversation.getUserName();
                 if (username.equals(EMClient.getInstance().getCurrentUser()))
@@ -85,7 +89,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
                 }
             }
         });
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/conversation/FragmentConversationList.java
+
         conversationListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -98,18 +102,12 @@ public class FragmentConversationList extends EaseConversationListFragment {
             }
         });
 
-=======
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/FragmentConversationList.java
 
         //发广播,未读消息数
         int allnum = 0;
-      //  Log.d("FragmentConversationLis", "allnum0:" + allnum);
+        //  Log.d("FragmentConversationLis", "allnum0:" + allnum);
         Log.d("FragmentConversationLis", "conversationListView.getCount():" + conversationListView.getCount());
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/conversation/FragmentConversationList.java
         for (int i = 0; i < conversationListView.getCount(); i++) {
-=======
-        for (int i = 0; i < conversationListView.getCount()-1; i++) {
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/FragmentConversationList.java
             EMConversation conversation = conversationListView.getItem(i);
             allnum += conversation.getUnreadMsgCount();
         }
@@ -136,11 +134,8 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/conversation/FragmentConversationList.java
-     //   Log.d("FragmentConversationLis", "2");
-=======
 
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/FragmentConversationList.java
+
         EMConversation tobeDeleteCons = conversationListView.getItem(((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position);
         if (tobeDeleteCons == null) {
             return true;
@@ -155,7 +150,8 @@ public class FragmentConversationList extends EaseConversationListFragment {
         return true;
     }
 
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/conversation/FragmentConversationList.java
+
+
     private void showPopwindow(final String username) {
         final PopupWindow deletePop = new PopupWindow();
         LayoutInflater inflater = (LayoutInflater) getContext()
@@ -218,7 +214,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void uiRefresh(Boolean msg) {
-       // Log.d("FragmentConversationLis", "sub");
+        // Log.d("FragmentConversationLis", "sub");
         if (msg) {
             refresh();
             Log.d("FragmentConversationLis", "sub");
@@ -235,7 +231,6 @@ public class FragmentConversationList extends EaseConversationListFragment {
         EventBus.getDefault().unregister(this);
     }
 
-=======
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/FragmentConversationList.java
+
 
 }

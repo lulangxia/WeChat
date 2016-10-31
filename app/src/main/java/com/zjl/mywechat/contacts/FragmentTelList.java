@@ -5,10 +5,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
@@ -29,11 +33,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
 public class FragmentTelList extends EaseContactListFragment implements View.OnClickListener {
 
     private Map<String, EaseUser> mMap;
     private TextView tvUnAgreeNum;
+    private UnAgreeRequest mReceiver;
 
     @Override
     protected void initView() {
@@ -51,10 +55,10 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         tvUnAgreeNum = (TextView) headerView.findViewById(R.id.tv_unread);
 
 
-        UnAgreeRequest receiver = new UnAgreeRequest();
+        mReceiver = new UnAgreeRequest();
         IntentFilter filter = new IntentFilter();
         filter.addAction("加好友");
-        getActivity().registerReceiver(receiver, filter);
+        getActivity().registerReceiver(mReceiver, filter);
 
 
     }
@@ -107,11 +111,9 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/contacts/FragmentTelList.java
                             Log.d("FragmentTelList", "runonui");
 //                            Log.d("FragmentTelList", "mMap.get(usernames.get(0)):" + mMap.get(usernames.get(0)));
-=======
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/FragmentTelList.java
+
                             setContactsMap(mMap);
                         }
                     });
@@ -138,16 +140,14 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         });
     }
 
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/contacts/FragmentTelList.java
-=======
+
     @Override
     public void refresh() {
         setUpView();
         super.refresh();
 
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/FragmentTelList.java
 
-
+    }
     @Override
     public void onClick(View v) {
 
@@ -161,17 +161,11 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                 break;
 
             case R.id.re_chatroom:
-
-
-
                 break;
         }
     }
 
 
-
-
-<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/contacts/FragmentTelList.java
     private void showPopwindow(final String username) {
         final PopupWindow deletePop = new PopupWindow();
         LayoutInflater inflater = (LayoutInflater) getContext()
@@ -207,7 +201,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         deteText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Toast.makeText(getContext(), "shanchu", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getContext(), "shanchu", Toast.LENGTH_SHORT).show();
                 try {
                     EMClient.getInstance().contactManager().deleteContact(username);
                     deletePop.dismiss();
@@ -222,9 +216,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         } else {
             deletePop.dismiss();
         }
-=======
->>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/FragmentTelList.java
-
+    }
 
     private int num = 0;// 从数据库里面取
 
@@ -241,8 +233,9 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         }
     }
 
-
-
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mReceiver);
+    }
 }
