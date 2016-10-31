@@ -1,24 +1,19 @@
 package com.zjl.mywechat.socalfriend;
 
 
+<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/socalfriend/FragmentFind.java
 import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 
+=======
+>>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/FragmentFind.java
 import com.zjl.mywechat.base.BaseFragment;
 import com.zjl.mywechat.R;
 
-public class FragmentFind extends BaseFragment implements View.OnClickListener {
+public class FragmentFind  extends BaseFragment{
 
-
-	private RelativeLayout mFriend;
-	private RelativeLayout mErweima;
-	private RelativeLayout mYaoyiyao;
-	private RelativeLayout mYouxi;
-	private RelativeLayout mGouwu;
-	private RelativeLayout mFujian;
-	private RelativeLayout mPiaoliuping;
 
 	@Override
 	protected int setLayout() {
@@ -27,46 +22,11 @@ public class FragmentFind extends BaseFragment implements View.OnClickListener {
 
 	@Override
 	protected void initView() {
-		mFriend = bindView(R.id.re_friends);
-		mErweima = bindView(R.id.re_erweima);
-		mYaoyiyao = bindView(R.id.re_yaoyiyao);
-		mYouxi = bindView(R.id.re_youxi);
-		mGouwu = bindView(R.id.re_gouwu);
-		mFujian = bindView(R.id.re_fujin);
-		mPiaoliuping = bindView(R.id.re_piaoliuping);
+
 	}
 
 	@Override
 	protected void initData() {
-		mErweima.setOnClickListener(this);
-		mFriend.setOnClickListener(this);
-		mYaoyiyao.setOnClickListener(this);
-		mYouxi.setOnClickListener(this);
-		mGouwu.setOnClickListener(this);
-		mPiaoliuping.setOnClickListener(this);
-		mFujian.setOnClickListener(this);
 
-	}
-
-	@Override
-	public void onClick(View v) {
-
-		switch (v.getId()){
-			case R.id.re_friends:
-				startActivity(new Intent(getActivity(),SocialMainActivity.class));
-				break;
-			case R.id.re_erweima:
-				break;
-			case R.id.re_yaoyiyao:
-				break;
-			case R.id.re_youxi:
-				break;
-			case R.id.re_fujin:
-				break;
-			case R.id.re_piaoliuping:
-				break;
-			case R.id.re_gouwu:
-				break;
-		}
 	}
 }

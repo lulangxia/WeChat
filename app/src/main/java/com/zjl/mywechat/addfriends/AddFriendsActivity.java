@@ -1,10 +1,13 @@
 package com.zjl.mywechat.addfriends;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +20,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
 
 
@@ -31,6 +35,7 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
     private Button btnAdd;
     private RelativeLayout rl;
     private ProgressDialog progressDialog;
+    private EditText etAddReason;
 
     @Override
     protected int setLayout() {
@@ -44,7 +49,7 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
         toolbar.setTitle("添加朋友");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.fx_top_bar_back);
+        toolbar.setNavigationIcon(R.mipmap.fx_icon_back_n);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,15 +134,73 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
 //        }
 
 
+        showDialog();
+
+
+    }
+
+
+    private void showDialog() {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(AddFriendsActivity.this);
+        View viewAdd = LayoutInflater.from(MyApp.getmContext()).inflate(R.layout.dialog_addrequest, null);
+        etAddReason = (EditText) viewAdd.findViewById(R.id.et_dialog_addrequest);
+
+
+<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/addfriends/AddFriendsActivity.java
+                try {
+                    EMClient.getInstance().contactManager().addContact(etNum.getText().toString(), "加好友");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                            Toast.makeText(AddFriendsActivity.this, "请求已发送，请等待", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+=======
+        dialog.
+                setTitle("添加" + etNum.getText().toString() + "为好友").
+                setNegativeButton("确定发送", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+>>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/addfriends/AddFriendsActivity.java
+
+                        // 添加好友进度提示窗口
+//                        progressDialog = new ProgressDialog(MyApp.getmContext());
+//                        progressDialog.setMessage("正在发送请求");
+//                        progressDialog.setCanceledOnTouchOutside(false);
+//                        progressDialog.show();
+
+<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/addfriends/AddFriendsActivity.java
+                } catch (HyphenateException e) {
+                    Toast.makeText(AddFriendsActivity.this, "发送请求失败", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+=======
+                        newThreadAddFriends();
+>>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/addfriends/AddFriendsActivity.java
+
+                    }
+                }).
+                setPositiveButton("取消发送", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).
+                    setView(viewAdd);
+
+
+        dialog.show();
+
+
+
+    }
 
 
 
 
-        // 添加好友进度提示窗口
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("正在发送请求");
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+
+    private void newThreadAddFriends() {
 
 
         new Thread(new Runnable() {
@@ -145,11 +208,23 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
             public void run() {
 
                 try {
-                    EMClient.getInstance().contactManager().addContact(etNum.getText().toString(), "加好友");
+
+
+
+                    if (!etAddReason.getText().toString().equals("")) {
+                        // 第一个参数是你的名字，第二个参数是加好友的验证消息
+                        EMClient.getInstance().contactManager().addContact(etNum.getText().toString(), etAddReason.getText().toString());
+                    } else {
+                        // 默认验证消息
+                        EMClient.getInstance().contactManager().addContact(etNum.getText().toString(), "交个朋友吧");
+
+                    }
+
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            progressDialog.dismiss();
+//                            progressDialog.dismiss();
                             Toast.makeText(AddFriendsActivity.this, "请求已发送，请等待", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -165,26 +240,15 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
             }
         }).start();
 
-
-
-
-
     }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
 
 

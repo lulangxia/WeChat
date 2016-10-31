@@ -5,6 +5,6 @@ package com.zjl.mywechat.moudle;
  */
 
 public class MyInfoModelIme implements IMyInfoMoudel {
-    
+
 
 }

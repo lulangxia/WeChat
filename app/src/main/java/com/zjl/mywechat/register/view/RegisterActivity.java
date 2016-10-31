@@ -28,10 +28,15 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
+<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/register/view/RegisterActivity.java
 import com.zjl.mywechat.login.view.LoginActivity;
 import com.zjl.mywechat.register.presenter.RegisterPresenter;
 import com.zjl.mywechat.tool.stringvalue.FXConstant;
 import com.zjl.mywechat.tool.stringvalue.StringStatic;
+=======
+import com.zjl.mywechat.staticfinal.FXConstant;
+import com.zjl.mywechat.staticfinal.StringStatic;
+>>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/RegisterActivity.java
 import com.zjl.mywechat.widget.FXAlertDialog;
 
 import java.io.File;
@@ -58,6 +63,7 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
     @Override
     protected int setLayout() {
         return R.layout.activity_register;
+
     }
 
     @Override
@@ -77,7 +83,7 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
         mToolbar.setTitle("填写手机号");
         mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.fx_top_bar_back);
+        mToolbar.setNavigationIcon(R.drawable.toolback);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

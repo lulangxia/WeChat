@@ -1,16 +1,14 @@
 package com.zjl.mywechat.contacts;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
+import android.content.IntentFilter;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
@@ -35,11 +33,12 @@ import java.util.Map;
 public class FragmentTelList extends EaseContactListFragment implements View.OnClickListener {
 
     private Map<String, EaseUser> mMap;
+    private TextView tvUnAgreeNum;
 
     @Override
     protected void initView() {
         super.initView();
-        Log.d("FragmentTelList", "initview");
+
         View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.contract_fragment, null);
         headerView.findViewById(R.id.re_newfriends).setOnClickListener(this);
         headerView.findViewById(R.id.re_chatroom).setOnClickListener(this);
@@ -49,13 +48,21 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         getView().findViewById(R.id.search_bar_view).setVisibility(View.GONE);
         registerForContextMenu(listView);
 
+        tvUnAgreeNum = (TextView) headerView.findViewById(R.id.tv_unread);
+
+
+        UnAgreeRequest receiver = new UnAgreeRequest();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("加好友");
+        getActivity().registerReceiver(receiver, filter);
+
 
     }
 
 
     @Override
     protected void setUpView() {
-        Log.d("FragmentTelList", "setupview");
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -100,8 +107,11 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/contacts/FragmentTelList.java
                             Log.d("FragmentTelList", "runonui");
 //                            Log.d("FragmentTelList", "mMap.get(usernames.get(0)):" + mMap.get(usernames.get(0)));
+=======
+>>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/FragmentTelList.java
                             setContactsMap(mMap);
                         }
                     });
@@ -126,29 +136,16 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 
             }
         });
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                String username = ((EaseUser) listView.getItemAtPosition(position)).getUsername();
-                showPopwindow(username);
-//                try {
-//                    EMClient.getInstance().contactManager().deleteContact(chatId);
-//                } catch (HyphenateException e) {
-//                    e.printStackTrace();
-//                }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        refresh();
-                    }
-                });
-
-                return true;
-            }
-        });
     }
 
+<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/contacts/FragmentTelList.java
+=======
+    @Override
+    public void refresh() {
+        setUpView();
+        super.refresh();
+
+>>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/FragmentTelList.java
 
 
     @Override
@@ -156,24 +153,25 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 
         switch (v.getId()) {
             case R.id.re_newfriends:
-
+                // 将未读好友请求数目变成0
+                num = 0;
                 // 跳转
                 Intent intent = new Intent(getActivity(), RequestActivity.class);
                 startActivity(intent);
-
-
                 break;
 
             case R.id.re_chatroom:
 
 
+
                 break;
-
-
         }
-
     }
 
+
+
+
+<<<<<<< HEAD:app/src/main/java/com/zjl/mywechat/contacts/FragmentTelList.java
     private void showPopwindow(final String username) {
         final PopupWindow deletePop = new PopupWindow();
         LayoutInflater inflater = (LayoutInflater) getContext()
@@ -224,6 +222,27 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         } else {
             deletePop.dismiss();
         }
+=======
+>>>>>>> 8f77aa3434550888d0e81d1360439a2feaabe55b:app/src/main/java/com/zjl/mywechat/ui/FragmentTelList.java
 
+
+    private int num = 0;// 从数据库里面取
+
+    private class UnAgreeRequest extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            tvUnAgreeNum.setVisibility(View.VISIBLE);
+            tvUnAgreeNum.setText(++num + "");
+            Log.d("UnAgreeRequest", "num:" + num);
+
+
+        }
     }
+
+
+
+
+
 }
