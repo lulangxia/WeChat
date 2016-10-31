@@ -39,6 +39,7 @@
         <service
             android:name="com.hyphenate.chat.EMChatService"
             android:exported="true"/>
+
         <!-- 声明SDK所需的receiver -->
         <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
@@ -53,43 +54,41 @@
             </intent-filter>
         </receiver>
 
+
+
+
+
         <activity android:name=".ui.MainActivity">
         </activity>
+
         <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+
         <activity android:name=".ui.RegisterActivity">
         </activity>
-
-
-
-
-
-
 
         <activity android:name=".ui.ChatActivity">
 
         </activity>
         <activity android:name=".addfriends.RequestActivity">
+
         </activity>
         <activity android:name=".addfriends.AddFriendsActivity">
         </activity>
 
-
         <activity android:name=".addfriends.AddFriendsActivity">
         </activity>
-
 
         <!--<activity android:name=".view.SocialMainActivity">-->
         <!--</activity>-->
 
         <activity android:name=".ui.RegisterActivity">
         </activity>
-
 
         <activity android:name=".ui.TestOptionActivity">
         </activity>
