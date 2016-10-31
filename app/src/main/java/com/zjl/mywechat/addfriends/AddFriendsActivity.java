@@ -20,7 +20,6 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
 
 
@@ -143,7 +142,7 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
     private void showDialog() {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(AddFriendsActivity.this);
-        View viewAdd = LayoutInflater.from(MyApp.getmContext()).inflate(R.layout.dialog_addrequest, null);
+        View viewAdd = LayoutInflater.from(this).inflate(R.layout.dialog_addrequest, null);
         etAddReason = (EditText) viewAdd.findViewById(R.id.et_dialog_addrequest);
 
 

@@ -60,11 +60,13 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         mViewPager = bindView(R.id.vp_fragments_main);
         mToolbar = bindView(R.id.toolbar_main);
 
-        // 初始化DBTools
+        // 初始化DBTools,要挪到别的地方
         DBTools dbTools = DBTools.getInstance();
 
         // 控制层
         presenter = new MainPresenter(this);
+
+
 
 
     }
@@ -118,6 +120,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         registerReceiver(myBroadcastReceiver, filter);
 
 
+
+
         // 广播
 //        UnReadBroadcastReceiver receiver = new UnReadBroadcastReceiver();
 //        IntentFilter filter1 = new IntentFilter();
@@ -133,13 +137,11 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             public void onContactAgreed(String username) {
                 //好友请求被同意
                 Log.d("MainActivity", "邀请1");
-                Toast.makeText(MainActivity.this, username + "同意了你的请求", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onContactRefused(String username) {
                 //好友请求被拒绝
-                Toast.makeText(MainActivity.this, username + "拒绝了你的请求", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -153,21 +155,22 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 intent.putExtra("reason", reason);
                 sendBroadcast(intent);
 
-
                 RequestBean bean = new RequestBean();
                 bean.setName(username);
                 bean.setReason(reason);
+//                bean.setIsRead(0);
 
                 presenter.onInsert(bean);
 
+                ArrayList<RequestBean> arr = DBTools.getInstance().getmLiteOrm().query(RequestBean.class);
+                for (int i = 0; i < arr.size(); i++) {
+                    Log.d("MainActivity", "litOrmLog");
+                    Log.d("MainActivity", arr.get(i).getName());
+                }
 
 
-                EventBus eventBus = new EventBus();
-
-
-
-
-//                eventBus.post();
+                // 发送数据
+                EventBus.getDefault().post(bean);
 
 
                 // 跳转，传值，MainActivity显示角标，新的朋友右侧显示1+
@@ -178,14 +181,16 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             @Override
             public void onContactDeleted(String username) {
                 //被删除时回调此方法
-                Toast.makeText(MainActivity.this, "你已被" + username + "删除", Toast.LENGTH_SHORT).show();
+
+
             }
 
 
             @Override
             public void onContactAdded(String username) {
                 //增加了联系人时回调此方法
-                Log.d("MainActivity", "你同意了" + username + "的请求");
+
+
             }
         });
 

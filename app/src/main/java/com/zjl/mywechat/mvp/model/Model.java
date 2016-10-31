@@ -11,7 +11,7 @@ public class Model<T> implements ModelInterface{
 
 
 
-    // 963 DataBase，message表
+    // DataBase，message表
 
 
 //    @Override
@@ -52,7 +52,6 @@ public class Model<T> implements ModelInterface{
         DBTools.getInstance().getAll(new DBTools.QueryListener<T>() {
             @Override
             public void onQuery(ArrayList<T> persons) {
-
 
 
 

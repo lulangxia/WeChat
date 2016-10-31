@@ -39,11 +39,12 @@ public class DBTools {
                 }
             }
         }
-
         return sDbTools;
     }
 
-
+    public LiteOrm getmLiteOrm() {
+        return mLiteOrm;
+    }
 
     // 需要封装
 
@@ -57,6 +58,7 @@ public class DBTools {
         threadPool.execute(new Runnable() {
             @Override
             public void run() {
+                Log.d("DBTools", "添加成功DBTools");
                 mLiteOrm.insert(bean);
             }
         });

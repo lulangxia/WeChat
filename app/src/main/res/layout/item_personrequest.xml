@@ -3,7 +3,7 @@
               xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="60dp">
 
 
     <ImageView
@@ -14,25 +14,69 @@
         android:src="@mipmap/profile_pressed"
         />
 
-    <TextView
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/iv_person_request"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="添加好友"
+            android:textSize="15sp"
+            android:id="@+id/tv_request_name"
+            />
+
+        <TextView
+            android:id="@+id/tv_request_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="添加原因"
+            android:textSize="15sp"
+            />
+
+    </LinearLayout>
+
+
+
+
+
+
+
+    <Button
+        android:id="@+id/btn_request_agree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="添加好友"
-        android:textSize="15sp"
-        android:layout_toRightOf="@+id/iv_person_request"
+        android:text="同意"
+        android:layout_toLeftOf="@+id/btn_request_disagree"
+        android:layout_margin="10dp"
         android:layout_centerVertical="true"
-        android:id="@+id/tv_request_name"
+        />
+
+    <Button
+        android:id="@+id/btn_request_disagree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="拒绝"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         />
 
 
+
     <TextView
+        android:id="@+id/tv_request_isagree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="添加成功or失败"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:textSize="20sp"
-        android:id="@+id/tv_request_isagree"
+        android:visibility="gone"
         />
 
 
