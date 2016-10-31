@@ -1,4 +1,4 @@
-package com.zjl.mywechat.view;
+package com.zjl.mywechat.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

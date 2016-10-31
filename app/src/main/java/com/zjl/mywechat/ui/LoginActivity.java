@@ -1,4 +1,4 @@
-package com.zjl.mywechat.view;
+package com.zjl.mywechat.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

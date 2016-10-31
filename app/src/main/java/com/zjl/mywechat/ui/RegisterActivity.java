@@ -1,4 +1,4 @@
-package com.zjl.mywechat.view;
+package com.zjl.mywechat.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -26,7 +26,7 @@ import android.widget.Toast;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
-import com.zjl.mywechat.R;
+
 import com.zjl.mywechat.base.BaseAty;
 import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.staticfinal.StringStatic;
@@ -56,6 +56,7 @@ public class RegisterActivity extends BaseAty {
     @Override
     protected int setLayout() {
         return R.layout.activity_register;
+
     }
 
     @Override
