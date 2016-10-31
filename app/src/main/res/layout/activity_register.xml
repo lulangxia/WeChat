@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical"
-    tools:context="com.zjl.mywechat.ui.RegisterActivity">
+    tools:context="com.zjl.mywechat.register.view.RegisterActivity">
 
     <include
         android:id="@+id/toolbar_register"

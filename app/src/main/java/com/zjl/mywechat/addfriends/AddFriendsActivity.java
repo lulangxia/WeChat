@@ -29,7 +29,7 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
 
     private EditText etNum;
     private ImageView ivSearch;
-//    private ListView lv;
+    //    private ListView lv;
     private TextView tvName;
     private Button btnAdd;
     private RelativeLayout rl;
@@ -68,12 +68,6 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
         btnAdd = bindView(R.id.btn_addperson);
 
 
-
-
-
-
-
-
     }
 
     @Override
@@ -83,8 +77,6 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
         ivSearch.setOnClickListener(this);
 
         btnAdd.setOnClickListener(this);
-
-
 
 
     }
@@ -104,8 +96,6 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
     }
 
 
-
-
     private void search() {
         String str = etNum.getText().toString();
         if (TextUtils.isEmpty(str)) {
@@ -123,7 +113,7 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
         if (EMClient.getInstance().getCurrentUser().equals(etNum.getText().toString())) {
             new EaseAlertDialog(this, "不能添加自己").show();
             return;
-        } else if(EMClient.getInstance().contactManager().getBlackListUsernames().contains(etNum.getText().toString())) {
+        } else if (EMClient.getInstance().contactManager().getBlackListUsernames().contains(etNum.getText().toString())) {
             new EaseAlertDialog(this, "该好友在你的黑名单里面").show();
             return;
         }
@@ -168,17 +158,13 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
                         dialog.dismiss();
                     }
                 }).
-                    setView(viewAdd);
+                setView(viewAdd);
 
 
         dialog.show();
 
 
-
     }
-
-
-
 
 
     private void newThreadAddFriends() {
@@ -189,7 +175,6 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
             public void run() {
 
                 try {
-
 
 
                     if (!etAddReason.getText().toString().equals("")) {
@@ -224,13 +209,10 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
     }
 
 
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
-
 
 
 }

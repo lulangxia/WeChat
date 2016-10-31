@@ -55,24 +55,28 @@
         </receiver>
 
 
-
-
-
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".main.MainActivity">
         </activity>
+        <activity android:name=".login.view.LoginActivity">
 
-        <activity android:name=".ui.LoginActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-
-        <activity android:name=".ui.RegisterActivity">
+        <activity android:name=".register.view.RegisterActivity">
         </activity>
 
-        <activity android:name=".ui.ChatActivity">
+
+
+
+
+
+
+
+        <activity android:name=".conversation.ChatActivity">
 
         </activity>
         <activity android:name=".addfriends.RequestActivity">
@@ -81,17 +85,20 @@
         <activity android:name=".addfriends.AddFriendsActivity">
         </activity>
 
-        <activity android:name=".addfriends.AddFriendsActivity">
-        </activity>
+
 
         <!--<activity android:name=".view.SocialMainActivity">-->
         <!--</activity>-->
 
-        <activity android:name=".ui.RegisterActivity">
+
+
+
+        <activity android:name=".socalfriend.SocialMainActivity">
         </activity>
 
-        <activity android:name=".ui.TestOptionActivity">
-        </activity>
+
+        <activity android:name=".me.TestOptionActivity"/>
+
 
     </application>
 

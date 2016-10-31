@@ -1,4 +1,4 @@
-package com.zjl.mywechat.ui;
+package com.zjl.mywechat.main;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,22 +17,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.EMContactListener;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.addfriends.RequestBean;
 import com.zjl.mywechat.base.BaseAty;
+import com.zjl.mywechat.bean.RequestBean;
+import com.zjl.mywechat.contacts.FragmentTelList;
+import com.zjl.mywechat.conversation.FragmentConversationList;
 import com.zjl.mywechat.database.DBTools;
+import com.zjl.mywechat.me.FragmentMy;
 import com.zjl.mywechat.mvp.presenter.MainPresenter;
 import com.zjl.mywechat.mvp.view.MainView;
-import com.zjl.mywechat.staticfinal.Constant;
+import com.zjl.mywechat.socalfriend.FragmentFind;
+import com.zjl.mywechat.tool.stringvalue.Constant;
 import com.zjl.mywechat.ui.adapter.MainAdapter;
+import com.zjl.mywechat.widget.AddPopwindow;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickListener ,MainView{
+public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickListener,MainView {
 
 
     private TabLayout mTabLayout;
@@ -43,6 +51,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     private TextView mUnknow;
     public static MainActivity instance = null;
     private UnReadBroadcastReceiver myBroadcastReceiver;
+    private int mFirstNum = 0;
 
     private int num = 0;
     private MainPresenter presenter;
@@ -111,7 +120,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         mUnagreenum.setVisibility(View.INVISIBLE);
 
 
-
         //接收未读消息数广播接收器
         myBroadcastReceiver = new UnReadBroadcastReceiver();
         IntentFilter filter = new IntentFilter();
@@ -119,6 +127,36 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         filter.addAction("加好友");
         registerReceiver(myBroadcastReceiver, filter);
 
+        EMMessageListener msgListener = new EMMessageListener() {
+
+            @Override
+            public void onMessageReceived(final List<EMMessage> messages) {
+                //收到消息
+                Log.d("MainActivity", "收到消息");
+                Log.d("MainActivity", "messages.size():" + messages.size());
+                Log.d("MainActivity", messages.get(0).getBody().toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("MainActivity", "消息增加");
+                        mFirstNum = mFirstNum + messages.size();
+                        mUnreadnum.setText(mFirstNum + "");
+                        mUnreadnum.setVisibility(View.VISIBLE);
+                        mToolbar.setTitle("微信" + "(" + mFirstNum + ")");
+                        Boolean newmsg = true;
+                        EventBus.getDefault().post(newmsg);
+                    }
+                });
+            }
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> messages) {
+                //收到透传消息
+                Log.d("MainActivity", "透传消息");
+            }
+
+            @Override
+            public void onMessageReadAckReceived(List<EMMessage> list) {
 
 
 
@@ -127,9 +165,22 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 //        IntentFilter filter1 = new IntentFilter();
 //        registerReceiver(receiver, filter1);
 
+            }
 
+            @Override
+            public void onMessageDeliveryAckReceived(List<EMMessage> message) {
+                //收到已送达回执
+                Log.d("MainActivity", "收到已送达回执");
 
+            }
 
+            @Override
+            public void onMessageChanged(EMMessage message, Object change) {
+                Log.d("MainActivity", change.toString());
+                //消息状态变动
+            }
+        };
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
 
         EMClient.getInstance().contactManager().setContactListener(new EMContactListener() {
 
@@ -143,6 +194,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             public void onContactRefused(String username) {
                 //好友请求被拒绝
             }
+
 
             @Override
             public void onContactInvited(String username, String reason) {
@@ -172,7 +224,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 // 发送数据
                 EventBus.getDefault().post(bean);
 
-
                 // 跳转，传值，MainActivity显示角标，新的朋友右侧显示1+
                 // 点进去是一个listView，存储主动请求和被动请求（数据库），右边填写同意or不同意
 
@@ -192,12 +243,11 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
 
             }
+
+
         });
-
-
-
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -221,26 +271,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         return true;
     }
 
-
-
-    // 继承来的方法
     @Override
     public void showMessageView() {
-
-        // 功能不需要写了
-//         消息列表里边，数字就用集合表示，利用查询的返回值的
-//         ArrayList<int> 根据ArrayList长度去设定
-//         对不同联系人的匹配问题
-
-        // 参数应该传来一个ArrayLis<int>类型的，如果是和=0，就隐藏
-
-        // 监听到新消息后，用presenter立即插入到数据库
-
-        // 点击后，（视为已读，presenter设置isRead参数为0）
-
-        // presenter调用这个方法，将右上角的图标设定数据显示出来
-        // 但是这个数字是要从数据库的查询未读消息数目显示
-
 
     }
 
@@ -253,43 +285,52 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     public void showUnKnownView() {
 
     }
-
-
-
-
-    // 广播接收者
-    class UnReadBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            int num = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
-            Log.d("UnReadBroadcastReceiver", "num:" + num);
-            if (num <= 0) {
-                mUnreadnum.setVisibility(View.INVISIBLE);
-            } else {
-                mUnreadnum.setVisibility(View.VISIBLE);
-                mUnreadnum.setText(num + "");
-            }
-
-
-
-            int unAgreeNum = intent.getIntExtra("num", 0);
-            Log.d("UnReadBroadcastReceiver", "unAgreeNum:" + unAgreeNum);
-
-            if (unAgreeNum <= 0) {
-                mUnagreenum.setVisibility(View.INVISIBLE);
-            } else {
-                mUnagreenum.setVisibility(View.VISIBLE);
-                mUnagreenum.setText(unAgreeNum + "");
-            }
-
-
-
-        }
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(myBroadcastReceiver);
     }
+
+    // 广播接收者
+    class UnReadBroadcastReceiver extends BroadcastReceiver {
+        private boolean flag = true;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("UnReadBroadcastReceiver", "收到广播");
+            if (flag) {
+                mFirstNum = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
+                Log.d("UnReadBroadcastReceiver", "num:" + mFirstNum);
+                if (mFirstNum <= 0) {
+                    mUnreadnum.setVisibility(View.INVISIBLE);
+                    mToolbar.setTitle("微信");
+                } else {
+                    mUnreadnum.setVisibility(View.VISIBLE);
+                    mUnreadnum.setText(mFirstNum + "");
+                    mToolbar.setTitle("微信" + "(" + mFirstNum + ")");
+                }
+                flag = false;
+                int num = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
+                Log.d("UnReadBroadcastReceiver", "num:" + num);
+                if (num <= 0) {
+                    mUnreadnum.setVisibility(View.INVISIBLE);
+                } else {
+                    mUnreadnum.setVisibility(View.VISIBLE);
+                    mUnreadnum.setText(num + "");
+                }
+                int unAgreeNum = intent.getIntExtra("num", 0);
+                Log.d("UnReadBroadcastReceiver", "unAgreeNum:" + unAgreeNum);
+
+                if (unAgreeNum <= 0) {
+                    mUnagreenum.setVisibility(View.INVISIBLE);
+                } else {
+                    mUnagreenum.setVisibility(View.VISIBLE);
+                    mUnagreenum.setText(unAgreeNum + "");
+                }
+
+
+            }
+        }
+    }
+
 }

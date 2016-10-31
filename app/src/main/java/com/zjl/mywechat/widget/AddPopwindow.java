@@ -1,4 +1,4 @@
-package com.zjl.mywechat.ui;
+package com.zjl.mywechat.widget;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

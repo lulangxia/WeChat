@@ -35,4 +35,5 @@ dependencies {
     compile project(':easeUI_CN')
     compile 'org.greenrobot:eventbus:3.0.0'
     compile project(':librar')
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

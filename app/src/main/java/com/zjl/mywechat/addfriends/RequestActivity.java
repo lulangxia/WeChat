@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
+import com.zjl.mywechat.bean.RequestBean;
 
 import java.util.ArrayList;
 

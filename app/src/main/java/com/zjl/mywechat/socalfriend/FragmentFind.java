@@ -1,10 +1,10 @@
-package com.zjl.mywechat.ui;
+package com.zjl.mywechat.socalfriend;
 
 
-import com.zjl.mywechat.base.BaseFragment;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.base.BaseFragment;
 
-public class FragmentFind  extends BaseFragment{
+public class FragmentFind  extends BaseFragment {
 
 
 	@Override
@@ -14,7 +14,7 @@ public class FragmentFind  extends BaseFragment{
 
 	@Override
 	protected void initView() {
-
+		
 	}
 
 	@Override

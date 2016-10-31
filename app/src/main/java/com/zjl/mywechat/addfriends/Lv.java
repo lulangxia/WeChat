@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.bean.RequestBean;
 
 import java.util.ArrayList;
 

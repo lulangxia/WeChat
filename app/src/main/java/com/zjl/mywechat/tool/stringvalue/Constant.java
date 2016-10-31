@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zjl.mywechat.staticfinal;
+package com.zjl.mywechat.tool.stringvalue;
 
 import com.hyphenate.easeui.EaseConstant;
 
@@ -30,4 +30,6 @@ public class Constant extends EaseConstant {
 
 	public static final String UNREAD_MSG = "unreadmessage";
 	public static final String UNREAD_MSG_CONVERSA = "conversation";
+
+	private final static int MSG_REFRESH = 2;
 }

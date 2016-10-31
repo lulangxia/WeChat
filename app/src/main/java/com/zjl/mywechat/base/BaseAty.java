@@ -49,6 +49,10 @@ public abstract class BaseAty extends AppCompatActivity {
         return (T) findViewById(id);
     }
 
+    public void back(View view){
+        finish();
+    }
+
 
 
 

@@ -1,4 +1,4 @@
-package com.zjl.mywechat.ui;
+package com.zjl.mywechat.register.view;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -24,13 +24,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hyphenate.EMError;
-import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
-import com.zjl.mywechat.staticfinal.FXConstant;
-import com.zjl.mywechat.staticfinal.StringStatic;
+
+import com.zjl.mywechat.login.view.LoginActivity;
+import com.zjl.mywechat.register.presenter.RegisterPresenter;
+import com.zjl.mywechat.tool.stringvalue.FXConstant;
+import com.zjl.mywechat.tool.stringvalue.StringStatic;
 import com.zjl.mywechat.widget.FXAlertDialog;
 
 import java.io.File;
@@ -39,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class RegisterActivity extends BaseAty {
+public class RegisterActivity extends BaseAty implements IRegisterView {
 
     private Toolbar mToolbar;
     private EditText mUsername;
@@ -52,6 +54,7 @@ public class RegisterActivity extends BaseAty {
     private static final int PHOTO_REQUEST_CUT = 3;// 结果
     private ImageView mShowimg;
     private String imageName = "false";
+    private RegisterPresenter mPresenter;
 
     @Override
     protected int setLayout() {
@@ -66,6 +69,9 @@ public class RegisterActivity extends BaseAty {
         mPassword = bindView(R.id.et_password);
         mRegister = bindView(R.id.btn_register);
         mShowimg = bindView(R.id.iv_photo);
+
+        mDialog = createDialog();
+        mPresenter = new RegisterPresenter(this);
     }
 
     @Override
@@ -88,7 +94,8 @@ public class RegisterActivity extends BaseAty {
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                register();
+                //   register();
+                mPresenter.startRequest(mUsername.getText().toString().trim(), mPassword.getText().toString().trim());
             }
         });
         mShowimg.setOnClickListener(new View.OnClickListener() {
@@ -98,83 +105,7 @@ public class RegisterActivity extends BaseAty {
             }
         });
 
-    }
 
-    public void register() {
-
-        mDialog = new ProgressDialog(this);
-        mDialog.setMessage("注册中，请稍后...");
-        mDialog.show();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //注册失败会抛出HyphenateException
-                try {
-                    EMClient.getInstance().createAccount(mUsername.getText().toString().trim(), mPassword.getText().toString().trim());//同步方法
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!RegisterActivity.this.isFinishing()) {
-                                mDialog.dismiss();
-                            }
-                            Log.d("MainActivity", "注册成功");
-                        }
-                    });
-
-                } catch (final HyphenateException e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!RegisterActivity.this.isFinishing()) {
-                                mDialog.dismiss();
-                            }
-                            /**
-                             * 关于错误码可以参考官方api详细说明
-                             * http://www.easemob.com/apidoc/android/chat3.0/classcom_1_1hyphenate_1_1_e_m_error.html
-                             */
-                            int errorCode = e.getErrorCode();
-                            String message = e.getMessage();
-                            Log.d("register", String.format("sign up - errorCode:%d, errorMsg:%s", errorCode, e.getMessage()));
-                            switch (errorCode) {
-                                // 网络错误
-                                case EMError.NETWORK_ERROR:
-                                    Toast.makeText(RegisterActivity.this, "网络错误 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
-                                    break;
-                                // 用户已存在
-                                case EMError.USER_ALREADY_EXIST:
-                                    Toast.makeText(RegisterActivity.this, "用户已存在 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
-                                    break;
-                                // 参数不合法，一般情况是username 使用了uuid导致，不能使用uuid注册
-                                case EMError.USER_ILLEGAL_ARGUMENT:
-                                    Toast.makeText(RegisterActivity.this, "参数不合法，一般情况是username 使用了uuid导致，不能使用uuid注册 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
-                                    break;
-                                // 服务器未知错误
-                                case EMError.SERVER_UNKNOWN_ERROR:
-                                    Toast.makeText(RegisterActivity.this, "服务器未知错误 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
-                                    break;
-                                case EMError.USER_REG_FAILED:
-                                    Toast.makeText(RegisterActivity.this, "账户注册失败 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
-                                    break;
-                                default:
-                                    Toast.makeText(RegisterActivity.this, "ml_sign_up_failed code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
-                                    break;
-                            }
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-        intent.putExtra(StringStatic.USERNAME, mUsername.getText().toString());
-        intent.putExtra(StringStatic.PASSWORD, mPassword.getText().toString());
-        Log.d("RegisterActivity", "mPassword.getText():" + mUsername.getText().toString());
-        setResult(StringStatic.REQUESTCODE, intent);
-        mDialog.dismiss();
-        finish();
     }
 
     // 拍照部分
@@ -200,18 +131,26 @@ public class RegisterActivity extends BaseAty {
                         } else {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             // 指定调用相机拍照后照片的储存路径
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                                    Uri.fromFile(new File(FXConstant.DIR_AVATAR, imageName)));
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(FXConstant.DIR_AVATAR, imageName)));
                             startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
                         }
                         break;
                     case 1:
                         Log.d("RegisterActivity", "aaa11");
                         imageName = getNowTime() + ".png";
-                        Intent intent2 = new Intent(Intent.ACTION_PICK, null);
-                        intent2.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                        startActivityForResult(intent2, PHOTO_REQUEST_GALLERY);
-                        break;
+                        if (ContextCompat.checkSelfPermission(MyApp.getmContext(),
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions((Activity) MyApp.getmContext(),
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    1);
+
+                        } else {
+                            Intent intent2 = new Intent(Intent.ACTION_PICK, null);
+                            intent2.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                            startActivityForResult(intent2, PHOTO_REQUEST_GALLERY);
+                            break;
+                        }
                 }
             }
         });
@@ -289,6 +228,72 @@ public class RegisterActivity extends BaseAty {
         return dateFormat.format(date);
     }
 
+    @Override
+    public void showDialog() {
+        mDialog.show();
+    }
+
+    @Override
+    public void dismissDialog() {
+        mDialog.dismiss();
+    }
+
+    @Override
+    public void onResponse(String username, String password) {
+
+
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        intent.putExtra(StringStatic.USERNAME, mUsername.getText().toString());
+        intent.putExtra(StringStatic.PASSWORD, mPassword.getText().toString());
+        Log.d("RegisterActivity", "mPassword.getText():" + mUsername.getText().toString());
+        setResult(StringStatic.REQUESTCODE, intent);
+        finish();
+    }
+
+    @Override
+    public void onError(final Throwable error) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!RegisterActivity.this.isFinishing()) {
+                    mDialog.dismiss();
+                }
+                /**
+                 * 关于错误码可以参考官方api详细说明
+                 * http://www.easemob.com/apidoc/android/chat3.0/classcom_1_1hyphenate_1_1_e_m_error.html
+                 */
+                HyphenateException e = (HyphenateException) error;
+                int errorCode = e.getErrorCode();
+                String message = e.getMessage();
+                Log.d("register", String.format("sign up - errorCode:%d, errorMsg:%s", errorCode, e.getMessage()));
+                switch (errorCode) {
+                    // 网络错误
+                    case EMError.NETWORK_ERROR:
+                        Toast.makeText(RegisterActivity.this, "网络错误 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                        break;
+                    // 用户已存在
+                    case EMError.USER_ALREADY_EXIST:
+                        Toast.makeText(RegisterActivity.this, "用户已存在 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                        break;
+                    // 参数不合法，一般情况是username 使用了uuid导致，不能使用uuid注册
+                    case EMError.USER_ILLEGAL_ARGUMENT:
+                        Toast.makeText(RegisterActivity.this, "参数不合法，一般情况是username 使用了uuid导致，不能使用uuid注册 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                        break;
+                    // 服务器未知错误
+                    case EMError.SERVER_UNKNOWN_ERROR:
+                        Toast.makeText(RegisterActivity.this, "服务器未知错误 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                        break;
+                    case EMError.USER_REG_FAILED:
+                        Toast.makeText(RegisterActivity.this, "账户注册失败 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                        break;
+                    default:
+                        Toast.makeText(RegisterActivity.this, "ml_sign_up_failed code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                        break;
+                }
+            }
+        });
+    }
+
     class TextChange implements TextWatcher {
 
         @Override
@@ -308,8 +313,6 @@ public class RegisterActivity extends BaseAty {
 
             boolean Sign1 = mUsername.getText().length() > 0;
             boolean Sign2 = mPassword.getText().length() > 0;
-
-
             if (Sign1 & Sign2) {
 
                 mRegister.setEnabled(true);
@@ -320,7 +323,13 @@ public class RegisterActivity extends BaseAty {
                 mRegister.setEnabled(false);
             }
         }
-
-
     }
+
+    public ProgressDialog createDialog() {
+        ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("注册中，请稍后...");
+        return dialog;
+    }
+
+
 }
