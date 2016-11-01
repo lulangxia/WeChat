@@ -9,4 +9,5 @@
     <dimen name="tab_friend">8dp</dimen>
     <dimen name="contract_img">35dp</dimen>
     <dimen name="logintextsize">16sp</dimen>
+    <dimen name="foot">15sp</dimen>
 </resources>

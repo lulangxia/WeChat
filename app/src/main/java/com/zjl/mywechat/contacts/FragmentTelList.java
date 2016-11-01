@@ -23,6 +23,7 @@ import com.zjl.mywechat.R;
 import com.zjl.mywechat.addfriends.RequestActivity;
 import com.zjl.mywechat.bean.RequestBean;
 import com.zjl.mywechat.conversation.ChatActivity;
+import com.zjl.mywechat.group.GrouplistActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -176,6 +177,8 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                 break;
 
             case R.id.re_chatroom:
+                Intent intent1 = new Intent(getActivity(), GrouplistActivity.class);
+                startActivity(intent1);
                 break;
         }
     }

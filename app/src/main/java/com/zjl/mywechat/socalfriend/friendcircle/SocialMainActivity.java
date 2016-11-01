@@ -1,4 +1,4 @@
-package com.zjl.mywechat.socalfriend;
+package com.zjl.mywechat.socalfriend.friendcircle;
 
 import android.app.AlertDialog;
 import android.content.Intent;

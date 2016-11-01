@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#fff"
-    tools:context="com.zjl.mywechat.socalfriend.MomentsPublishActivity">
+    tools:context="com.zjl.mywechat.socalfriend.friendcircle.MomentsPublishActivity">
 
     <RelativeLayout
         android:id="@+id/title"

@@ -75,10 +75,14 @@
         <!-- <activity android:name=".view.SocialMainActivity"> -->
         <!-- </activity> -->
 
-        <activity android:name=".socalfriend.SocialMainActivity">
+        <activity android:name=".socalfriend.friendcircle.SocialMainActivity">
         </activity>
         <activity android:name=".me.TestOptionActivity"/>
-        <activity android:name=".socalfriend.MomentsPublishActivity">
+        <activity android:name=".socalfriend.friendcircle.MomentsPublishActivity">
+        </activity>
+        <activity android:name=".socalfriend.qrcode.QrcodeActivity">
+        </activity>
+        <activity android:name=".group.GrouplistActivity">
         </activity>
     </application>
 
