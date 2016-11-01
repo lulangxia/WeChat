@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
@@ -11,27 +12,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.base.BaseAty;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
-public class SocialMainActivity extends BaseAty {
+public class SocialMainActivity extends BaseActivity{
 
     private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
     private String mImageName;
-
+    String userID ;
+    List<String> sIDs = new ArrayList<>();
     @Override
-    protected int setLayout() {
-        return R.layout.activity_social_main;
+    protected void onCreate(Bundle arg0) {
+        setContentView(R.layout.activity_social_main);
+        super.onCreate(arg0);
+        userID = this.getIntent().getStringExtra("userID");
+        initFile();
+        initView();
     }
 
-    @Override
-    protected void initView() {
-        initFile();
+
+    private void initView() {
+
         ImageView iv_camera = (ImageView) findViewById(R.id.iv_camera);
         iv_camera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,10 +48,6 @@ public class SocialMainActivity extends BaseAty {
         });
     }
 
-    @Override
-    protected void initData() {
-
-    }
     private void initFile(){
         File dir = new File("/sdcard/bizchat");
         if (!dir.exists()) {

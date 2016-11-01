@@ -5,6 +5,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,7 +30,10 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.zjl.mywechat.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -131,7 +137,15 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
         String imageUrl = uri_temp.getPath();
         String imageName_temp = imageUrl
                 .substring(imageUrl.lastIndexOf("/") + 1);
-        if ((new File("/sdcard/bizchat/" + imageName_temp)).exists()) {
+        // 生成大图
+        save(imageUrl, 200, "big_" + imageName_temp);
+        // 生成小图
+        save(imageUrl, 60, imageName_temp);
+        Log.e("imageUrl---->>>>", imageUrl);
+        Log.e("imageName_temp---->>>>", imageName_temp);
+        if ((new File("/sdcard/bizchat/" + imageName_temp)).exists()&&
+                (new File("/sdcard/bizchat/" + "big_" + imageName_temp))
+                .exists()) {
             if (!is_first) {
                 Toast.makeText(this, "成功聊", Toast.LENGTH_SHORT).show();
                 lists.add(uri_temp);
@@ -282,6 +296,88 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
                     }
                 });
             }
+        }
+    }
+    private void save(String path, int size, String saveName) {
+
+        try {
+            // File f = new File(path);
+
+            Bitmap bm = PictureUtil.getSmallBitmap(path);
+            int degree = readPictureDegree(path);
+
+            if (degree != 0) {// 旋转照片角度
+                bm = rotateBitmap(bm, degree);
+            }
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+            FileOutputStream fos = new FileOutputStream(new File(
+                    PictureUtil.getAlbumDir(), saveName));
+
+            int options = 100;
+            // 如果大于80kb则再次压缩,最多压缩三次
+            while (baos.toByteArray().length / 1024 > size && options > 10) {
+                // 清空baos
+                baos.reset();
+                // 这里压缩options%，把压缩后的数据存放到baos中
+                bm.compress(Bitmap.CompressFormat.JPEG, options, baos);
+                options -= 30;
+            }
+
+            fos.write(baos.toByteArray());
+            fos.close();
+            baos.close();
+            // bm.compress(Bitmap.CompressFormat.JPEG, 70, fos);
+
+            // Toast.makeText(this, "Compress OK!", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+
+        }
+
+    }
+    public static int readPictureDegree(String path) {
+        int degree = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(path);
+            int orientation = exifInterface.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return degree;
+    }
+    public static Bitmap rotateBitmap(Bitmap bitmap, int degress) {
+        if (bitmap != null) {
+            Matrix m = new Matrix();
+            m.postRotate(degress);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                    bitmap.getHeight(), m, true);
+            return bitmap;
+        }
+        return bitmap;
+    }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        if (mDialog != null && mDialog.isShowing()) {
+            mDialog.dismiss();
         }
     }
 }
