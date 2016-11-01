@@ -55,6 +55,7 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
     private ImageView mShowimg;
     private String imageName = "false";
     private RegisterPresenter mPresenter;
+    private EditText mNick;
 
     @Override
     protected int setLayout() {
@@ -64,6 +65,7 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
 
     @Override
     protected void initView() {
+        mNick = bindView(R.id.et_usernick);
         mToolbar = bindView(R.id.toolbar_register);
         mUsername = bindView(R.id.et_usertel);
         mPassword = bindView(R.id.et_password);
@@ -95,7 +97,8 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
             @Override
             public void onClick(View v) {
                 //   register();
-                mPresenter.startRequest(mUsername.getText().toString().trim(), mPassword.getText().toString().trim());
+                mPresenter.startRequest(mUsername.getText().toString().trim(), mPassword.getText().toString().trim(),(FXConstant.DIR_AVATAR
+                        + imageName),mNick.getText().toString());
             }
         });
         mShowimg.setOnClickListener(new View.OnClickListener() {

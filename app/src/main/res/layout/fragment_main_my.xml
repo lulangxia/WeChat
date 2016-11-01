@@ -24,6 +24,7 @@
             />
 
         <TextView
+            android:id="@+id/te_my_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -37,7 +38,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="30dp"
-            android:background="@mipmap/my_two_demension_code"
+            android:scaleType="fitXY"
+            android:src="@mipmap/my_two_demension_code"
             />
     </RelativeLayout>
 

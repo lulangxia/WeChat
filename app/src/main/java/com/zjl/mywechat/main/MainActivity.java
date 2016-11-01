@@ -1,9 +1,7 @@
 package com.zjl.mywechat.main;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -30,17 +28,18 @@ import com.zjl.mywechat.me.FragmentMy;
 import com.zjl.mywechat.mvp.presenter.MainPresenter;
 import com.zjl.mywechat.mvp.view.MainView;
 import com.zjl.mywechat.socalfriend.FragmentFind;
-import com.zjl.mywechat.tool.stringvalue.Constant;
 import com.zjl.mywechat.ui.adapter.MainAdapter;
 import com.zjl.mywechat.widget.AddPopwindow;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickListener,MainView {
+public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickListener, MainView {
 
 
     private TabLayout mTabLayout;
@@ -50,10 +49,13 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     private TextView mUnagreenum;
     private TextView mUnknow;
     public static MainActivity instance = null;
-    private UnReadBroadcastReceiver myBroadcastReceiver;
-    private int mFirstNum = 0;
 
-    private int num = 0;
+
+    private SharedPreferences sp;
+    private SharedPreferences.Editor spET;
+
+
+    private int mFirstNum = 0;
     private MainPresenter presenter;
 
 
@@ -64,10 +66,16 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
     @Override
     protected void initView() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+            Log.d("FragmentConversationLis", "re");
+        }
+
         instance = this;
         mTabLayout = bindView(R.id.tb_titles_main);
         mViewPager = bindView(R.id.vp_fragments_main);
         mToolbar = bindView(R.id.toolbar_main);
+
 
         // 初始化DBTools,要挪到别的地方
         DBTools dbTools = DBTools.getInstance();
@@ -76,12 +84,15 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         presenter = new MainPresenter(this);
 
 
-
-
     }
 
     @Override
     protected void initData() {
+        sp = getSharedPreferences("shared", MODE_PRIVATE);
+        spET = sp.edit();
+
+        mFirstNum = sp.getInt("unreadnum", 0);
+
 
         mToolbar.setTitle("微信");
         mToolbar.setTitleTextColor(Color.WHITE);
@@ -112,20 +123,20 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         //mTabLayout.getTabAt(3).setIcon(R.drawable.tab_profile);
         mTabLayout.getTabAt(3).setCustomView(R.layout.weixin_tab04);
 
+
         mUnreadnum = (TextView) mTabLayout.findViewById(R.id.unread_msg_number);
         mUnagreenum = (TextView) mTabLayout.findViewById(R.id.unagree_msg_number);
         mUnknow = (TextView) mTabLayout.findViewById(R.id.unknow_msg);
-
         mUnreadnum.setVisibility(View.INVISIBLE);
         mUnagreenum.setVisibility(View.INVISIBLE);
 
+        Log.d("MainActivity", "mFirstNum:" + mFirstNum);
+        if (mFirstNum != 0) {
+            mUnreadnum.setVisibility(View.VISIBLE);
+            mToolbar.setTitle("微信" + "(" + mFirstNum + ")");
+            mUnreadnum.setText(mFirstNum + "");
+        }
 
-        //接收未读消息数广播接收器
-        myBroadcastReceiver = new UnReadBroadcastReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Constant.UNREAD_MSG);
-        filter.addAction("加好友");
-        registerReceiver(myBroadcastReceiver, filter);
 
         EMMessageListener msgListener = new EMMessageListener() {
 
@@ -145,6 +156,9 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                         mToolbar.setTitle("微信" + "(" + mFirstNum + ")");
                         Boolean newmsg = true;
                         EventBus.getDefault().post(newmsg);
+                        spET.putInt("unreadnum", mFirstNum);
+                        spET.commit();
+                        Log.d("MainActivity", "mFirstNum:" + mFirstNum);
                     }
                 });
             }
@@ -158,14 +172,16 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             @Override
             public void onMessageReadAckReceived(List<EMMessage> list) {
 
+                //收到已读回执
+                Log.d("MainActivity", "收到已读回执");
+            }
 
 
-        // 广播
+            // 广播
 //        UnReadBroadcastReceiver receiver = new UnReadBroadcastReceiver();
 //        IntentFilter filter1 = new IntentFilter();
 //        registerReceiver(receiver, filter1);
 
-            }
 
             @Override
             public void onMessageDeliveryAckReceived(List<EMMessage> message) {
@@ -188,6 +204,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             public void onContactAgreed(String username) {
                 //好友请求被同意
                 Log.d("MainActivity", "邀请1");
+                Boolean refresh = true;
+                EventBus.getDefault().post(refresh);
             }
 
             @Override
@@ -232,16 +250,16 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             @Override
             public void onContactDeleted(String username) {
                 //被删除时回调此方法
-
-
+                Boolean refresh = true;
+                EventBus.getDefault().post(refresh);
             }
 
 
             @Override
             public void onContactAdded(String username) {
                 //增加了联系人时回调此方法
-
-
+                Boolean refresh = true;
+                EventBus.getDefault().post(refresh);
             }
 
 
@@ -285,52 +303,35 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     public void showUnKnownView() {
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(myBroadcastReceiver);
+
+        EventBus.getDefault().unregister(this);
     }
 
-    // 广播接收者
-    class UnReadBroadcastReceiver extends BroadcastReceiver {
-        private boolean flag = true;
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d("UnReadBroadcastReceiver", "收到广播");
-            if (flag) {
-                mFirstNum = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
-                Log.d("UnReadBroadcastReceiver", "num:" + mFirstNum);
-                if (mFirstNum <= 0) {
-                    mUnreadnum.setVisibility(View.INVISIBLE);
-                    mToolbar.setTitle("微信");
-                } else {
-                    mUnreadnum.setVisibility(View.VISIBLE);
-                    mUnreadnum.setText(mFirstNum + "");
-                    mToolbar.setTitle("微信" + "(" + mFirstNum + ")");
-                }
-                flag = false;
-                int num = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
-                Log.d("UnReadBroadcastReceiver", "num:" + num);
-                if (num <= 0) {
-                    mUnreadnum.setVisibility(View.INVISIBLE);
-                } else {
-                    mUnreadnum.setVisibility(View.VISIBLE);
-                    mUnreadnum.setText(num + "");
-                }
-                int unAgreeNum = intent.getIntExtra("num", 0);
-                Log.d("UnReadBroadcastReceiver", "unAgreeNum:" + unAgreeNum);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void readNum(Integer i) {
+        mFirstNum = mFirstNum - i;
+        if (mFirstNum <= 0) {
+            mUnreadnum.setVisibility(View.INVISIBLE);
+            mToolbar.setTitle("微信");
+            mFirstNum = 0;
+        } else {
+            mUnreadnum.setVisibility(View.VISIBLE);
 
-                if (unAgreeNum <= 0) {
-                    mUnagreenum.setVisibility(View.INVISIBLE);
-                } else {
-                    mUnagreenum.setVisibility(View.VISIBLE);
-                    mUnagreenum.setText(unAgreeNum + "");
-                }
+            mUnreadnum.setText((mFirstNum) + "");
+            mToolbar.setTitle("微信" + "(" + (mFirstNum) + ")");
 
-
-            }
         }
+        spET.putInt("unreadnum", mFirstNum);
+        spET.commit();
+        Log.d("MainActivity", "mFirstNum:" + mFirstNum);
+
+
     }
+
 
 }

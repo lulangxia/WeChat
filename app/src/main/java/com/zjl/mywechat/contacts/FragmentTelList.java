@@ -4,7 +4,6 @@ package com.zjl.mywechat.contacts;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +12,12 @@ import android.widget.AdapterView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.addfriends.RequestActivity;
@@ -29,10 +28,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +38,11 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
     private TextView tvUnAgreeNum;
     private String requestName;
     private String requestReason;
-//    private UnAgreeRequest mReceiver;
+
+
+
+
+    //    private UnAgreeRequest mReceiver;
     @Override
     protected void initView() {
         super.initView();
@@ -65,9 +65,6 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 //        getActivity().registerReceiver(receiver, filter);
 
 
-
-
-
         if (!EventBus.getDefault().isRegistered(this)) {
             // 接受的注册暂时写在这个Fragment里面
             EventBus.getDefault().register(this);
@@ -78,70 +75,40 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 //        IntentFilter filter = new IntentFilter();
 //        filter.addAction("加好友");
 //        getActivity().registerReceiver(mReceiver, filter);
-
+        registerForContextMenu(listView);
     }
 
 
     @Override
     protected void setUpView() {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mMap = new HashMap<>();
-                    final List<String> usernames = EMClient.getInstance().contactManager().getAllContactsFromServer();
-                    for (int i = 0; i < usernames.size(); i++) {
-                        EaseUser easeUser = new EaseUser(usernames.get(i));
-                        mMap.put(usernames.get(i), easeUser);
-                    }
-//                    Log.d("FragmentTelList", "mMap.get(usernames.get(0))111:" + mMap.get(usernames.get(0)));
-                    Iterator<Map.Entry<String, EaseUser>> iterator = mMap.entrySet().iterator();
-                    List<String> blackList = EMClient.getInstance().contactManager().getBlackListUsernames();
-                    while (iterator.hasNext()) {
-                        Map.Entry<String, EaseUser> entry = iterator.next();
 
-                        if (!blackList.contains(entry.getKey())) {
-                            // 不显示黑名单中的用户
-                            EaseUser user = entry.getValue();
-                            EaseCommonUtils.setUserInitialLetter(user);
-                            contactList.add(user);
-                        }
-                    }
-                    // 排序
-                    Collections.sort(contactList, new Comparator<EaseUser>() {
-
-                        @Override
-                        public int compare(EaseUser lhs, EaseUser rhs) {
-                            if (lhs.getInitialLetter().equals(rhs.getInitialLetter())) {
-                                return lhs.getNick().compareTo(rhs.getNick());
-                            } else {
-                                if ("#".equals(lhs.getInitialLetter())) {
-                                    return 1;
-                                } else if ("#".equals(rhs.getInitialLetter())) {
-                                    return -1;
-                                }
-                                return lhs.getInitialLetter().compareTo(rhs.getInitialLetter());
-                            }
-                        }
-                    });
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d("FragmentTelList", "runonui");
-//                            Log.d("FragmentTelList", "mMap.get(usernames.get(0)):" + mMap.get(usernames.get(0)));
-
-                            setContactsMap(mMap);
-                        }
-                    });
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
 
         super.setUpView();
+
+        EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
+            @Override
+            public void onSuccess(final List<String> strings) {
+                mMap = new HashMap<String, EaseUser>();
+                for (String s : strings) {
+                    EaseUser user = new EaseUser(s);
+                    mMap.put(s, user);
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setContactsMap(mMap);
+                        refresh();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -156,17 +123,18 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 
             }
         });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String username = ((EaseUser) listView.getItemAtPosition(position)).getUsername();
+                showPopwindow(username);
+
+
+                return true;
+            }
+        });
     }
-
-
-    @Override
-    public void refresh() {
-        setUpView();
-        super.refresh();
-
-
-    }
-
 
 
     // 使用前注册
@@ -177,10 +145,20 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
     }
 
 
+    //实时刷新通讯录页面
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Refresh(Boolean event) {
+        if (event) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setUpView();
+                    refresh();
+                }
+            });
 
-    // 取消注册
-
-
+        }
+    }
 
 
     @Override
@@ -241,10 +219,17 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                 // Toast.makeText(getContext(), "shanchu", Toast.LENGTH_SHORT).show();
                 try {
                     EMClient.getInstance().contactManager().deleteContact(username);
+                    setUpView();
+                    refresh();
                     deletePop.dismiss();
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
+
+
+
+
+
             }
         });
         if (!deletePop.isShowing()) {
@@ -274,5 +259,6 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
     public void onDestroy() {
         super.onDestroy();
 //        getActivity().unregisterReceiver(mReceiver);
+
     }
 }
