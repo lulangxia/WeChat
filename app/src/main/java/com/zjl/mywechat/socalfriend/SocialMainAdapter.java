@@ -5,4 +5,5 @@ package com.zjl.mywechat.socalfriend;
  */
 
 public class SocialMainAdapter {
+
 }

@@ -19,6 +19,7 @@ import com.zjl.mywechat.base.BaseAty;
 import com.zjl.mywechat.login.presenter.LoginPresrnter;
 import com.zjl.mywechat.main.MainActivity;
 import com.zjl.mywechat.register.view.RegisterActivity;
+import com.zjl.mywechat.socalfriend.PreferenceManager;
 import com.zjl.mywechat.tool.stringvalue.StringStatic;
 
 public class LoginActivity extends BaseAty implements View.OnClickListener, ILoginView {
@@ -116,6 +117,8 @@ public class LoginActivity extends BaseAty implements View.OnClickListener, ILog
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == StringStatic.RESULTCODE && resultCode == StringStatic.REQUESTCODE) {
             Log.d("LoginActivity", data.getStringExtra(StringStatic.USERNAME));
+
+            PreferenceManager.getIntance().setCurrentUserName(StringStatic.USERNAME);
             mUsername.setText(data.getStringExtra(StringStatic.USERNAME));
             mPassword.setText(data.getStringExtra(StringStatic.PASSWORD));
         }

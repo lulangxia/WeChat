@@ -4,6 +4,7 @@ import com.zjl.mywechat.login.modle.ILoginModel;
 import com.zjl.mywechat.login.modle.LoginModelImp;
 import com.zjl.mywechat.login.modle.OnFinishListener;
 import com.zjl.mywechat.login.view.ILoginView;
+import com.zjl.mywechat.socalfriend.PreferenceManager;
 
 /**
  * Created by dllo on 16/10/31.
@@ -25,7 +26,7 @@ public class LoginPresrnter {
         mLoginModel.startLogin(username, password, new OnFinishListener() {
             @Override
             public void onFinished(String username, String password) {
-
+                PreferenceManager.getIntance().setCurrentUserName(username);
                 mLoginView.dismissDialog();
                 mLoginView.onResponse(username, password);
             }
