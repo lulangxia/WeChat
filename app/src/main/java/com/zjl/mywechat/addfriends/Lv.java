@@ -14,6 +14,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.bean.RequestBean;
+import com.zjl.mywechat.database.DBTools;
 
 import java.util.ArrayList;
 
@@ -61,7 +62,7 @@ public class Lv extends BaseAdapter{
 
 
 
-        if (arrayList.get(position).getIsRead() == 0) {
+        if (arrayList.get(position).getIsAgree() == 0) {
             // 消息还未读，那就是默认布局
         } else {
             // 消息已读，选择出已经同意还是拒绝
@@ -69,9 +70,9 @@ public class Lv extends BaseAdapter{
             viewHolder.btnDisAgree.setVisibility(View.GONE);
             viewHolder.tvIsAgree.setVisibility(View.VISIBLE);
             // 已同意/拒绝
-            if (arrayList.get(position).getIsAgree() == 0) {
+            if (arrayList.get(position).getIsAgree() == 2) {
                 viewHolder.tvIsAgree.setText("已拒绝");
-            } else {
+            } else if (arrayList.get(position).getIsAgree() == 1){
                 viewHolder.tvIsAgree.setText("已同意");
             }
         }
@@ -97,6 +98,21 @@ public class Lv extends BaseAdapter{
                 finalViewHolder.btnDisAgree.setVisibility(View.GONE);
                 finalViewHolder.tvIsAgree.setVisibility(View.VISIBLE);
                 finalViewHolder.tvIsAgree.setText("已同意");
+
+                // 同意/拒绝的方法
+
+
+
+                // 表名    更新后的值 + 列名    元素
+
+                RequestBean requestBean = arrayList.get(position);
+                requestBean.setIsAgree(1);
+                requestBean.setIsRead(1);
+                DBTools.getInstance().getmLiteOrm().update(requestBean);
+
+
+
+
             }
         });
 
@@ -118,6 +134,17 @@ public class Lv extends BaseAdapter{
                 finalViewHolder.btnDisAgree.setVisibility(View.GONE);
                 finalViewHolder.tvIsAgree.setVisibility(View.VISIBLE);
                 finalViewHolder.tvIsAgree.setText("已拒绝");
+
+
+
+                RequestBean requestBean = arrayList.get(position);
+                requestBean.setIsAgree(2);
+                requestBean.setIsRead(2);
+                DBTools.getInstance().getmLiteOrm().update(requestBean);
+
+
+
+
             }
         });
 

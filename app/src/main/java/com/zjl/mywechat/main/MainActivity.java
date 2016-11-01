@@ -222,6 +222,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 Log.d("MainActivity", "邀请3");
 
 
+
                 // 发个广播
 //                Intent intent = new Intent("加好友");
 //                intent.putExtra("num", ++unAgreeNum);
@@ -237,18 +238,17 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 RequestBean bean = new RequestBean();
                 bean.setName(username);
                 bean.setReason(reason);
-                Log.d("MainActivity", bean.getName());
                 EventBus.getDefault().post(bean);
 
 
 
-
-                presenter.onInsert(bean);
-
-
-                presenter.onQuery();
+//                presenter.onInsert(bean);
 
 
+                presenter.hasData(bean);
+
+
+//                presenter.onQuery();
 
 
                 ArrayList<RequestBean> arr = DBTools.getInstance().getmLiteOrm().query(RequestBean.class);
@@ -272,7 +272,14 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             @Override
             public void onContactDeleted(String username) {
                 //被删除时回调此方法
-                Log.d("MainActivity", "邀请4");
+                Log.d("MainActivity", "邀请4你已被删除");
+
+                RequestBean bean = new RequestBean();
+                bean.setName(username);
+
+                DBTools.getInstance().getmLiteOrm().delete(bean);
+
+
             }
 
             @Override
@@ -285,12 +292,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
 
 
-        if (unAgreeNum <= 0) {
-            mUnagreenum.setVisibility(View.INVISIBLE);
-        } else {
-            mUnagreenum.setVisibility(View.VISIBLE);
-            mUnagreenum.setText(unAgreeNum + "");
-        }
+
 
 
 
@@ -320,7 +322,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 addPopwindow.showPopupWindow(mToolbar);
                 // Toast.makeText(MainActivity.this, "添加", Toast.LENGTH_SHORT).show();
                 break;
-
         }
         return true;
     }
@@ -330,30 +331,37 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
 
 
+    // 持久化技术去存未读消息，来新消息了就 + 1
+    // view层点进去就直接清零
+    // 别在这里获取个数了，太累
 
     @Override
     public void showMessageView() {
 
+        // 显示下方的消息个数
+        ++unAgreeNum;
+        Log.d("MainActivity", "unAgreeNum:" + unAgreeNum);
+
+
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (unAgreeNum <= 0) {
+                    mUnagreenum.setVisibility(View.INVISIBLE);
+                } else {
+                    mUnagreenum.setVisibility(View.VISIBLE);
+                    mUnagreenum.setText(unAgreeNum + "");
+                }
+            }
+        });
     }
+
 
     @Override
-    public <T> void showUnAgreeView(ArrayList<T> arraylist) {
-
+    public void showUnAgreeView(ArrayList<RequestBean> arraylist) {
     }
-
-
-    @Override
-    public void showUnKnownView() {
-
-    }
-
-    @Override
-    public void showNullMessage() {
-
-    }
-
-
-
 
 
 

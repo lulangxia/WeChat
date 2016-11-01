@@ -7,8 +7,10 @@ import android.util.Log;
 
 import com.litesuits.orm.LiteOrm;
 import com.zjl.mywechat.app.MyApp;
+import com.zjl.mywechat.bean.RequestBean;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -103,18 +105,29 @@ public class DBTools {
 
     // 查询所有数据
     public <T> void getAll(final QueryListener<T> queryListener,final Class<T> clazz) {
-
      //   final Class<T> clazz = null;
-
         threadPool.execute(new Runnable() {
             @Override
             public void run() {
                 // 参数是(实体类.class)
                 final ArrayList<T> been = mLiteOrm.query(clazz);
+
                 mHandler.post(new HandlerRunnable<>(been, queryListener));
             }
         });
+
+
+
     }
+
+
+
+
+
+
+
+
+
 
 
     class QueryRunnable<T> implements Runnable {
@@ -143,12 +156,12 @@ public class DBTools {
             mTArrayList = tArrayList;
             mTQueryListener = queryListener;
         }
-
         @Override
         public void run() {
             mTQueryListener.onQuery(mTArrayList);
         }
     }
+
 
 
     // 查询完成后的回调接口
@@ -157,6 +170,78 @@ public class DBTools {
         // 当查询完成后,将查到的数据作为data 返回给Activity等
         void onQuery(ArrayList<T> persons);
     }
+
+
+
+
+
+
+
+
+    public interface CheckListener<T> {
+        void onCheck(RequestBean bean);
+    }
+
+
+
+
+
+    public <T> void check(final CheckListener<T> listener, final RequestBean requestBean) {
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                // 子线程进行数据的查询
+                RequestBean bean = mLiteOrm.queryById(requestBean.getName(), RequestBean.class);
+                if (bean!=null) {
+
+                    Log.d("DBTools", "name:" + bean.getName());
+                }
+                listener.onCheck(bean);
+
+            }
+        });
+    }
+
+
+
+
+
+
+//    public int getCount() {
+//
+//        threadPool.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                // 要去查找未读的消息个数
+//                final List<RequestBean> queryList =  mLiteOrm.query(RequestBean.class);
+//            }
+//        });
+//        return 0;
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+    private class CountRunnable implements Runnable {
+        public CountRunnable(List<RequestBean> queryList) {
+
+
+        }
+
+        @Override
+        public void run() {
+
+        }
+    }
+
 
 
 }

@@ -15,20 +15,6 @@ public class Model<Q, T> implements ModelInterface<T>{
 
     // DataBase，message表
 
-
-//    @Override
-//    public <T> void insertDB(T bean) {
-//        DBTools.getInstance().insert(bean);
-//    }
-
-
-//    @Override
-//    public void delete(T bean) {
-//        DBTools.getInstance().delete(bean);
-//    }
-
-
-
     @Override
     public void insertDB(T bean) {
         DBTools.getInstance().insert(bean);
@@ -41,11 +27,6 @@ public class Model<Q, T> implements ModelInterface<T>{
     public void delete(T bean) {
         DBTools.getInstance().delete(bean);
     }
-
-
-
-
-
 
 
 
@@ -68,6 +49,35 @@ public class Model<Q, T> implements ModelInterface<T>{
     }
 
 
+
+
+    @Override
+    public void checkDB(final IsHasThisData listener, RequestBean bean) {
+
+        DBTools.getInstance().check(new DBTools.CheckListener<RequestBean>() {
+            @Override
+            public void onCheck(RequestBean requestBean) {
+                if (requestBean == null) {
+                    listener.noThisData();
+                } else if (requestBean.getIsAgree() == 1) {
+                    // 已经同意了好友请求
+                    listener.existThisData();
+                } else {
+                    // 拒绝请求2 或者 未读请求0
+                    listener.unAgreeThisData();
+                }
+
+            }
+        }, bean);
+
+    }
+
+
+
+//    @Override
+//    public int getCount() {
+//        return DBTools.getInstance().get;
+//    }
 
 
 }

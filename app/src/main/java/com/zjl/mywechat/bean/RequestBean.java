@@ -6,17 +6,31 @@ import com.litesuits.orm.db.enums.AssignType;
 
 public class RequestBean {
 
+
+
+
+//    @PrimaryKey(AssignType.AUTO_INCREMENT)
+    private int id;
+
+
+    @PrimaryKey(AssignType.BY_MYSELF)
     private String name;
+
+
 //    private String img;
     private String reason;
 
     private int isRead = 0;
-    private int isAgree;
+
+
+    // 未读：0，同意：1，拒绝：2
+    private int isAgree = 0;
 
 
 
-    @PrimaryKey(AssignType.AUTO_INCREMENT)
-    private int id;
+
+
+
 
 
     // 判断是否已读（默认是0，来一条新消息就 + 1），总的未读消息数目是所有成员isRead数目之和。

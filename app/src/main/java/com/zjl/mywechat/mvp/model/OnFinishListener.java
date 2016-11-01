@@ -1,11 +1,13 @@
 package com.zjl.mywechat.mvp.model;
 
 
+import com.zjl.mywechat.bean.RequestBean;
+
 import java.util.ArrayList;
 
 public interface OnFinishListener {
 
-    <T> void onSuccess(ArrayList<T> arrayList);
+    void onSuccess(ArrayList<RequestBean> arrayList);
     void onError();
 
 

@@ -14,18 +14,20 @@ import android.widget.ListView;
 
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
-import com.zjl.mywechat.base.BaseListViewAdapter;
-import com.zjl.mywechat.base.BaseListViewHolder;
 import com.zjl.mywechat.bean.RequestBean;
+import com.zjl.mywechat.mvp.presenter.MainPresenter;
+import com.zjl.mywechat.mvp.view.MainView;
 
 import java.util.ArrayList;
 
-public class RequestActivity extends BaseAty {
+public class RequestActivity extends BaseAty implements MainView{
 
 
     private ListView lv;
-    private ArrayList<RequestBean> been;
+//    private ArrayList<RequestBean> been;
     private UnAgreeRequest receiver;
+
+    private MainPresenter presenter;
 
     @Override
     protected int setLayout() {
@@ -52,7 +54,7 @@ public class RequestActivity extends BaseAty {
         lv = bindView(R.id.lv_request);
 
 
-
+        presenter = new MainPresenter(this);
 
 
 
@@ -92,31 +94,28 @@ public class RequestActivity extends BaseAty {
 
 
         // 里面的数据要从网络端获取
-        been = new ArrayList<>();
 
-
-
-
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
-        String reason = intent.getStringExtra("reason");
-        RequestBean bean = new RequestBean(name, reason);
-
-
-
-
-        // 添加数据
-        been.add(bean);
-
-        Lv adapter = new Lv(this);
-        adapter.setArrayList(been);
-        lv.setAdapter(adapter);
-
-
-
-
+        presenter.onQuery();
 
     }
+
+    @Override
+    public void showMessageView() {
+        // 没有未读消息
+
+    }
+
+    @Override
+    public void showUnAgreeView(ArrayList<RequestBean> arraylist) {
+        Log.d("RequestActivity", "arraylist.size():" + arraylist.size());
+
+        Lv adapter = new Lv(this);
+        adapter.setArrayList(arraylist);
+        lv.setAdapter(adapter);
+
+    }
+
+
 
 
     private class UnAgreeRequest extends BroadcastReceiver {
@@ -131,16 +130,20 @@ public class RequestActivity extends BaseAty {
 
             RequestBean requestBean = new RequestBean(name, reason);
 
-            been.add(requestBean);
-            lv.setAdapter(new BaseListViewAdapter<RequestBean>(RequestActivity.this, been, R.layout.item_personrequest) {
-                @Override
-                public void convent(BaseListViewHolder viewHolder, RequestBean requestBean) {
-                    for (int i = 0; i < 100; i++) {
-                        viewHolder.setText(R.id.tv_request_name, "????");
-                    }
-                    // viewHolder.setText(requestBean.getName());
-                }
-            });
+
+//            been.add(requestBean);
+//            lv.setAdapter(new BaseListViewAdapter<RequestBean>(RequestActivity.this, been, R.layout.item_personrequest) {
+//                @Override
+//                public void convent(BaseListViewHolder viewHolder, RequestBean requestBean) {
+//                    for (int i = 0; i < 100; i++) {
+//                        viewHolder.setText(R.id.tv_request_name, "????");
+//                    }
+//                    // viewHolder.setText(requestBean.getName());
+//                }
+//            });
+
+
+
         }
     }
 
