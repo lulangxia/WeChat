@@ -40,7 +40,7 @@ public class FragmentMy extends BaseFragment {
     protected void initData() {
         mOption.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {00
                 getActivity().startActivity(new Intent(getActivity(), TestOptionActivity.class));
             }
         });
