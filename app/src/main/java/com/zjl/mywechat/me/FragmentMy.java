@@ -40,24 +40,24 @@ public class FragmentMy extends BaseFragment {
     protected void initData() {
         mOption.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {00
+            public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), TestOptionActivity.class));
             }
         });
 
         LiteOrm litorm = DBTools.getInstance().getmLiteOrm();
         ArrayList<PersonBean> myinfo = litorm.query(PersonBean.class);
-        if (myinfo != null) {
+        if (myinfo.size() != 0) {
             mPerson = myinfo.get(0);
-        }
-        if (mPerson.getNickName() != null) {
-            mUsername.setText(mPerson.getNickName());
-        }else{
-            mUsername.setText(mPerson.getName());
-        }
-        if(mPerson.getImgUrl()!=null){
-            Bitmap bitmap = BitmapFactory.decodeFile(mPerson.getImgUrl());
-            mHeadview.setImageBitmap(bitmap);
+            if (mPerson.getNickName() != null) {
+                mUsername.setText(mPerson.getNickName());
+            } else {
+                mUsername.setText(mPerson.getName());
+            }
+            if (mPerson.getImgUrl() != null) {
+                Bitmap bitmap = BitmapFactory.decodeFile(mPerson.getImgUrl());
+                mHeadview.setImageBitmap(bitmap);
+            }
         }
     }
 }
