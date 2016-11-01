@@ -36,4 +36,6 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile project(':librar')
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.facebook.fresco:fresco:0.14.1'
+    compile files('libs/umeng-analytics-v5.2.4.jar')
 }

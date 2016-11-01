@@ -37,6 +37,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
     private TextView mErrorText;
 
     private EMMessageListener msgListener;
+    private Intent mNumIntent;
 
 
     @Override
@@ -61,6 +62,8 @@ public class FragmentConversationList extends EaseConversationListFragment {
     protected void setUpView() {
         super.setUpView();
         // register context menu
+        mNumIntent = new Intent(Constant.UNREAD_MSG);
+
         registerForContextMenu(conversationListView);
         conversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -86,6 +89,11 @@ public class FragmentConversationList extends EaseConversationListFragment {
                     // it's single chat
                     intent.putExtra(Constant.EXTRA_USER_ID, username);
                     startActivity(intent);
+
+                    Integer readnum =conversation.getUnreadMsgCount();
+                    EventBus.getDefault().post(readnum);
+
+
                 }
             }
         });
@@ -96,27 +104,11 @@ public class FragmentConversationList extends EaseConversationListFragment {
                 EMConversation conversation = conversationListView.getItem(position);
                 String username = conversation.getUserName();
                 showPopwindow(username);
-
-
+                Integer readnum =conversation.getUnreadMsgCount();
+                EventBus.getDefault().post(readnum);
                 return true;
             }
         });
-
-
-        //发广播,未读消息数
-        int allnum = 0;
-        //  Log.d("FragmentConversationLis", "allnum0:" + allnum);
-        Log.d("FragmentConversationLis", "conversationListView.getCount():" + conversationListView.getCount());
-        for (int i = 0; i < conversationListView.getCount(); i++) {
-            EMConversation conversation = conversationListView.getItem(i);
-            allnum += conversation.getUnreadMsgCount();
-        }
-        Log.d("FragmentConversationLis", "allnum:" + allnum);
-
-        Intent numIntent = new Intent(Constant.UNREAD_MSG);
-        numIntent.putExtra(Constant.UNREAD_MSG_CONVERSA, allnum);
-        getActivity().sendBroadcast(numIntent);
-
 
     }
 
@@ -149,7 +141,6 @@ public class FragmentConversationList extends EaseConversationListFragment {
         // update unread count
         return true;
     }
-
 
 
     private void showPopwindow(final String username) {
@@ -230,7 +221,6 @@ public class FragmentConversationList extends EaseConversationListFragment {
         Log.d("FragmentConversationLis", "unr");
         EventBus.getDefault().unregister(this);
     }
-
 
 
 }

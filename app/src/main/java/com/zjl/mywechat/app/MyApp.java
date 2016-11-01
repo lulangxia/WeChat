@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.controller.EaseUI;
@@ -31,7 +32,7 @@ public class MyApp extends Application {
 //        if (getCurrentUserName() != null) {
 //            Log.d("MyApp", getCurrentUserName());
 //        }
-
+        Fresco.initialize(this);
     }
 
 

@@ -54,52 +54,32 @@
             </intent-filter>
         </receiver>
 
-
         <activity android:name=".main.MainActivity">
         </activity>
         <activity android:name=".login.view.LoginActivity">
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity android:name=".register.view.RegisterActivity">
         </activity>
-
-
-
-
-
-
-
-
         <activity android:name=".conversation.ChatActivity">
-
         </activity>
         <activity android:name=".addfriends.RequestActivity">
-
         </activity>
         <activity android:name=".addfriends.AddFriendsActivity">
         </activity>
 
-
-
-        <!--<activity android:name=".view.SocialMainActivity">-->
-        <!--</activity>-->
-
-
-
+        <!-- <activity android:name=".view.SocialMainActivity"> -->
+        <!-- </activity> -->
 
         <activity android:name=".socalfriend.SocialMainActivity">
         </activity>
-
-
         <activity android:name=".me.TestOptionActivity"/>
-
-
+        <activity android:name=".socalfriend.MomentsPublishActivity">
+        </activity>
     </application>
 
 </manifest>

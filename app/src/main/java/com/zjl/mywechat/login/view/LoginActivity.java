@@ -137,7 +137,7 @@ public class LoginActivity extends BaseAty implements View.OnClickListener, ILog
             @Override
             public void run() {
                 Log.d("LoginActivity", "denglu");
-                //  EMClient.getInstance().groupManager().loadAllGroups();
+                EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
