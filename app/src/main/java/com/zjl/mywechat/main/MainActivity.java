@@ -3,6 +3,7 @@ package com.zjl.mywechat.main;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
@@ -30,7 +31,6 @@ import com.zjl.mywechat.me.FragmentMy;
 import com.zjl.mywechat.mvp.presenter.MainPresenter;
 import com.zjl.mywechat.mvp.view.MainView;
 import com.zjl.mywechat.socalfriend.FragmentFind;
-import com.zjl.mywechat.tool.stringvalue.Constant;
 import com.zjl.mywechat.ui.adapter.MainAdapter;
 import com.zjl.mywechat.widget.AddPopwindow;
 
@@ -53,7 +53,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     private TextView mUnknow;
     public static MainActivity instance = null;
 
-    private int num = 0;
 
     private int unAgreeNum = 0;
 
@@ -64,6 +63,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
     private int mFirstNum = 0;
     private MainPresenter presenter;
+    private ZeroReceiver receiver;
 
 
     @Override
@@ -89,6 +89,13 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
         // 控制层
         presenter = new MainPresenter(this);
+
+
+        receiver = new ZeroReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("未读消息数目变化");
+        registerReceiver(receiver, filter);
+
 
 
     }
@@ -184,11 +191,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             }
 
 
-            // 广播
-            //        UnReadBroadcastReceiver receiver = new UnReadBroadcastReceiver();
-            //        IntentFilter filter1 = new IntentFilter();
-            //        registerReceiver(receiver, filter1);
-
 
             @Override
             public void onMessageDeliveryAckReceived(List<EMMessage> message) {
@@ -215,12 +217,26 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 Log.d("MainActivity", "邀请1");
                 Boolean refresh = true;
                 EventBus.getDefault().post(refresh);
+
+
+                RequestBean requestBean = new RequestBean();
+                requestBean.setIsPositive(2);
+                requestBean.setIsAgree(1);
+                requestBean.setName(username);
+                DBTools.getInstance().getmLiteOrm().update(requestBean);
+
             }
 
             @Override
             public void onContactRefused(String username) {
                 //好友请求被拒绝
                 Log.d("MainActivity", "邀请2");
+                RequestBean requestBean = new RequestBean();
+                requestBean.setIsPositive(3);
+                requestBean.setIsAgree(2);
+                requestBean.setName(username);
+                DBTools.getInstance().getmLiteOrm().update(requestBean);
+
             }
 
 
@@ -247,13 +263,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 EventBus.getDefault().post(bean);
 
 
-                //                presenter.onInsert(bean);
-
-
                 presenter.hasData(bean);
-
-
-                //                presenter.onQuery();
 
 
                 ArrayList<RequestBean> arr = DBTools.getInstance().getmLiteOrm().query(RequestBean.class);
@@ -332,6 +342,11 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         Log.d("MainActivity", "unAgreeNum:" + unAgreeNum);
 
 
+        Intent intent = new Intent("加好友");
+        intent.putExtra("num", unAgreeNum);
+        sendBroadcast(intent);
+
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -350,67 +365,54 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     public void showUnAgreeView(ArrayList<RequestBean> arraylist) {
     }
 
+
+
+
+
+
+
+
+
+
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        unregisterReceiver(receiver);
         EventBus.getDefault().unregister(this);
     }
 
-    // 广播接收者
-    class UnReadBroadcastReceiver extends BroadcastReceiver {
-        private boolean flag = true;
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void readNum(Integer i) {
+        mFirstNum = mFirstNum - i;
+        if (mFirstNum <= 0) {
+            mUnreadnum.setVisibility(View.INVISIBLE);
+            mToolbar.setTitle("微信");
+            mFirstNum = 0;
+        } else {
+            mUnreadnum.setVisibility(View.VISIBLE);
+
+            mUnreadnum.setText((mFirstNum) + "");
+            mToolbar.setTitle("微信" + "(" + (mFirstNum) + ")");
+
+        }
+        spET.putInt("unreadnum", mFirstNum);
+        spET.commit();
+        Log.d("MainActivity", "mFirstNum:" + mFirstNum);
+    }
+
+
+    private class ZeroReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("UnReadBroadcastReceiver", "收到广播");
-            // 第一次运行时，上面和下面的消息数目匹配中间的
-            if (flag) {
-                mFirstNum = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
-                Log.d("UnReadBroadcastReceiver", "num:" + mFirstNum);
-                if (mFirstNum <= 0) {
-                    mUnreadnum.setVisibility(View.INVISIBLE);
-                    mToolbar.setTitle("微信");
-                } else {
-                    mUnreadnum.setVisibility(View.VISIBLE);
-                    mUnreadnum.setText(mFirstNum + "");
-                    mToolbar.setTitle("微信" + "(" + mFirstNum + ")");
-                }
-                flag = false;
-                int num = intent.getIntExtra(Constant.UNREAD_MSG_CONVERSA, 0);
-                Log.d("UnReadBroadcastReceiver", "num:" + num);
-                if (num <= 0) {
-                    mUnreadnum.setVisibility(View.INVISIBLE);
-                } else {
-                    mUnreadnum.setVisibility(View.VISIBLE);
-                    mUnreadnum.setText(num + "");
-                }
-            }
-
+            intent.getIntExtra("zeroNum", 0);
+            unAgreeNum = 0;
+            mUnagreenum.setVisibility(View.INVISIBLE);
         }
-
-
-        @Subscribe(threadMode = ThreadMode.MAIN)
-        public void readNum(Integer i) {
-            mFirstNum = mFirstNum - i;
-            if (mFirstNum <= 0) {
-                mUnreadnum.setVisibility(View.INVISIBLE);
-                mToolbar.setTitle("微信");
-                mFirstNum = 0;
-            } else {
-                mUnreadnum.setVisibility(View.VISIBLE);
-
-                mUnreadnum.setText((mFirstNum) + "");
-                mToolbar.setTitle("微信" + "(" + (mFirstNum) + ")");
-
-            }
-            spET.putInt("unreadnum", mFirstNum);
-            spET.commit();
-            Log.d("MainActivity", "mFirstNum:" + mFirstNum);
-
-
-        }
-
-
     }
+
+
+
 }

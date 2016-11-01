@@ -20,7 +20,8 @@ public class RequestBean {
 //    private String img;
     private String reason;
 
-    private int isRead = 0;
+    // 主动添加别人且对方仍未回复：1， 被其他人添加：0，对方同意了你的请求：2， 对方拒绝了你的请求：3
+    private int isPositive = 0;
 
 
     // 未读：0，同意：1，拒绝：2
@@ -44,12 +45,12 @@ public class RequestBean {
         this.isAgree = isAgree;
     }
 
-    public int getIsRead() {
-        return isRead;
+    public int getIsPositive() {
+        return isPositive;
     }
 
-    public void setIsRead(int isRead) {
-        this.isRead = isRead;
+    public void setIsPositive(int isRead) {
+        this.isPositive = isRead;
     }
 
     public RequestBean() {

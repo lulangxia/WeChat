@@ -62,20 +62,38 @@ public class Lv extends BaseAdapter{
 
 
 
-        if (arrayList.get(position).getIsAgree() == 0) {
-            // 消息还未读，那就是默认布局
+
+        if (arrayList.get(position).getIsPositive() == 1) {
+            showText(viewHolder);
+            viewHolder.tvIsAgree.setText("请等待对方验证");
+        } else if (arrayList.get(position).getIsPositive() == 2){
+            showText(viewHolder);
+            viewHolder.tvIsAgree.setText("对方已同意");
+
+        } else if (arrayList.get(position).getIsPositive() == 3){
+            showText(viewHolder);
+            viewHolder.tvIsAgree.setText("对方已拒绝");
+
         } else {
-            // 消息已读，选择出已经同意还是拒绝
-            viewHolder.btnAgree.setVisibility(View.GONE);
-            viewHolder.btnDisAgree.setVisibility(View.GONE);
-            viewHolder.tvIsAgree.setVisibility(View.VISIBLE);
-            // 已同意/拒绝
-            if (arrayList.get(position).getIsAgree() == 2) {
-                viewHolder.tvIsAgree.setText("已拒绝");
-            } else if (arrayList.get(position).getIsAgree() == 1){
-                viewHolder.tvIsAgree.setText("已同意");
+
+            if (arrayList.get(position).getIsAgree() == 0) {
+                // 消息还未读，那就是默认布局
+            } else {
+                // 消息已读，选择出已经同意还是拒绝
+                showText(viewHolder);
+                // 已同意/拒绝
+                if (arrayList.get(position).getIsAgree() == 2) {
+                    viewHolder.tvIsAgree.setText("已拒绝");
+                } else if (arrayList.get(position).getIsAgree() == 1){
+                    viewHolder.tvIsAgree.setText("已同意");
+                }
             }
+
         }
+
+
+
+
 
 
 
@@ -107,7 +125,6 @@ public class Lv extends BaseAdapter{
 
                 RequestBean requestBean = arrayList.get(position);
                 requestBean.setIsAgree(1);
-                requestBean.setIsRead(1);
                 DBTools.getInstance().getmLiteOrm().update(requestBean);
 
 
@@ -139,7 +156,6 @@ public class Lv extends BaseAdapter{
 
                 RequestBean requestBean = arrayList.get(position);
                 requestBean.setIsAgree(2);
-                requestBean.setIsRead(2);
                 DBTools.getInstance().getmLiteOrm().update(requestBean);
 
 
@@ -152,6 +168,13 @@ public class Lv extends BaseAdapter{
 
 
         return convertView;
+    }
+
+
+    private void showText(ViewHolder viewHolder) {
+        viewHolder.btnAgree.setVisibility(View.GONE);
+        viewHolder.btnDisAgree.setVisibility(View.GONE);
+        viewHolder.tvIsAgree.setVisibility(View.VISIBLE);
     }
 
 

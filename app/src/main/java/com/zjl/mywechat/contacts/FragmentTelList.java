@@ -4,6 +4,7 @@ package com.zjl.mywechat.contacts;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.Gravity;
@@ -72,10 +73,13 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
             }
 
 
-            //        mReceiver = new UnAgreeRequest();
-            //        IntentFilter filter = new IntentFilter();
-            //        filter.addAction("加好友");
-            //        getActivity().registerReceiver(mReceiver, filter);
+            mReceiver = new UnAgreeRequest();
+            IntentFilter filter = new IntentFilter();
+            filter.addAction("加好友");
+            getActivity().registerReceiver(mReceiver, filter);
+
+
+
             registerForContextMenu(listView);
         }
     }
@@ -180,9 +184,13 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 
         switch (v.getId()) {
             case R.id.re_newfriends:
-                // 将未读好友请求数目变成0,MainActivity里面也要改啊。。。。。
                 num = 0;
-                // EventBus传值，传到MainActivity里面
+                tvUnAgreeNum.setVisibility(View.INVISIBLE);
+
+                Intent broadIntent = new Intent("未读消息数目变化");
+                broadIntent.putExtra("zeroNum", num);
+                getActivity().sendBroadcast(broadIntent);
+
 
                 // 跳转
                 Intent intent = new Intent(getActivity(), RequestActivity.class);
@@ -242,7 +250,6 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                     e.printStackTrace();
                 }
 
-
             }
         });
         if (!deletePop.isShowing()) {
@@ -257,8 +264,9 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
     private class UnAgreeRequest extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            num = intent.getIntExtra("num", 0);
             tvUnAgreeNum.setVisibility(View.VISIBLE);
-            tvUnAgreeNum.setText(++num + "");
+            tvUnAgreeNum.setText(num + "");
             Log.d("UnAgreeRequest", "num:" + num);
         }
     }
@@ -269,7 +277,6 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         super.onDestroy();
         getActivity().unregisterReceiver(mReceiver);
         EventBus.getDefault().unregister(this);
-        //        getActivity().unregisterReceiver(mReceiver);
 
     }
 
