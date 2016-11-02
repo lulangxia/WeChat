@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
@@ -119,7 +118,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                 String chatId = ((EaseUser) listView.getItemAtPosition(position)).getUsername();
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra(EaseConstant.EXTRA_USER_ID, chatId);
-                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
                 startActivity(intent);
 
             }

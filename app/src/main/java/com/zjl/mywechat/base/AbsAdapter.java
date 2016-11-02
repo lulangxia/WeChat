@@ -15,6 +15,7 @@ public abstract class AbsAdapter<M, VH extends BaseHolder> extends RecyclerView.
 
     private static final String TAG = "AbsAdapter";
 
+
     public static final int VIEW_TYPE_HEADER = 1024;
     public static final int VIEW_TYPE_FOOTER = 1025;
 
@@ -151,4 +152,6 @@ public abstract class AbsAdapter<M, VH extends BaseHolder> extends RecyclerView.
 
     @Override
     public abstract long getItemId(int position);
+
+
 }

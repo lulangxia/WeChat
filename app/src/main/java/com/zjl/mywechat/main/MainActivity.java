@@ -22,6 +22,7 @@ import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
 import com.zjl.mywechat.bean.RequestBean;
 import com.zjl.mywechat.contacts.FragmentTelList;
+import com.zjl.mywechat.conversation.ChatActivity;
 import com.zjl.mywechat.conversation.FragmentConversationList;
 import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.me.FragmentMy;
@@ -150,15 +151,17 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                     @Override
                     public void run() {
                         Log.d("MainActivity", "消息增加");
-                        mFirstNum = mFirstNum + messages.size();
-                        mUnreadnum.setText(mFirstNum + "");
-                        mUnreadnum.setVisibility(View.VISIBLE);
-                        mToolbar.setTitle("微信" + "(" + mFirstNum + ")");
-                        Boolean newmsg = true;
-                        EventBus.getDefault().post(newmsg);
-                        spET.putInt("unreadnum", mFirstNum);
-                        spET.commit();
-                        Log.d("MainActivity", "mFirstNum:" + mFirstNum);
+                        if (!ChatActivity.instance.flag) {
+                            mFirstNum = mFirstNum + messages.size();
+                            mUnreadnum.setText(mFirstNum + "");
+                            mUnreadnum.setVisibility(View.VISIBLE);
+                            mToolbar.setTitle("微信" + "(" + mFirstNum + ")");
+                            Boolean newmsg = true;
+                            EventBus.getDefault().post(newmsg);
+                            spET.putInt("unreadnum", mFirstNum);
+                            spET.commit();
+                            Log.d("MainActivity", "mFirstNum:" + mFirstNum);
+                        }
                     }
                 });
             }
