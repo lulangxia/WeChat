@@ -297,6 +297,7 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
                     Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_SHORT).show();
                     mDialog.dismiss();
                     startActivity(new Intent(MomentsPublishActivity.this,SocialMainActivity.class));
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "服务器端错误:" + String.valueOf(code),
