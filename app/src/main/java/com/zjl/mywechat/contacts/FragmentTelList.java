@@ -1,9 +1,12 @@
 package com.zjl.mywechat.contacts;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,11 +41,9 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
     private TextView tvUnAgreeNum;
     private String requestName;
     private String requestReason;
+    private UnAgreeRequest mReceiver;
+    private int num = 0;// 从数据库里面取
 
-
-
-
-    //    private UnAgreeRequest mReceiver;
     @Override
     protected void initView() {
         super.initView();
@@ -59,29 +60,33 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         tvUnAgreeNum = (TextView) headerView.findViewById(R.id.tv_unread);
 
 
-//        UnAgreeRequest receiver = new UnAgreeRequest();
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction("加好友");
-//        getActivity().registerReceiver(receiver, filter);
+        if (!EventBus.getDefault().isRegistered(FragmentTelList.this)) {
+            //        UnAgreeRequest receiver = new UnAgreeRequest();
+            //        IntentFilter filter = new IntentFilter();
+            //        filter.addAction("加好友");
+            //        getActivity().registerReceiver(receiver, filter);
 
 
-        if (!EventBus.getDefault().isRegistered(this)) {
-            // 接受的注册暂时写在这个Fragment里面
-            EventBus.getDefault().register(this);
+            if (!EventBus.getDefault().isRegistered(this)) {
+                // 接受的注册暂时写在这个Fragment里面
+                EventBus.getDefault().register(FragmentTelList.this);
+            }
+
+
+            mReceiver = new UnAgreeRequest();
+            IntentFilter filter = new IntentFilter();
+            filter.addAction("加好友");
+            getActivity().registerReceiver(mReceiver, filter);
+
+
+
+            registerForContextMenu(listView);
         }
-
-
-//        mReceiver = new UnAgreeRequest();
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction("加好友");
-//        getActivity().registerReceiver(mReceiver, filter);
-        registerForContextMenu(listView);
     }
 
 
     @Override
     protected void setUpView() {
-
 
 
         super.setUpView();
@@ -142,6 +147,19 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
     public void ReceiveEvent(RequestBean event) {
         requestName = event.getName();
         requestReason = event.getReason();
+
+
+        //        getActivity().runOnUiThread(new Runnable() {
+        //            @Override
+        //            public void run() {
+        //                tvUnAgreeNum.setVisibility(View.VISIBLE);
+        //                tvUnAgreeNum.setText(++num + "");
+        //            }
+        //        });
+
+        Log.d("FragmentTelList", "？？");
+        Log.d("UnAgreeRequest", "num:" + requestName);
+
     }
 
 
@@ -166,8 +184,14 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 
         switch (v.getId()) {
             case R.id.re_newfriends:
-                // 将未读好友请求数目变成0
                 num = 0;
+                tvUnAgreeNum.setVisibility(View.INVISIBLE);
+
+                Intent broadIntent = new Intent("未读消息数目变化");
+                broadIntent.putExtra("zeroNum", num);
+                getActivity().sendBroadcast(broadIntent);
+
+
                 // 跳转
                 Intent intent = new Intent(getActivity(), RequestActivity.class);
                 intent.putExtra("name", requestName);
@@ -226,10 +250,6 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                     e.printStackTrace();
                 }
 
-
-
-
-
             }
         });
         if (!deletePop.isShowing()) {
@@ -240,25 +260,25 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         }
     }
 
-    private int num = 0;// 从数据库里面取
 
-//    private class UnAgreeRequest extends BroadcastReceiver {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//
-//            tvUnAgreeNum.setVisibility(View.VISIBLE);
-//            tvUnAgreeNum.setText(++num + "");
-//            Log.d("UnAgreeRequest", "num:" + num);
-//
-//
-//        }
-//    }
+    private class UnAgreeRequest extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            num = intent.getIntExtra("num", 0);
+            tvUnAgreeNum.setVisibility(View.VISIBLE);
+            tvUnAgreeNum.setText(num + "");
+            Log.d("UnAgreeRequest", "num:" + num);
+        }
+    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        getActivity().unregisterReceiver(mReceiver);
+        getActivity().unregisterReceiver(mReceiver);
+        EventBus.getDefault().unregister(this);
 
     }
+
+
 }

@@ -1,9 +1,13 @@
 package com.zjl.mywechat.addfriends;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
@@ -11,15 +15,19 @@ import android.widget.ListView;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
 import com.zjl.mywechat.bean.RequestBean;
+import com.zjl.mywechat.mvp.presenter.MainPresenter;
+import com.zjl.mywechat.mvp.view.MainView;
 
 import java.util.ArrayList;
 
-public class RequestActivity extends BaseAty {
+public class RequestActivity extends BaseAty implements MainView{
 
 
     private ListView lv;
-    private ArrayList<RequestBean> been;
-//    private UnAgreeRequest receiver;
+//    private ArrayList<RequestBean> been;
+    private UnAgreeRequest receiver;
+
+    private MainPresenter presenter;
 
     @Override
     protected int setLayout() {
@@ -46,7 +54,7 @@ public class RequestActivity extends BaseAty {
         lv = bindView(R.id.lv_request);
 
 
-
+        presenter = new MainPresenter(this);
 
 
 
@@ -79,52 +87,50 @@ public class RequestActivity extends BaseAty {
     protected void initData() {
 
         // 广播接收器，获取一个请求就要添加一次。。而且以前的还不能删除
+        receiver = new UnAgreeRequest();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("加好友");
+        registerReceiver(receiver, filter);
 
-//        receiver = new UnAgreeRequest();
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction("加好友");
-//        registerReceiver(receiver, filter);
 
         // 里面的数据要从网络端获取
-        been = new ArrayList<>();
 
+        presenter.onQuery();
 
+    }
 
+    @Override
+    public void showMessageView() {
+        // 没有未读消息
 
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
-        String reason = intent.getStringExtra("reason");
-        RequestBean bean = new RequestBean(name, reason);
+    }
 
-
-
-
-        // 添加数据
-        been.add(bean);
+    @Override
+    public void showUnAgreeView(ArrayList<RequestBean> arraylist) {
+        Log.d("RequestActivity", "arraylist.size():" + arraylist.size());
 
         Lv adapter = new Lv(this);
-        adapter.setArrayList(been);
+        adapter.setArrayList(arraylist);
         lv.setAdapter(adapter);
-
-
-
-
 
     }
 
 
-//    private class UnAgreeRequest extends BroadcastReceiver {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//
-//            String name = intent.getStringExtra("name");
-//            Log.d("UnAgreeRequest", "name" + name);
-//            String reason = intent.getStringExtra("reason");
-//            Log.d("UnAgreeRequest", "reason" + reason);
-//
-//            RequestBean requestBean = new RequestBean(name, reason);
-//
+
+
+    private class UnAgreeRequest extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String name = intent.getStringExtra("name");
+            Log.d("UnAgreeRequest", "name" + name);
+            String reason = intent.getStringExtra("reason");
+            Log.d("UnAgreeRequest", "reason" + reason);
+
+            RequestBean requestBean = new RequestBean(name, reason);
+
+
 //            been.add(requestBean);
 //            lv.setAdapter(new BaseListViewAdapter<RequestBean>(RequestActivity.this, been, R.layout.item_personrequest) {
 //                @Override
@@ -135,14 +141,17 @@ public class RequestActivity extends BaseAty {
 //                    // viewHolder.setText(requestBean.getName());
 //                }
 //            });
-//        }
-//    }
+
+
+
+        }
+    }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-//        unregisterReceiver(receiver);
+        unregisterReceiver(receiver);
     }
 }
