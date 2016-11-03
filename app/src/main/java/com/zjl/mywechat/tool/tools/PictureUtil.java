@@ -1,4 +1,4 @@
-package com.zjl.mywechat.socalfriend;
+package com.zjl.mywechat.tool.tools;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;

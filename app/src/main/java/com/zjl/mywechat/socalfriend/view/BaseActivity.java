@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.zjl.mywechat.socalfriend;
+package com.zjl.mywechat.socalfriend.view;
 
 
 import android.annotation.SuppressLint;

@@ -1,4 +1,4 @@
-package com.zjl.mywechat.socalfriend;
+package com.zjl.mywechat.socalfriend.view;
 
 
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseFragment;
+import com.zjl.mywechat.socalfriend.modle.PreferenceManager;
 
 public class FragmentFind  extends BaseFragment implements View.OnClickListener {
 

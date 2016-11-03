@@ -1,4 +1,4 @@
-package com.zjl.mywechat.socalfriend;
+package com.zjl.mywechat.socalfriend.modle;
 
 import android.content.Context;
 import android.content.SharedPreferences;

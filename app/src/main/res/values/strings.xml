@@ -29,6 +29,10 @@
     <string name="help">帮助与反馈</string>
     <string name="query">查找</string>
     <string name="deletepopwindow">删除联系人</string>
+    <string name="send">发送</string>
+    <string name="content">这一刻的想法</string>
+    <string name="loction">所在位置</string>
+    <string name="concel">取消</string>
 
 
 </resources>
