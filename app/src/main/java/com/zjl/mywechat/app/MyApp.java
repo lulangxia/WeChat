@@ -1,9 +1,11 @@
 package com.zjl.mywechat.app;
 
 import android.app.ActivityManager;
-import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
+import com.easemob.redpacketsdk.RedPacket;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
@@ -16,7 +18,7 @@ import java.util.List;
  * Created by dllo on 16/9/20.
  * 注意!!!!写完Application之后一定要注册
  */
-public class MyApp extends Application {
+public class MyApp extends MultiDexApplication {
     private static Context mContext;
 
 
@@ -33,9 +35,22 @@ public class MyApp extends Application {
 //            Log.d("MyApp", getCurrentUserName());
 //        }
         Fresco.initialize(this);
+
+
+
+        RedPacket.getInstance().initContext(this);
+        //打开Log开关 正式发布时请关闭
+        RedPacket.getInstance().setDebugMode(true);
+
+
     }
 
-
+    // 解决65533问题
+    @Override
+    protected void attachBaseContext(Context base) {
+        MultiDex.install(this);
+        super.attachBaseContext(base);
+    }
 
     private void initEasemob() {
         // 获取当前进程 id 并取得进程名

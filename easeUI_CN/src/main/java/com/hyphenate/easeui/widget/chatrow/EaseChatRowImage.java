@@ -77,7 +77,8 @@ public class EaseChatRowImage extends EaseChatRowFile{
     protected void onUpdateView() {
         super.onUpdateView();
     }
-    
+
+    // 点击图片的事件
     @Override
     protected void onBubbleClick() {
         Intent intent = new Intent(context, EaseShowBigImageActivity.class);
