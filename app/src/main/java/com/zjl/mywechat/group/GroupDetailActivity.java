@@ -2,6 +2,8 @@ package com.zjl.mywechat.group;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
@@ -19,6 +21,8 @@ public class GroupDetailActivity extends BaseAty {
 
     private ExpandGridView mExpandGridView;
     private EaseSwitchButton mEaseSwitchButton;
+    private ImageView mBack;
+    private TextView mMembersnum;
 
     @Override
     protected int setLayout() {
@@ -27,9 +31,10 @@ public class GroupDetailActivity extends BaseAty {
 
     @Override
     protected void initView() {
-
+        mBack = bindView(R.id.iv_back);
         mExpandGridView = bindView(R.id.gridview);
         mEaseSwitchButton = bindView(R.id.switch_btn);
+        mMembersnum = bindView(R.id.tv_m_total);
     }
 
     @Override
@@ -38,7 +43,13 @@ public class GroupDetailActivity extends BaseAty {
         String groupId = intent1.getStringExtra("groupId");
         EMGroup group = EMClient.getInstance().groupManager().getGroup(groupId);
         List<String> name = group.getMembers();
-
+        mMembersnum.setText("(" + group.getMemberCount() + ")");
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         mExpandGridView.setAdapter(new BaseListViewAdapter<String>(this, name, R.layout.em_grid) {
             @Override
@@ -49,13 +60,13 @@ public class GroupDetailActivity extends BaseAty {
         mEaseSwitchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             toggleBlockGroup();
+                toggleBlockGroup();
             }
         });
     }
 
     private void toggleBlockGroup() {
-        if(mEaseSwitchButton.isSwitchOpen()){
+        if (mEaseSwitchButton.isSwitchOpen()) {
             mEaseSwitchButton.closeSwitch();
         } else {
             mEaseSwitchButton.openSwitch();

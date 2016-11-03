@@ -29,6 +29,7 @@
     <string name="help">帮助与反馈</string>
     <string name="query">查找</string>
     <string name="deletepopwindow">删除联系人</string>
+    <string name="exitgroup">退出群组</string>
 
 
 </resources>

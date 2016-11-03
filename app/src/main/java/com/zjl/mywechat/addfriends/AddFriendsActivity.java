@@ -21,6 +21,9 @@ import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
+import com.zjl.mywechat.bean.RequestBean;
+import com.zjl.mywechat.database.DBTools;
+import com.zjl.mywechat.mvp.presenter.MainPresenter;
 
 
 // 添加好友
@@ -35,6 +38,8 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
     private RelativeLayout rl;
     private ProgressDialog progressDialog;
     private EditText etAddReason;
+    private MainPresenter presenter;
+
 
     @Override
     protected int setLayout() {
@@ -66,6 +71,8 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
         rl = bindView(R.id.add_person_hide);
         tvName = bindView(R.id.tv_add_personname);
         btnAdd = bindView(R.id.btn_addperson);
+
+//        presenter = new MainPresenter(this);
 
 
     }
@@ -183,9 +190,16 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
                     } else {
                         // 默认验证消息
                         EMClient.getInstance().contactManager().addContact(etNum.getText().toString(), "交个朋友吧");
-
                     }
 
+                    RequestBean bean = new RequestBean();
+                    bean.setName(etNum.getText().toString());
+                    bean.setReason(etAddReason.getText().toString());
+                    bean.setIsPositive(1);
+
+                    DBTools.getInstance().getmLiteOrm().insert(bean);
+
+                    
 
                     runOnUiThread(new Runnable() {
                         @Override

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item android:drawable="@drawable/fx_bg_red_p" android:state_pressed="true"/>
+        <item android:drawable="@drawable/fx_bg_red_e" android:state_enabled="false"/>
+        <item android:drawable="@drawable/fx_bg_red_n" android:state_enabled="true"/>
+        <item android:drawable="@drawable/fx_bg_red_e"/>
+
+
+</selector>

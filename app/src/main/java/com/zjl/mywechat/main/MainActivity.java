@@ -1,6 +1,9 @@
 package com.zjl.mywechat.main;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
@@ -52,12 +55,16 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     public static MainActivity instance = null;
 
 
+    private int unAgreeNum = 0;
+
+
     private SharedPreferences sp;
     private SharedPreferences.Editor spET;
 
 
     private int mFirstNum = 0;
     private MainPresenter presenter;
+    private ZeroReceiver receiver;
 
 
     @Override
@@ -83,6 +90,13 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
         // 控制层
         presenter = new MainPresenter(this);
+
+
+        receiver = new ZeroReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("未读消息数目变化");
+        registerReceiver(receiver, filter);
+
 
 
     }
@@ -180,11 +194,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             }
 
 
-            // 广播
-//        UnReadBroadcastReceiver receiver = new UnReadBroadcastReceiver();
-//        IntentFilter filter1 = new IntentFilter();
-//        registerReceiver(receiver, filter1);
-
 
             @Override
             public void onMessageDeliveryAckReceived(List<EMMessage> message) {
@@ -201,6 +210,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         };
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
 
+
+        // 邀请信息
         EMClient.getInstance().contactManager().setContactListener(new EMContactListener() {
 
             @Override
@@ -209,50 +220,79 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 Log.d("MainActivity", "邀请1");
                 Boolean refresh = true;
                 EventBus.getDefault().post(refresh);
+
+
+                RequestBean requestBean = new RequestBean();
+                requestBean.setIsPositive(2);
+                requestBean.setIsAgree(1);
+                requestBean.setName(username);
+                DBTools.getInstance().getmLiteOrm().update(requestBean);
+
             }
 
             @Override
             public void onContactRefused(String username) {
                 //好友请求被拒绝
+                Log.d("MainActivity", "邀请2");
+                RequestBean requestBean = new RequestBean();
+                requestBean.setIsPositive(3);
+                requestBean.setIsAgree(2);
+                requestBean.setName(username);
+                DBTools.getInstance().getmLiteOrm().update(requestBean);
+
             }
 
 
             @Override
             public void onContactInvited(String username, String reason) {
+                Log.d("MainActivity", "邀请3");
+
 
                 // 发个广播
-                Intent intent = new Intent("加好友");
-                int num = 0;
-                intent.putExtra("num", ++num);
-                intent.putExtra("name", username);
-                intent.putExtra("reason", reason);
-                sendBroadcast(intent);
+                //                Intent intent = new Intent("加好友");
+                //                intent.putExtra("num", ++unAgreeNum);
+                //                intent.putExtra("name", username);
+                //                intent.putExtra("reason", reason);
+                //                sendBroadcast(intent);
 
+
+                Log.d("MainActivity", username);
+
+
+                // EventBus
                 RequestBean bean = new RequestBean();
                 bean.setName(username);
                 bean.setReason(reason);
-//                bean.setIsRead(0);
+                EventBus.getDefault().post(bean);
 
-                presenter.onInsert(bean);
+
+                presenter.hasData(bean);
+
 
                 ArrayList<RequestBean> arr = DBTools.getInstance().getmLiteOrm().query(RequestBean.class);
+                Log.d("MainActivity", "arr.size():" + arr.size());
+
+
                 for (int i = 0; i < arr.size(); i++) {
                     Log.d("MainActivity", "litOrmLog");
                     Log.d("MainActivity", arr.get(i).getName());
                 }
 
 
-                // 发送数据
-                EventBus.getDefault().post(bean);
-
                 // 跳转，传值，MainActivity显示角标，新的朋友右侧显示1+
                 // 点进去是一个listView，存储主动请求和被动请求（数据库），右边填写同意or不同意
-
             }
+
 
             @Override
             public void onContactDeleted(String username) {
                 //被删除时回调此方法
+                Log.d("MainActivity", "邀请4你已被删除");
+
+                RequestBean bean = new RequestBean();
+                bean.setName(username);
+
+                DBTools.getInstance().getmLiteOrm().delete(bean);
                 Boolean refresh = true;
                 EventBus.getDefault().post(refresh);
             }
@@ -261,12 +301,13 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             @Override
             public void onContactAdded(String username) {
                 //增加了联系人时回调此方法
-                Boolean refresh = true;
-                EventBus.getDefault().post(refresh);
+                Log.d("MainActivity", "邀请5");
             }
 
-
         });
+
+        Boolean refresh = true;
+        EventBus.getDefault().post(refresh);
     }
 
 
@@ -287,30 +328,61 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 addPopwindow.showPopupWindow(mToolbar);
                 // Toast.makeText(MainActivity.this, "添加", Toast.LENGTH_SHORT).show();
                 break;
-
         }
         return true;
     }
 
+
+    // 持久化技术去存未读消息，来新消息了就 + 1
+    // view层点进去就直接清零
+    // 别在这里获取个数了，太累
+
     @Override
     public void showMessageView() {
 
+        // 显示下方的消息个数
+        ++unAgreeNum;
+        Log.d("MainActivity", "unAgreeNum:" + unAgreeNum);
+
+
+        Intent intent = new Intent("加好友");
+        intent.putExtra("num", unAgreeNum);
+        sendBroadcast(intent);
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (unAgreeNum <= 0) {
+                    mUnagreenum.setVisibility(View.INVISIBLE);
+                } else {
+                    mUnagreenum.setVisibility(View.VISIBLE);
+                    mUnagreenum.setText(unAgreeNum + "");
+                }
+            }
+        });
     }
+
 
     @Override
-    public void showUnAgreeView() {
-
+    public void showUnAgreeView(ArrayList<RequestBean> arraylist) {
     }
 
-    @Override
-    public void showUnKnownView() {
 
-    }
+
+
+
+
+
+
+
+
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        unregisterReceiver(receiver);
         EventBus.getDefault().unregister(this);
     }
 
@@ -332,9 +404,18 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         spET.putInt("unreadnum", mFirstNum);
         spET.commit();
         Log.d("MainActivity", "mFirstNum:" + mFirstNum);
-
-
     }
+
+
+    private class ZeroReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            intent.getIntExtra("zeroNum", 0);
+            unAgreeNum = 0;
+            mUnagreenum.setVisibility(View.INVISIBLE);
+        }
+    }
+
 
 
 }

@@ -146,7 +146,7 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
                                 != PackageManager.PERMISSION_GRANTED) {
                             ActivityCompat.requestPermissions((Activity) MyApp.getmContext(),
                                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                    1);
+                                    2);
 
                         } else {
                             Intent intent2 = new Intent(Intent.ACTION_PICK, null);
@@ -333,6 +333,7 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
         dialog.setMessage("注册中，请稍后...");
         return dialog;
     }
+
 
 
 }

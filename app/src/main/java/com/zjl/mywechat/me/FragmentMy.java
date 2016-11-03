@@ -47,6 +47,7 @@ public class FragmentMy extends BaseFragment {
 
         LiteOrm litorm = DBTools.getInstance().getmLiteOrm();
         ArrayList<PersonBean> myinfo = litorm.query(PersonBean.class);
+
         if (myinfo.size() != 0) {
             mPerson = myinfo.get(0);
             if (mPerson.getNickName() != null) {
