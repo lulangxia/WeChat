@@ -69,11 +69,8 @@ public class SocialMainActivity extends BaseActivity {
                                 | DateUtils.FORMAT_SHOW_DATE
                                 | DateUtils.FORMAT_ABBREV_ALL);
 
-                // Update the LastUpdatedLabel
                 refreshView.getLoadingLayoutProxy()
                         .setLastUpdatedLabel(label);
-
-                // Do work to refresh the list here.
 
                 if (mPullToRefreshListView.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_START) {
                     page = 0;
@@ -91,7 +88,6 @@ public class SocialMainActivity extends BaseActivity {
 
         mAdapter = new SocialMainAdapter(SocialMainActivity.this, articles);
 
-        Log.d("SocialMainActivity", "z这里应该");
         mActualListView.setAdapter(mAdapter);
         ImageView iv_camera = (ImageView) findViewById(R.id.iv_camera);
 
@@ -200,7 +196,9 @@ public class SocialMainActivity extends BaseActivity {
                 int code = jsonObject.getInteger("code");
                 if (code == 1000) {
                     JSONArray users_temp = jsonObject.getJSONArray("data");
+                    Log.d("SocialMainActivity", "users_temp.size():" + users_temp.size());
                     String time = jsonObject.getString("time");
+                    Log.d("SocialMainActivity", time);
                     //  DemoApplication.getInstance().setTime(time);
                     if (page_num == 0) {
 
@@ -210,6 +208,7 @@ public class SocialMainActivity extends BaseActivity {
                         for (int i = 0; i < users_temp.size(); i++) {
                             JSONObject json = users_temp.getJSONObject(i);
                             String sID = json.getString("sID");
+                            Log.d("SocialMainActivity------>", sID);
                             sIDs.add(sID);
                             articles.add(json);
                         }
@@ -231,6 +230,7 @@ public class SocialMainActivity extends BaseActivity {
 //					adapter = new SocialMainAdapter(SocialMainActivity.this,
 //							datas, time);
                     //	actualListView.setAdapter(adapter);
+
                     mAdapter.notifyDataSetChanged();
                     // ACache.get(getActivity()).put("last_login", users);
 
@@ -247,9 +247,10 @@ public class SocialMainActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getData(0);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        getData(0);
+//    }
 }

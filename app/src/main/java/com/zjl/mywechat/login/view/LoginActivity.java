@@ -116,9 +116,7 @@ public class LoginActivity extends BaseAty implements View.OnClickListener, ILog
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == StringStatic.RESULTCODE && resultCode == StringStatic.REQUESTCODE) {
-            Log.d("LoginActivity", data.getStringExtra(StringStatic.USERNAME));
 
-            PreferenceManager.getIntance().setCurrentUserName(StringStatic.USERNAME);
             mUsername.setText(data.getStringExtra(StringStatic.USERNAME));
             mPassword.setText(data.getStringExtra(StringStatic.PASSWORD));
         }
@@ -135,7 +133,7 @@ public class LoginActivity extends BaseAty implements View.OnClickListener, ILog
     }
 
     @Override
-    public void onResponse(String username, String password) {
+    public void onResponse(final String username, String password) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -143,6 +141,9 @@ public class LoginActivity extends BaseAty implements View.OnClickListener, ILog
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                PreferenceManager.getIntance().setCurrentUserName(username);
+                Log.d("LoginActivity",PreferenceManager.getIntance().getCurrentUserName());
+
                 startActivity(intent);
                 finish();
             }

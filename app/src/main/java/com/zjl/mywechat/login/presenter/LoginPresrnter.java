@@ -1,5 +1,7 @@
 package com.zjl.mywechat.login.presenter;
 
+import android.util.Log;
+
 import com.zjl.mywechat.login.modle.ILoginModel;
 import com.zjl.mywechat.login.modle.LoginModelImp;
 import com.zjl.mywechat.login.modle.OnFinishListener;
@@ -26,6 +28,7 @@ public class LoginPresrnter {
         mLoginModel.startLogin(username, password, new OnFinishListener() {
             @Override
             public void onFinished(String username, String password) {
+                Log.d("LoginPresrnter", username);
                 PreferenceManager.getIntance().setCurrentUserName(username);
                 mLoginView.dismissDialog();
                 mLoginView.onResponse(username, password);

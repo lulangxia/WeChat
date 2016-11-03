@@ -8,6 +8,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.File;
@@ -44,23 +45,26 @@ public class OkHttpManager {
                 case RESULT_ERROR:
                     httpCallBack.onFailure((String) msg.obj);
                     Toast.makeText(context, "服务器端无响应", Toast.LENGTH_SHORT).show();
-                    Log.d("result----->", (String) msg.obj);
                     break;
                 case RESULT_SUCESS:
                     String result = (String) msg.obj;
                     try {
                         JSONObject jsonObject = JSONObject.parseObject(result);
                         httpCallBack.onResponse(jsonObject);
+                        JSONArray users_temp = jsonObject.getJSONArray("data");
+
                     } catch (com.alibaba.fastjson.JSONException e) {
                         httpCallBack.onFailure((String) msg.obj);
                         Toast.makeText(context, "响应数据解析错误", Toast.LENGTH_SHORT).show();
                     }
-                    Log.d("result----->", result);
+                    Log.d("OkHttpManager", result);
                     break;
             }
 
         }
     };
+
+
 
     public OkHttpManager(Context context) {
         this.context = context;
@@ -87,7 +91,8 @@ public class OkHttpManager {
 
     //纯粹键值对post请求
     public void post(List<Param> params, String url, HttpCallBack httpCallBack) {
-        Log.d("url----->>", url);
+        Log.d("url----->>111", url);
+        Log.d("OkHttpManager", "params:" + params.size());
         this.httpCallBack = httpCallBack;
         FormBody.Builder bodyBulder = new FormBody.Builder();
         for (Param param : params) {
@@ -158,11 +163,6 @@ public class OkHttpManager {
 
             File file_big = new File("/sdcard/bizchat/" + "big_" + filename);
 
-//            if (file.exists() && file_big.exists()) {
-//                Log.e("imageStr_ok---->>>>>>.", "ffffff");
-//            } else {
-//                Log.e("imageStr_ok---->>>>>>.", "ggggggg");
-//            }
 //            // 小图
             builder.addPart(Headers.of("Content-Disposition",
                     "form-data; name=\"" + "file_" + String.valueOf(i) + "\"; filename=\"" + file.getName() + "\""),
@@ -178,18 +178,18 @@ public class OkHttpManager {
                 imageStr = filename;
             } else {
                 imageStr = imageStr + "split" + filename;
-                Log.e("imageStr---->>>>>>.", imageStr);
+                Log.d("imageStr---->>>>>>.", imageStr);
             }
         }
         params.add(new Param("num", String.valueOf(images.size())));
         params.add(new Param("imageStr",imageStr));
-       // params.add(new Param("userID", DemoHelper.getInstance().getCurrentUsernName()));
+        params.add(new Param("userID", PreferenceManager.getIntance().getCurrentUserName()));
         for (Param param : params) {
 
             builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + param.getKey() + "\"")
                     , RequestBody.create(MediaType.parse(guessMimeType(param.getKey())), param.getValue()));
-            Log.d("param.getKey()----->>", param.getKey());
-            Log.d("param.getValue()----->>", param.getValue());
+            Log.d("param.getKey()----->>111", param.getKey());
+            Log.d("param.getValue()----->>111", param.getValue());
         }
         RequestBody requestBody = builder.build();
         Request request = new Request.Builder()
