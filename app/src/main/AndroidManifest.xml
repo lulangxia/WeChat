@@ -86,10 +86,26 @@
         <!-- <activity android:name=".view.SocialMainActivity"> -->
         <!-- </activity> -->
 
+
         <activity android:name=".socalfriend.view.SocialMainActivity">
         </activity>
         <activity android:name=".me.TestOptionActivity"/>
-        <activity android:name=".socalfriend.view.MomentsPublishActivity">
+        <activity android:name=".socalfriend.view.MomentsPublishActivity"/>
+
+        <activity android:name=".socalfriend.friendcircle.SocialMainActivity">
+        </activity>
+
+        <activity android:name=".socalfriend.friendcircle.MomentsPublishActivity">
+        </activity>
+        <activity android:name=".socalfriend.qrcode.QrcodeActivity">
+        </activity>
+        <activity android:name=".group.GrouplistActivity">
+        </activity>
+        <activity android:name=".group.GroupDetailActivity">
+        </activity>
+
+        <activity android:name=".group.AddGroupActivity">
+
         </activity>
 
 

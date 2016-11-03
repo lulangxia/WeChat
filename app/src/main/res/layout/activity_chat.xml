@@ -5,11 +5,12 @@
     android:id="@+id/activity_chat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:launchMode="singleInstance"
     tools:context="com.zjl.mywechat.conversation.ChatActivity">
     <FrameLayout
         android:id="@+id/chat_fr"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </FrameLayout>
+
 </RelativeLayout>

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.addfriends.AddFriendsActivity;
+import com.zjl.mywechat.group.AddGroupActivity;
 
 
 /**
@@ -74,8 +75,10 @@ public class AddPopwindow extends PopupWindow {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "进入群聊", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "创建群聊", Toast.LENGTH_SHORT).show();
                 AddPopwindow.this.dismiss();
+                Intent intent = new Intent(context, AddGroupActivity.class);
+                context.startActivity(intent);
 
             }
 

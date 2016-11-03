@@ -9,8 +9,10 @@ import android.widget.RelativeLayout;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseFragment;
 import com.zjl.mywechat.socalfriend.modle.PreferenceManager;
+import com.zjl.mywechat.socalfriend.friendcircle.SocialMainActivity;
+import com.zjl.mywechat.socalfriend.qrcode.QrcodeActivity;
 
-public class FragmentFind  extends BaseFragment implements View.OnClickListener {
+public class FragmentFind  extends BaseFragment implements View.OnClickListener{
 
 
 	private RelativeLayout mFriend;
@@ -60,6 +62,7 @@ public class FragmentFind  extends BaseFragment implements View.OnClickListener 
 				}
 				break;
 			case R.id.re_erweima:
+				startActivity(new Intent(getActivity(), QrcodeActivity.class));
 				break;
 			case R.id.re_yaoyiyao:
 				break;
