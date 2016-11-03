@@ -1,4 +1,4 @@
-package com.zjl.mywechat.socalfriend;
+package com.zjl.mywechat.socalfriend.view;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -19,6 +19,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.socalfriend.modle.Param;
+import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
 import com.zjl.mywechat.tool.stringvalue.FXConstant;
 
 import java.io.File;

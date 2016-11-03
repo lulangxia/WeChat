@@ -8,7 +8,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.controller.EaseUI;
-import com.zjl.mywechat.socalfriend.OkHttpManager;
+import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
 
 import java.util.Iterator;
 import java.util.List;

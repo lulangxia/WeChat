@@ -1,4 +1,4 @@
-package com.zjl.mywechat.socalfriend;
+package com.zjl.mywechat.socalfriend.presenter;
 
 
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.zjl.mywechat.socalfriend.modle.Param;
+import com.zjl.mywechat.socalfriend.modle.PreferenceManager;
 
 import java.io.File;
 import java.io.IOException;

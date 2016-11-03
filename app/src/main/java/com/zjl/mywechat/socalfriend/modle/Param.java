@@ -1,4 +1,4 @@
-package com.zjl.mywechat.socalfriend;
+package com.zjl.mywechat.socalfriend.modle;
 
 /**
  * Created by dllo on 16/11/1.

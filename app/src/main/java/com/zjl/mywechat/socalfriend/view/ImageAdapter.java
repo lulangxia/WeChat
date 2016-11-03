@@ -1,4 +1,4 @@
-package com.zjl.mywechat.socalfriend;
+package com.zjl.mywechat.socalfriend.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
