@@ -143,6 +143,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         listView = messageList.getListView();
 
         extendMenuItemClickListener = new MyItemClickListener();
+
+
+
         inputMenu = (EaseChatInputMenu) getView().findViewById(R.id.input_menu);
         registerExtendMenuItem();
         // init input menu
@@ -613,7 +616,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     /**
      * handle the click event for extend menu
      */
-    class MyItemClickListener implements EaseChatExtendMenu.EaseChatExtendMenuItemClickListener {
+    public  class MyItemClickListener implements EaseChatExtendMenu.EaseChatExtendMenuItemClickListener {
+
 
         @Override
         public void onClick(int itemId, View view) {
@@ -632,6 +636,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 case ITEM_LOCATION:
                     startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);
                     break;
+
 
                 default:
                     break;

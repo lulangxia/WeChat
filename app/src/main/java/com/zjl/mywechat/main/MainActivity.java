@@ -30,7 +30,7 @@ import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.me.FragmentMy;
 import com.zjl.mywechat.mvp.presenter.MainPresenter;
 import com.zjl.mywechat.mvp.view.MainView;
-import com.zjl.mywechat.socalfriend.FragmentFind;
+import com.zjl.mywechat.socalfriend.view.FragmentFind;
 import com.zjl.mywechat.ui.adapter.MainAdapter;
 import com.zjl.mywechat.widget.AddPopwindow;
 
@@ -236,7 +236,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 requestBean.setIsAgree(2);
                 requestBean.setName(username);
                 DBTools.getInstance().getmLiteOrm().update(requestBean);
-
             }
 
 

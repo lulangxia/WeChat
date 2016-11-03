@@ -14,6 +14,8 @@ import android.widget.ListView;
 
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
+import com.zjl.mywechat.base.BaseListViewAdapter;
+import com.zjl.mywechat.base.BaseListViewHolder;
 import com.zjl.mywechat.bean.RequestBean;
 import com.zjl.mywechat.mvp.presenter.MainPresenter;
 import com.zjl.mywechat.mvp.view.MainView;
@@ -106,10 +108,33 @@ public class RequestActivity extends BaseAty implements MainView{
     }
 
     @Override
-    public void showUnAgreeView(ArrayList<RequestBean> arraylist) {
+    public void showUnAgreeView(final ArrayList<RequestBean> arraylist) {
         Log.d("RequestActivity", "arraylist.size():" + arraylist.size());
 
-        Lv adapter = new Lv(this);
+
+//        BaseListViewAdapter adapter = new BaseListViewAdapter(this, arraylist, R.layout.item_personrequest) {
+//
+//            @Override
+//            public void convent(BaseListViewHolder viewHolder, Object o) {
+//                viewHolder.setText(arraylist.get);
+//
+//            }
+//        };
+
+        lv.setAdapter(new BaseListViewAdapter<RequestBean>(this, arraylist, R.layout.item_personrequest) {
+            @Override
+            public void convent(BaseListViewHolder viewHolder, RequestBean requestBean) {
+                viewHolder.setText(R.id.tv_request_name, requestBean.getName());
+                viewHolder.setText(R.id.tv_request_reason, requestBean.getReason());
+
+
+
+            }
+        });
+
+
+
+        AddContactsAdapter adapter = new AddContactsAdapter(this);
         adapter.setArrayList(arraylist);
         lv.setAdapter(adapter);
 

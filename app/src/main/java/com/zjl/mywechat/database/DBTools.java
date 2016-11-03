@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.hyphenate.chat.EMClient;
 import com.litesuits.orm.LiteOrm;
 import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.bean.RequestBean;
@@ -23,7 +24,9 @@ public class DBTools {
 
 
     private DBTools() {
-        mLiteOrm = LiteOrm.newSingleInstance(MyApp.getmContext(), "myDataBase.db");
+        //
+        String name = EMClient.getInstance().getCurrentUser();
+        mLiteOrm = LiteOrm.newSingleInstance(MyApp.getmContext(), name + "myDataBase.db");
         threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
         mHandler = new Handler(Looper.getMainLooper());
     }
@@ -44,6 +47,11 @@ public class DBTools {
 
     public LiteOrm getmLiteOrm() {
         return mLiteOrm;
+    }
+
+
+    public void setDbToolsNull() {
+        sDbTools = null;
     }
 
     // 需要封装

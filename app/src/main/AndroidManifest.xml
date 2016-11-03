@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.zjl.mywechat">
 
     <!-- Required -->
@@ -21,6 +22,16 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="19"
+        tools:overrideLibrary="com.easemob.redpacketui"
+        />
+
+
+
 
     <!-- 注册MyApp -->
     <application
@@ -75,11 +86,75 @@
         <!-- <activity android:name=".view.SocialMainActivity"> -->
         <!-- </activity> -->
 
-        <activity android:name=".socalfriend.SocialMainActivity">
+        <activity android:name=".socalfriend.view.SocialMainActivity">
         </activity>
         <activity android:name=".me.TestOptionActivity"/>
-        <activity android:name=".socalfriend.MomentsPublishActivity">
+        <activity android:name=".socalfriend.view.MomentsPublishActivity">
         </activity>
+
+
+        <!--显示图片的Activity-->
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity">
+        </activity>
+
+
+
+
+        <!--红包相关界面start-->
+        <activity
+            android:name="com.easemob.redpacketui.ui.activity.RPRedPacketActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateVisible"
+            />
+
+        <activity
+            android:name="com.easemob.redpacketui.ui.activity.RPDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+
+        <activity
+            android:name="com.easemob.redpacketui.ui.activity.RPRecordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+
+        <activity
+            android:name="com.easemob.redpacketui.ui.activity.RPWebViewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            />
+        <activity
+            android:name="com.easemob.redpacketui.ui.activity.RPChangeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            />
+
+        <activity
+            android:name="com.easemob.redpacketui.ui.activity.RPBankCardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
+
+        <activity
+            android:name="com.easemob.redpacketui.ui.activity.RPGroupMemberActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
+
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            />
+        <!--红包相关界面end-->
+
+
+
+
     </application>
 
 </manifest>

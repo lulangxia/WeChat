@@ -1,2 +1,2 @@
-include ':app', ':librar'
+include ':app', ':librar', ':redpacketlibrary'
 include ':easeUI_CN'
