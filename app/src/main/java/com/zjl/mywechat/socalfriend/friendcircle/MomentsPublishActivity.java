@@ -24,11 +24,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.socalfriend.OkHttpManager;
+import com.zjl.mywechat.socalfriend.Param;
+import com.zjl.mywechat.tool.stringvalue.FXConstant;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -84,6 +88,7 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
         mLocationClient = new LocationClient(this); // 声明LocationClient类
         mLocationClient.registerLocationListener(myListener); // 注册监听函数
     }
+
     @SuppressLint("SdCardPath")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -128,6 +133,7 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
         mLllocation.setOnClickListener(this);
         mSned.setOnClickListener(this);
     }
+
     @SuppressLint("SdCardPath")
     private void getTwoImage(Uri uri_temp, boolean is_first) {
         if (uri_temp == null) {
@@ -143,9 +149,9 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
         save(imageUrl, 60, imageName_temp);
         Log.e("imageUrl---->>>>", imageUrl);
         Log.e("imageName_temp---->>>>", imageName_temp);
-        if ((new File("/sdcard/bizchat/" + imageName_temp)).exists()&&
+        if ((new File("/sdcard/bizchat/" + imageName_temp)).exists() &&
                 (new File("/sdcard/bizchat/" + "big_" + imageName_temp))
-                .exists()) {
+                        .exists()) {
             if (!is_first) {
                 Toast.makeText(this, "成功聊", Toast.LENGTH_SHORT).show();
                 lists.add(uri_temp);
@@ -156,6 +162,7 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
 
         }
     }
+
     private void initDate() {
         mAdapter = new ImageAdapter(this, lists);
         mGridView.setAdapter(mAdapter);
@@ -173,6 +180,7 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
         // 获取位置
 
     }
+
     private void showPhotoDialog() {
         final AlertDialog dlg = new AlertDialog.Builder(this).create();
         dlg.show();
@@ -211,6 +219,7 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
         });
 
     }
+
     private void checkDialog(final int position) {
         final AlertDialog dlg = new AlertDialog.Builder(this).create();
         dlg.show();
@@ -248,6 +257,7 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMddHHmmssSS");
         return dateFormat.format(date);
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -263,9 +273,49 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
                     Toast.makeText(this, "请输入文字内容....", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                // send(content);
+                send(content);
         }
     }
+
+    private void send(String content) {
+        mDialog = new ProgressDialog(this);
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mDialog.setMessage("正在发布...");
+        mDialog.show();
+        if (TextUtils.isEmpty(mylocation)) {
+            mylocation = "0";
+        }
+
+        List<Param> params = new ArrayList<>();
+        params.add(new Param("content", content));
+        params.add(new Param("location", mylocation));
+        OkHttpManager.getInstance().postMoments(params, lists, FXConstant.URL_PUBLISH, new OkHttpManager.HttpCallBack() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                Log.d("MomentsPublishActivity", "这个是第一步");
+                int code = jsonObject.getInteger("code");
+                if (code == 1000) {
+
+                    Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_SHORT).show();
+                    mDialog.dismiss();
+                    finish();
+
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "服务器端错误:" + String.valueOf(code),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMsg) {
+
+            }
+        });
+
+    }
+
     private void InitLocation() {
 
         LocationClientOption option = new LocationClientOption();
@@ -277,6 +327,7 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
         option.setIsNeedAddress(true);
         mLocationClient.setLocOption(option);
     }
+
     public class MyLocationListener implements BDLocationListener {
 
         @Override
@@ -298,6 +349,7 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
             }
         }
     }
+
     private void save(String path, int size, String saveName) {
 
         try {
@@ -338,6 +390,7 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
         }
 
     }
+
     public static int readPictureDegree(String path) {
         int degree = 0;
         try {
@@ -361,6 +414,7 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
         }
         return degree;
     }
+
     public static Bitmap rotateBitmap(Bitmap bitmap, int degress) {
         if (bitmap != null) {
             Matrix m = new Matrix();

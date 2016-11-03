@@ -2,6 +2,7 @@ package com.zjl.mywechat.socalfriend;
 
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -54,7 +55,10 @@ public class FragmentFind  extends BaseFragment implements View.OnClickListener{
 
 		switch (v.getId()){
 			case R.id.re_friends:
-				startActivity(new Intent(getActivity(),SocialMainActivity.class));
+				String userID = PreferenceManager.getIntance().getCurrentUserName();
+				if (!TextUtils.isEmpty(userID)) {
+					startActivity(new Intent(getActivity(),SocialMainActivity.class).putExtra("userID",userID));
+				}
 				break;
 			case R.id.re_erweima:
 				startActivity(new Intent(getActivity(), QrcodeActivity.class));

@@ -8,6 +8,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.controller.EaseUI;
+import com.zjl.mywechat.socalfriend.OkHttpManager;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,16 +19,28 @@ import java.util.List;
  */
 public class MyApp extends Application {
     private static Context mContext;
-
+    private static MyApp instance;
 
     // 记录是否已经初始化
     private boolean isInit = false;
     private String username = "";
 
+    public static MyApp getApp(){
+        if (instance != null && instance instanceof MyApp) {
+            return instance;
+        } else {
+            instance = new MyApp();
+            instance.onCreate();
+            return  instance;
+        }
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = this;
+        instance = this;
+        OkHttpManager.init(instance);
         initEasemob();
 //        if (getCurrentUserName() != null) {
 //            Log.d("MyApp", getCurrentUserName());
