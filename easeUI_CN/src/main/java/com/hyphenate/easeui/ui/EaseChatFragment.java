@@ -914,11 +914,11 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 return;
             }
             if (chatFragmentHelper != null) {
-                chatFragmentHelper.onEnterToChatDetails();
+                chatFragmentHelper.onEnterToChatDetails(group.getGroupId());
             }
         } else if (chatType == EaseConstant.CHATTYPE_CHATROOM) {
             if (chatFragmentHelper != null) {
-                chatFragmentHelper.onEnterToChatDetails();
+                //chatFragmentHelper.onEnterToChatDetails();
             }
         }
     }
@@ -1029,7 +1029,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         /**
          * enter to chat detail
          */
-        void onEnterToChatDetails();
+        void onEnterToChatDetails(String userId);
 
         /**
          * on avatar clicked

@@ -5,7 +5,9 @@
     android:id="@+id/activity_social_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zjl.mywechat.socalfriend.view.SocialMainActivity">
+
+    tools:context="com.zjl.mywechat.socalfriend.friendcircle.SocialMainActivity">
+
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/pull_refresh_list"

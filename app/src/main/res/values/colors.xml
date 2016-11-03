@@ -15,4 +15,5 @@
 
     <color name="logintitle">#353535</color>
     <color name="presstext">#576B95</color>
+    <color name="background">#999999</color>
 </resources>
