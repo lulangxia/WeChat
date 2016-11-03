@@ -18,12 +18,12 @@ import com.zjl.mywechat.database.DBTools;
 
 import java.util.ArrayList;
 
-public class Lv extends BaseAdapter{
+public class AddContactsAdapter extends BaseAdapter{
 
     private Context mContext;
     private ArrayList<RequestBean> arrayList;
 
-    public Lv(Context mContext) {
+    public AddContactsAdapter(Context mContext) {
         this.mContext = mContext;
     }
 
@@ -61,18 +61,24 @@ public class Lv extends BaseAdapter{
         viewHolder.tvReason.setText(arrayList.get(position).getReason());
 
 
+        setTextOrButton(viewHolder, position);
+        setButtonClickEvent(viewHolder, position);
 
+
+        return convertView;
+    }
+
+
+    // 设置显示文字还是按钮
+    private void setTextOrButton(ViewHolder viewHolder, int position) {
 
         if (arrayList.get(position).getIsPositive() == 1) {
-            showText(viewHolder);
-            viewHolder.tvIsAgree.setText("请等待对方验证");
+            showText(viewHolder, "请等待对方验证");
         } else if (arrayList.get(position).getIsPositive() == 2){
-            showText(viewHolder);
-            viewHolder.tvIsAgree.setText("对方已同意");
+            showText(viewHolder, "对方已同意");
 
         } else if (arrayList.get(position).getIsPositive() == 3){
-            showText(viewHolder);
-            viewHolder.tvIsAgree.setText("对方已拒绝");
+            showText(viewHolder, "对方已拒绝");
 
         } else {
 
@@ -80,7 +86,7 @@ public class Lv extends BaseAdapter{
                 // 消息还未读，那就是默认布局
             } else {
                 // 消息已读，选择出已经同意还是拒绝
-                showText(viewHolder);
+                showText(viewHolder,"");
                 // 已同意/拒绝
                 if (arrayList.get(position).getIsAgree() == 2) {
                     viewHolder.tvIsAgree.setText("已拒绝");
@@ -88,17 +94,11 @@ public class Lv extends BaseAdapter{
                     viewHolder.tvIsAgree.setText("已同意");
                 }
             }
-
         }
+    }
 
-
-
-
-
-
-
-
-
+    // 设置按钮点击事件
+    private void setButtonClickEvent(ViewHolder viewHolder, final int position) {
 
         final ViewHolder finalViewHolder = viewHolder;
 
@@ -112,23 +112,13 @@ public class Lv extends BaseAdapter{
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
-                finalViewHolder.btnAgree.setVisibility(View.GONE);
-                finalViewHolder.btnDisAgree.setVisibility(View.GONE);
-                finalViewHolder.tvIsAgree.setVisibility(View.VISIBLE);
-                finalViewHolder.tvIsAgree.setText("已同意");
 
-                // 同意/拒绝的方法
+                showText(finalViewHolder, "已同意");
 
-
-
-                // 表名    更新后的值 + 列名    元素
-
+                // 同意的话，LitOrm表中添加一条数据
                 RequestBean requestBean = arrayList.get(position);
                 requestBean.setIsAgree(1);
                 DBTools.getInstance().getmLiteOrm().update(requestBean);
-
-
-
 
             }
         });
@@ -147,10 +137,7 @@ public class Lv extends BaseAdapter{
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
-                finalViewHolder.btnAgree.setVisibility(View.GONE);
-                finalViewHolder.btnDisAgree.setVisibility(View.GONE);
-                finalViewHolder.tvIsAgree.setVisibility(View.VISIBLE);
-                finalViewHolder.tvIsAgree.setText("已拒绝");
+                showText(finalViewHolder,"已拒绝");
 
 
 
@@ -158,24 +145,20 @@ public class Lv extends BaseAdapter{
                 requestBean.setIsAgree(2);
                 DBTools.getInstance().getmLiteOrm().update(requestBean);
 
-
-
-
             }
         });
 
 
-
-
-        return convertView;
     }
 
-
-    private void showText(ViewHolder viewHolder) {
+    // 设置tv显示内容
+    private void showText(ViewHolder viewHolder, String text) {
         viewHolder.btnAgree.setVisibility(View.GONE);
         viewHolder.btnDisAgree.setVisibility(View.GONE);
         viewHolder.tvIsAgree.setVisibility(View.VISIBLE);
+        viewHolder.tvIsAgree.setText(text);
     }
+
 
 
     private class ViewHolder {

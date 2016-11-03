@@ -236,7 +236,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 requestBean.setIsAgree(2);
                 requestBean.setName(username);
                 DBTools.getInstance().getmLiteOrm().update(requestBean);
-
             }
 
 

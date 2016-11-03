@@ -10,6 +10,7 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
+import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.login.view.LoginActivity;
 import com.zjl.mywechat.main.MainActivity;
 
@@ -38,6 +39,7 @@ public class TestOptionActivity extends BaseAty {
             @Override
             public void onClick(View v) {
                 logout();
+
             }
         });
 
@@ -59,6 +61,10 @@ public class TestOptionActivity extends BaseAty {
                         pd.dismiss();
                         // show login screen
                       // MyApp.getInstance().setCurrentUserName("");
+
+                        // 将数据库对象置空，这样下次登录新号会新建一个库
+                        DBTools.getInstance().setDbToolsNull();
+
                         startActivity(new Intent(TestOptionActivity.this, LoginActivity.class));
 
                         MainActivity.instance.finish();
