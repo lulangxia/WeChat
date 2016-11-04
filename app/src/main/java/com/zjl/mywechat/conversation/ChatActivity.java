@@ -23,8 +23,8 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
 
-//        EaseChatFragment easeChatFragment = new EaseChatFragment();
-        MyChatFragment easeChatFragment = new MyChatFragment();
+    EaseChatFragment easeChatFragment = new EaseChatFragment();
+      //  MyChatFragment easeChatFragment = new MyChatFragment();
 
 
 

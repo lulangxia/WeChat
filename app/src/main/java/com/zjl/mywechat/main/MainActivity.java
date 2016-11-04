@@ -218,8 +218,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             public void onContactAgreed(String username) {
                 //好友请求被同意
                 Log.d("MainActivity", "邀请1");
-                Boolean refresh = true;
-                EventBus.getDefault().post(refresh);
+//                Boolean refresh = true;
+//                EventBus.getDefault().post(refresh);
 
 
                 RequestBean requestBean = new RequestBean();
@@ -301,6 +301,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             public void onContactAdded(String username) {
                 //增加了联系人时回调此方法
                 Log.d("MainActivity", "邀请5");
+                Boolean refresh = true;
+                EventBus.getDefault().post(refresh);
             }
 
         });
@@ -393,15 +395,17 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             mUnreadnum.setVisibility(View.INVISIBLE);
             mToolbar.setTitle("微信");
             mFirstNum = 0;
+            spET.putInt("unreadnum", mFirstNum);
+            spET.commit();
         } else {
             mUnreadnum.setVisibility(View.VISIBLE);
 
             mUnreadnum.setText((mFirstNum) + "");
             mToolbar.setTitle("微信" + "(" + (mFirstNum) + ")");
+            spET.putInt("unreadnum", mFirstNum);
+            spET.commit();
 
         }
-        spET.putInt("unreadnum", mFirstNum);
-        spET.commit();
         Log.d("MainActivity", "mFirstNum:" + mFirstNum);
     }
 
