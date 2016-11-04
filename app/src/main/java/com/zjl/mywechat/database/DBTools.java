@@ -113,7 +113,8 @@ public class DBTools {
 
     // 查询所有数据
     public <T> void getAll(final QueryListener<T> queryListener,final Class<T> clazz) {
-     //   final Class<T> clazz = null;
+
+        
         threadPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -124,6 +125,9 @@ public class DBTools {
             }
         });
 
+
+        // 封装起来
+        // threadPool.execute(new QueryRunnable<>(clazz, queryListener));
 
 
     }

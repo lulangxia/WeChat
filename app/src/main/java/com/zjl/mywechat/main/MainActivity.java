@@ -22,6 +22,7 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
 import com.zjl.mywechat.bean.RequestBean;
 import com.zjl.mywechat.contacts.FragmentTelList;
@@ -39,6 +40,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +67,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     private int mFirstNum = 0;
     private MainPresenter presenter;
     private ZeroReceiver receiver;
+    private SharedPreferences.Editor setEditor;
 
 
     @Override
@@ -86,7 +89,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
 
         // 初始化DBTools,要挪到别的地方
-        DBTools dbTools = DBTools.getInstance();
+        //        DBTools.getInstance();
+
 
         // 控制层
         presenter = new MainPresenter(this);
@@ -96,7 +100,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         IntentFilter filter = new IntentFilter();
         filter.addAction("未读消息数目变化");
         registerReceiver(receiver, filter);
-
 
 
     }
@@ -153,6 +156,20 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         }
 
 
+        SharedPreferences sharedSetting = this.getSharedPreferences("unAgreeNum", MODE_PRIVATE);
+        setEditor = sharedSetting.edit();
+
+        unAgreeNum = 0;
+        // 持久化技术存放
+        unAgreeNum = sharedSetting.getInt("unAgreeNum", 0);
+        if (unAgreeNum <= 0) {
+            mUnagreenum.setVisibility(View.INVISIBLE);
+        } else {
+            mUnagreenum.setVisibility(View.VISIBLE);
+            mUnagreenum.setText(unAgreeNum + "");
+        }
+
+
         EMMessageListener msgListener = new EMMessageListener() {
 
             @Override
@@ -194,7 +211,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             }
 
 
-
             @Override
             public void onMessageDeliveryAckReceived(List<EMMessage> message) {
                 //收到已送达回执
@@ -218,8 +234,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             public void onContactAgreed(String username) {
                 //好友请求被同意
                 Log.d("MainActivity", "邀请1");
-                Boolean refresh = true;
-                EventBus.getDefault().post(refresh);
+                //                Boolean refresh = true;
+                //                EventBus.getDefault().post(refresh);
 
 
                 RequestBean requestBean = new RequestBean();
@@ -246,36 +262,13 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             public void onContactInvited(String username, String reason) {
                 Log.d("MainActivity", "邀请3");
 
-
-                // 发个广播
-                //                Intent intent = new Intent("加好友");
-                //                intent.putExtra("num", ++unAgreeNum);
-                //                intent.putExtra("name", username);
-                //                intent.putExtra("reason", reason);
-                //                sendBroadcast(intent);
-
-
-                Log.d("MainActivity", username);
-
-
                 // EventBus
                 RequestBean bean = new RequestBean();
                 bean.setName(username);
                 bean.setReason(reason);
                 EventBus.getDefault().post(bean);
 
-
                 presenter.hasData(bean);
-
-
-                ArrayList<RequestBean> arr = DBTools.getInstance().getmLiteOrm().query(RequestBean.class);
-                Log.d("MainActivity", "arr.size():" + arr.size());
-
-
-                for (int i = 0; i < arr.size(); i++) {
-                    Log.d("MainActivity", "litOrmLog");
-                    Log.d("MainActivity", arr.get(i).getName());
-                }
 
 
                 // 跳转，传值，MainActivity显示角标，新的朋友右侧显示1+
@@ -301,6 +294,10 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             public void onContactAdded(String username) {
                 //增加了联系人时回调此方法
                 Log.d("MainActivity", "邀请5");
+
+                Boolean refresh = true;
+                EventBus.getDefault().post(refresh);
+
             }
 
         });
@@ -320,6 +317,24 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
+
+
+
+                // Context.getExternalFilesDir() --> SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
+                // Context.getExternalCacheDir() --> SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据
+
+                // 清空缓存
+                DataCleanManager manager1 = new DataCleanManager();
+                File file = MyApp.getmContext().getExternalCacheDir();
+                try {
+                    String n = manager1.getCacheSize(file);
+                    Log.d("MainActivity", "+++++++++++++" + n);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                manager1.cleanApplicationData(MyApp.getmContext());
+
+
                 Toast.makeText(MainActivity.this, "静待后续版本实现", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_add:
@@ -341,7 +356,11 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
         // 显示下方的消息个数
         ++unAgreeNum;
-        Log.d("MainActivity", "unAgreeNum:" + unAgreeNum);
+
+
+        setEditor.putInt("unAgreeNum", unAgreeNum);
+        Log.d("FragmentTelList66666", "unAgreeNum:" + unAgreeNum);
+        setEditor.commit();
 
 
         Intent intent = new Intent("加好友");
@@ -366,16 +385,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     @Override
     public void showUnAgreeView(ArrayList<RequestBean> arraylist) {
     }
-
-
-
-
-
-
-
-
-
-
 
 
     @Override
@@ -406,15 +415,20 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     }
 
 
-    private class ZeroReceiver extends BroadcastReceiver{
+    // 点击邀请信息后，下标清零
+    private class ZeroReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             intent.getIntExtra("zeroNum", 0);
             unAgreeNum = 0;
             mUnagreenum.setVisibility(View.INVISIBLE);
+
+
+            setEditor.putInt("unAgreeNum", 0);
+            setEditor.commit();
+
         }
     }
-
 
 
 }

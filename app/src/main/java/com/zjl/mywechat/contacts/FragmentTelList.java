@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.Gravity;
@@ -43,6 +44,8 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
     private String requestReason;
     private UnAgreeRequest mReceiver;
     private int num = 0;// 从数据库里面取
+    private SharedPreferences sharedSetting;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void initView() {
@@ -84,12 +87,26 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
         }
     }
 
-
     @Override
     protected void setUpView() {
 
 
         super.setUpView();
+
+
+        sharedPreferences = getActivity().getSharedPreferences("TelList", Context.MODE_PRIVATE);
+
+
+        num = sharedPreferences.getInt("Num", 0);
+        if (num != 0) {
+            tvUnAgreeNum.setVisibility(View.VISIBLE);
+            tvUnAgreeNum.setText(num + "");
+        }
+        Log.d("FragmentTelList2", "num:" + num);
+
+
+
+
 
         EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
             @Override
@@ -192,6 +209,12 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                 getActivity().sendBroadcast(broadIntent);
 
 
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("Num", 0);
+                editor.commit();
+
+
+
                 // 跳转
                 Intent intent = new Intent(getActivity(), RequestActivity.class);
                 intent.putExtra("name", requestName);
@@ -270,6 +293,11 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
             tvUnAgreeNum.setVisibility(View.VISIBLE);
             tvUnAgreeNum.setText(num + "");
             Log.d("UnAgreeRequest", "num:" + num);
+
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("Num", num);
+            editor.commit();
         }
     }
 

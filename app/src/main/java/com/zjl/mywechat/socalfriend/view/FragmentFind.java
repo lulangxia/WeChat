@@ -12,6 +12,7 @@ import com.zjl.mywechat.socalfriend.modle.PreferenceManager;
 import com.zjl.mywechat.socalfriend.friendcircle.SocialMainActivity;
 import com.zjl.mywechat.socalfriend.qrcode.QrcodeActivity;
 
+// 二维码扫描，
 public class FragmentFind  extends BaseFragment implements View.OnClickListener{
 
 
@@ -56,12 +57,14 @@ public class FragmentFind  extends BaseFragment implements View.OnClickListener{
 
 		switch (v.getId()){
 			case R.id.re_friends:
+				// 朋友圈
 				String userID = PreferenceManager.getIntance().getCurrentUserName();
 				if (!TextUtils.isEmpty(userID)) {
 					startActivity(new Intent(getActivity(),SocialMainActivity.class).putExtra("userID",userID));
 				}
 				break;
 			case R.id.re_erweima:
+				// 二维码
 				startActivity(new Intent(getActivity(), QrcodeActivity.class));
 				break;
 			case R.id.re_yaoyiyao:
