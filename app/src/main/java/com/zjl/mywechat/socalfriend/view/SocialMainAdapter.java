@@ -288,7 +288,7 @@ public class SocialMainAdapter extends BaseAdapter {
         public void onClick(View v) {
 
             Intent intent = new Intent();
-           // intent.setClass(context, BigImageActivity.class);
+            intent.setClass(context, BigImageActivity.class);
             intent.putExtra("images", images);
             intent.putExtra("page", page);
             context.startActivity(intent);
