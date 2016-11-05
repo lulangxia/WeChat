@@ -199,7 +199,6 @@ public class AddFriendsActivity extends BaseAty implements View.OnClickListener 
 
                     DBTools.getInstance().getmLiteOrm().insert(bean);
 
-                    
 
                     runOnUiThread(new Runnable() {
                         @Override

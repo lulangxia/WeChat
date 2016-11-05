@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.EMContactListener;
+import com.hyphenate.EMGroupChangeListener;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -98,7 +99,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         registerReceiver(receiver, filter);
 
 
-
     }
 
     @Override
@@ -153,8 +153,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         }
 
 
+        //聊天消息监听
         EMMessageListener msgListener = new EMMessageListener() {
-
             @Override
             public void onMessageReceived(final List<EMMessage> messages) {
                 //收到消息
@@ -192,7 +192,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
                 //收到已读回执
                 Log.d("MainActivity", "收到已读回执");
             }
-
 
 
             @Override
@@ -309,6 +308,63 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
         Boolean refresh = true;
         EventBus.getDefault().post(refresh);
+
+
+        //群组事件监听
+        EMClient.getInstance().groupManager().addGroupChangeListener(new EMGroupChangeListener() {
+            @Override
+            public void onUserRemoved(String groupId, String groupName) {
+                //当前用户被管理员移除出群组
+                Log.d("MainActivity", "被移除");
+            }
+
+            @Override
+            public void onGroupDestroyed(String s, String s1) {
+                //群组被创建者解散
+                Log.d("MainActivity", "群解散");
+            }
+
+            @Override
+            public void onAutoAcceptInvitationFromGroup(String s, String s1, String s2) {
+                Log.d("MainActivity", "自动接受");
+            }
+
+            @Override
+            public void onInvitationReceived(String groupId, String groupName, String inviter, String reason) {
+                //收到加入群组的邀请
+                Log.d("MainActivity", "收到邀请");
+            }
+
+            @Override
+            public void onInvitationDeclined(String groupId, String invitee, String reason) {
+                //群组邀请被拒绝
+                Log.d("MainActivity", "被拒绝");
+            }
+
+
+            @Override
+            public void onApplicationReceived(String groupId, String groupName, String applyer, String reason) {
+                //收到加群申请
+                Log.d("MainActivity", "收到申请");
+            }
+
+            @Override
+            public void onApplicationAccept(String groupId, String groupName, String accepter) {
+                //加群申请被同意
+                Log.d("MainActivity", "被同意");
+            }
+
+            @Override
+            public void onApplicationDeclined(String groupId, String groupName, String decliner, String reason) {
+                // 加群申请被拒绝
+            }
+
+            @Override
+            public void onInvitationAccepted(String s, String s1, String s2) {
+                //群组邀请被接受
+                Log.d("MainActivity", "邀请被接受");
+            }
+        });
     }
 
 
@@ -370,16 +426,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     }
 
 
-
-
-
-
-
-
-
-
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -410,7 +456,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     }
 
 
-    private class ZeroReceiver extends BroadcastReceiver{
+    private class ZeroReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             intent.getIntExtra("zeroNum", 0);
@@ -418,7 +464,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             mUnagreenum.setVisibility(View.INVISIBLE);
         }
     }
-
 
 
 }

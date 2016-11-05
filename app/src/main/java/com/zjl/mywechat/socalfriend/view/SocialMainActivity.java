@@ -23,7 +23,7 @@ import com.zjl.mywechat.R;
 import com.zjl.mywechat.socalfriend.modle.Param;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
 import com.zjl.mywechat.tool.stringvalue.FXConstant;
-import com.zjl.mywechat.tool.tools.PermissionsActivity;
+import com.zjl.mywechat.widget.PermissionsActivity;
 import com.zjl.mywechat.tool.tools.PermissionsChecker;
 
 import java.io.File;

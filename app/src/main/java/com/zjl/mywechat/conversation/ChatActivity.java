@@ -11,7 +11,7 @@ import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.group.GroupDetailActivity;
-import com.zjl.mywechat.tool.tools.PermissionsActivity;
+import com.zjl.mywechat.widget.PermissionsActivity;
 import com.zjl.mywechat.tool.tools.PermissionsChecker;
 
 public class ChatActivity extends AppCompatActivity {
@@ -32,13 +32,12 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         mPermissionsChecker = new PermissionsChecker();
 
-    EaseChatFragment easeChatFragment = new EaseChatFragment();
-      //  MyChatFragment easeChatFragment = new MyChatFragment();
-
+        // EaseChatFragment easeChatFragment = new EaseChatFragment();
+        MyChatFragment easeChatFragment = new MyChatFragment();
 
 
         flag = true;
-      //  EaseChatFragment easeChatFragment = new EaseChatFragment();
+        //  EaseChatFragment easeChatFragment = new EaseChatFragment();
 
         easeChatFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(R.id.chat_fr, easeChatFragment).commit();

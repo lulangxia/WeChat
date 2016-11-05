@@ -27,7 +27,7 @@ import com.zjl.mywechat.login.view.LoginActivity;
 import com.zjl.mywechat.register.presenter.RegisterPresenter;
 import com.zjl.mywechat.tool.stringvalue.FXConstant;
 import com.zjl.mywechat.tool.stringvalue.StringStatic;
-import com.zjl.mywechat.tool.tools.PermissionsActivity;
+import com.zjl.mywechat.widget.PermissionsActivity;
 import com.zjl.mywechat.tool.tools.PermissionsChecker;
 import com.zjl.mywechat.widget.FXAlertDialog;
 

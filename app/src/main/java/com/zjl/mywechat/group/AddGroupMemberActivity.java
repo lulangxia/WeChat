@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
-import com.hyphenate.chat.EMGroupManager;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
@@ -34,14 +33,14 @@ public class AddGroupMemberActivity extends BaseAty {
     private TextView tv_checked;
     private ListView listView;
     //是否新建群
-    protected boolean isCreatingNewGroup=true;
+    protected boolean isCreatingNewGroup = true;
     // private PickContactAdapter contactAdapter;
     private List<String> exitingMembers = new ArrayList<String>();
     // 可滑动的显示选中用户的View
     private LinearLayout menuLinerLayout;
     // 选中用户总数,右上角显示
-    private String userId = null;
-    private String groupId = null;
+    private int userId = 0;
+
     private String groupname;
     // 添加的列表
     private List<String> addList = new ArrayList<String>();
@@ -53,6 +52,7 @@ public class AddGroupMemberActivity extends BaseAty {
     private List<GroupContactBean> mMembers;
     private ListView mListView;
     private AddGroupAdapter mListAdapter;
+    private String mGroupId;
 
     @Override
     protected int setLayout() {
@@ -72,6 +72,9 @@ public class AddGroupMemberActivity extends BaseAty {
 
     @Override
     protected void initData() {
+        Intent intent = getIntent();
+        mGroupId = intent.getStringExtra("newgroupid");
+        //   Log.d("AddGroupMemberActivity", mGroupId);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,14 +82,7 @@ public class AddGroupMemberActivity extends BaseAty {
             }
         });
 
-        tv_checked.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                // save();
-            }
-
-        });
         mMembers = new ArrayList<>();
         EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
             @Override
@@ -117,15 +113,14 @@ public class AddGroupMemberActivity extends BaseAty {
         });
         // Log.d("AddGroupMemberActivity", mMembers.get(0));
 
+
         tv_checked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addList.clear();
                 Log.d("AddGroupMemberActivity", "mMembers.size():" + mMembers.size());
                 for (int i = 0; i < mMembers.size(); i++) {
-
                     if (mMembers.get(i).isChecked() == true) {
-
                         addList.add(mMembers.get(i).getName());
                     }
                 }
@@ -154,31 +149,29 @@ public class AddGroupMemberActivity extends BaseAty {
                         ChatActivity.class).putExtra("userId", userId));
                 finish();
                 return;
+            } else {
+                //否则进入添加成员
+                addMember(addList);
             }
-            //否则进入创建群组
-            creatGroupNew(addList);
         }
     }
 
-    private void creatGroupNew(final List<String> addList) {
+    private void addMember(final List<String> addList) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Log.d("AddGroupMemberActivity", "group");
-                    EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
-                    option.maxUsers = 200;
-                    option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite;
+
                     String[] strings = new String[addList.size()];
                     for (int i = 0; i < addList.size(); i++) {
                         strings[i] = addList.get(i);
                         Log.d("AddGroupMemberActivity", strings[i]);
                     }
-                    EMClient.getInstance().groupManager().createGroup("aaaaa", null, strings, null, option);
+                    Log.d("AddGroupMemberActivity", mGroupId);
+                    EMClient.getInstance().groupManager().addUsersToGroup(mGroupId, strings);
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Log.d("AddGroupMemberActivity", "finish");
-                            Toast.makeText(AddGroupMemberActivity.this, "建群成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddGroupMemberActivity.this, "添加成员", Toast.LENGTH_SHORT).show();
                         }
                     });
                 } catch (final HyphenateException e) {
@@ -187,8 +180,37 @@ public class AddGroupMemberActivity extends BaseAty {
 
             }
         }).start();
-
     }
+
+//    private void creatGroupNew(final List<String> addList) {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Log.d("AddGroupMemberActivity", "group");
+//                    EMGroupManager.EMGroupOptions option = new EMGroupManager.EMGroupOptions();
+//                    option.maxUsers = 200;
+//                    option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateMemberCanInvite;
+//                    String[] strings = new String[addList.size()];
+//                    for (int i = 0; i < addList.size(); i++) {
+//                        strings[i] = addList.get(i);
+//                        Log.d("AddGroupMemberActivity", strings[i]);
+//                    }
+//                    EMClient.getInstance().groupManager().createGroup("aaaaa", null, strings, null, option);
+//                    runOnUiThread(new Runnable() {
+//                        public void run() {
+//                            Log.d("AddGroupMemberActivity", "finish");
+//                            Toast.makeText(AddGroupMemberActivity.this, "建群成功", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                } catch (final HyphenateException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        }).start();
+//
+//    }
 
 
 }
