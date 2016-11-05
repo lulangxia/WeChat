@@ -1,5 +1,6 @@
 package com.zjl.mywechat.socalfriend.qrcode;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Vibrator;
@@ -8,6 +9,8 @@ import android.widget.Toast;
 
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
+import com.zjl.mywechat.tool.tools.PermissionsActivity;
+import com.zjl.mywechat.tool.tools.PermissionsChecker;
 
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 
@@ -16,6 +19,13 @@ public class QrcodeActivity extends BaseAty implements QRCodeView.Delegate {
 
 
     private QRCodeView mQRCodeView;
+
+    private static final int REQUEST_CODE = 0; // 请求码
+    // 所需的全部权限
+    static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.CAMERA
+    };
+    private PermissionsChecker mPermissionsChecker;
 
     @Override
     protected int setLayout() {
@@ -30,6 +40,7 @@ public class QrcodeActivity extends BaseAty implements QRCodeView.Delegate {
 
     @Override
     protected void initData() {
+        mPermissionsChecker = new PermissionsChecker();
         mQRCodeView.startSpot();
 
     }
@@ -74,5 +85,29 @@ public class QrcodeActivity extends BaseAty implements QRCodeView.Delegate {
     @Override
     public void onScanQRCodeOpenCameraError() {
         Log.e("QrcodeActivity", "打开相机出错");
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 缺少权限时, 进入权限配置页面
+
+        if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
+            startPermissionsActivity();
+        }
+    }
+
+    private void startPermissionsActivity() {
+        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
+            finish();
+        }
     }
 }

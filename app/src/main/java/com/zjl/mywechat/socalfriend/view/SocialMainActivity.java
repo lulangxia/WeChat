@@ -54,8 +54,8 @@ public class SocialMainActivity extends BaseActivity {
     private static final int REQUEST_CODE = 0; // 请求码
     // 所需的全部权限
     static final String[] PERMISSIONS = new String[]{
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
     private PermissionsChecker mPermissionsChecker;
 
