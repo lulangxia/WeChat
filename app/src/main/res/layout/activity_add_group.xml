@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#fff"
+              android:background="#FAFAFA"
               android:orientation="vertical">
 
     <RelativeLayout
@@ -23,7 +23,6 @@
             android:paddingTop="5dp"
             android:scaleType="centerInside"
             android:src="@drawable/fx_top_bar_back" />
-
         <View
             android:id="@+id/view_temp"
             android:layout_width="1dp"
