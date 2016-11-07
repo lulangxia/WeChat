@@ -16,4 +16,17 @@ ui包下的类需要重新分包
 
 整体的进度需要再快点
 
+--------
+
+Application new一个出来的原因是什么
+
+PreferenceManager分包不对,不需要写成单例
+
+MainActivity对象里面有个静态的MainActivity?这不内存泄露么?
+
+MVP使用的不好,
+
+RegisterPresenter,线程处理的部分最好放到M层
+
+工具类放的位置不正确,分包有问题.
 

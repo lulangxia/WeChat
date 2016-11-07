@@ -27,11 +27,17 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <!-- 注册MyApp -->
+
+
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"/> <!-- 注册MyApp -->
+
     <application
         android:name=".app.MyApp"
         android:allowBackup="true"
@@ -83,17 +89,23 @@
         </activity>
         <activity android:name=".me.TestOptionActivity"/>
         <activity android:name=".socalfriend.view.MomentsPublishActivity"/>
-        <activity android:name=".socalfriend.friendcircle.SocialMainActivity">
-        </activity>
-        <activity android:name=".socalfriend.friendcircle.MomentsPublishActivity">
-        </activity>
+
+
+
+
         <activity android:name=".socalfriend.qrcode.QrcodeActivity">
         </activity>
         <activity android:name=".group.GrouplistActivity">
         </activity>
         <activity android:name=".group.GroupDetailActivity">
         </activity>
+
         <activity android:name=".group.AddGroupMemberActivity">
+
+        </activity>
+
+        <activity android:name=".group.AddGroupActivity">
+
         </activity>
 
         <!-- 显示图片的Activity -->
@@ -140,6 +152,7 @@
 
 
 
+
         <activity android:name=".ui.WelcomActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -148,8 +161,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".widget.PermissionsActivity"/>
-        <activity android:name=".group.AddGroupActivity">
-        </activity>
+
         <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"/>
 
 
@@ -163,6 +175,11 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="3ecea51f560650b1ed8a4b99808f52e8" />
+
+
+        <activity android:name=".socalfriend.view.BigImageActivity">
+        </activity>
+
     </application>
 
 

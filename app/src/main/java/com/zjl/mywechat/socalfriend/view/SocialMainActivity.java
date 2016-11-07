@@ -20,11 +20,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.socalfriend.modle.Param;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
 import com.zjl.mywechat.tool.stringvalue.FXConstant;
-import com.zjl.mywechat.widget.PermissionsActivity;
 import com.zjl.mywechat.tool.tools.PermissionsChecker;
+import com.zjl.mywechat.widget.PermissionsActivity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -216,7 +217,7 @@ public class SocialMainActivity extends BaseActivity {
                     Log.d("SocialMainActivity", "users_temp.size():" + users_temp.size());
                     String time = jsonObject.getString("time");
                     Log.d("SocialMainActivity", time);
-                    //  DemoApplication.getInstance().setTime(time);
+                    MyApp.getApp().setTime(time);
                     if (page_num == 0) {
 
                         //	datas = users_temp;
@@ -268,6 +269,7 @@ public class SocialMainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
+
         // 缺少权限时, 进入权限配置页面
 
         if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
@@ -277,7 +279,8 @@ public class SocialMainActivity extends BaseActivity {
 
     private void startPermissionsActivity() {
         PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
-    }
 
+        getData(0);
+    }
 
 }
