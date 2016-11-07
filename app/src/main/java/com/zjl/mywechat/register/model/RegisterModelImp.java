@@ -18,6 +18,7 @@ public class RegisterModelImp implements IRegisterModel {
                 try {
                     EMClient.getInstance().createAccount(username, password);//同步方法
                     listener.onFinished(username,password);
+
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                     listener.onError(e);

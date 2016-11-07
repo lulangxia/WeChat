@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.addfriends.AddFriendsActivity;
 import com.zjl.mywechat.group.AddGroupActivity;
+import com.zjl.mywechat.socalfriend.qrcode.QrcodeActivity;
 
 
 /**
@@ -60,6 +61,8 @@ public class AddPopwindow extends PopupWindow {
         });
         RelativeLayout re_addfriends = (RelativeLayout) conentView.findViewById(R.id.re_addfriends);
         RelativeLayout re_chatroom = (RelativeLayout) conentView.findViewById(R.id.re_chatroom);
+
+        RelativeLayout re_saoyisao = (RelativeLayout) conentView.findViewById(R.id.re_saoyisao);
         re_addfriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +85,14 @@ public class AddPopwindow extends PopupWindow {
 
             }
 
+        });
+        re_saoyisao.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddPopwindow.this.dismiss();
+                Intent intent = new Intent(context, QrcodeActivity.class);
+                context.startActivity(intent);
+            }
         });
 
 
