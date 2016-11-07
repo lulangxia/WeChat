@@ -53,7 +53,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     private TextView mUnreadnum;
     private TextView mUnagreenum;
     private TextView mUnknow;
-    public static MainActivity instance = null;
+    public static MainActivity instance;
 
 
     private int unAgreeNum = 0;

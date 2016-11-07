@@ -125,8 +125,6 @@ public class AddGroupMemberActivity extends BaseAty {
                     }
                 }
                 Log.d("AddGroupMemberActivity", "mMembers.size():" + addList.size());
-
-
                 save();
 
             }
@@ -168,7 +166,10 @@ public class AddGroupMemberActivity extends BaseAty {
                         Log.d("AddGroupMemberActivity", strings[i]);
                     }
                     Log.d("AddGroupMemberActivity", mGroupId);
-                    EMClient.getInstance().groupManager().addUsersToGroup(mGroupId, strings);
+                    group = EMClient.getInstance().groupManager().getGroupFromServer(mGroupId);
+                    if (EMClient.getInstance().getCurrentUser().equals(group.getGroupName())) {
+                        EMClient.getInstance().groupManager().addUsersToGroup(mGroupId, strings);
+                    }
                     runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(AddGroupMemberActivity.this, "添加成员", Toast.LENGTH_SHORT).show();
