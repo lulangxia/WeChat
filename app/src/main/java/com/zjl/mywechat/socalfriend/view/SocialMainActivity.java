@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.socalfriend.modle.Param;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
 import com.zjl.mywechat.tool.stringvalue.FXConstant;
@@ -201,7 +202,7 @@ public class SocialMainActivity extends BaseActivity {
                     Log.d("SocialMainActivity", "users_temp.size():" + users_temp.size());
                     String time = jsonObject.getString("time");
                     Log.d("SocialMainActivity", time);
-                    //  DemoApplication.getInstance().setTime(time);
+                    MyApp.getApp().setTime(time);
                     if (page_num == 0) {
 
                         //	datas = users_temp;
@@ -249,10 +250,10 @@ public class SocialMainActivity extends BaseActivity {
 
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        getData(0);
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getData(0);
+    }
 }
