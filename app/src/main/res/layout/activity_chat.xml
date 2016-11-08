@@ -7,10 +7,14 @@
     android:layout_height="match_parent"
     android:launchMode="singleInstance"
     tools:context="com.zjl.mywechat.conversation.ChatActivity">
+
     <FrameLayout
         android:id="@+id/chat_fr"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
     </FrameLayout>
 
 </RelativeLayout>

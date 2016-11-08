@@ -139,8 +139,6 @@ public class AddContactsAdapter extends BaseAdapter{
                 }
                 showText(finalViewHolder,"已拒绝");
 
-
-
                 RequestBean requestBean = arrayList.get(position);
                 requestBean.setIsAgree(2);
                 DBTools.getInstance().getmLiteOrm().update(requestBean);
@@ -161,32 +159,22 @@ public class AddContactsAdapter extends BaseAdapter{
 
 
 
-    private class ViewHolder {
+    private static class ViewHolder {
 
         private TextView tvName;
         private TextView tvReason;
-
         private Button btnAgree;
         private Button btnDisAgree;
-
         private TextView tvIsAgree;
 
         public ViewHolder(View view) {
 
             tvName = (TextView) view.findViewById(R.id.tv_request_name);
             tvReason = (TextView) view.findViewById(R.id.tv_request_reason);
-
             btnAgree = (Button) view.findViewById(R.id.btn_request_agree);
             btnDisAgree = (Button) view.findViewById(R.id.btn_request_disagree);
-
             tvIsAgree = (TextView) view.findViewById(R.id.tv_request_isagree);
         }
-
-
-
-
-
-
 
     }
 

@@ -17,8 +17,6 @@ import com.zjl.mywechat.database.PersonBean;
 
 import java.util.ArrayList;
 
-import static com.android.volley.Request.Method.HEAD;
-
 public class FragmentMy extends BaseFragment {
 
     private RelativeLayout mOption;
@@ -67,5 +65,9 @@ public class FragmentMy extends BaseFragment {
                 mHeadview.setImageBitmap(bitmap);
             }
         }
+
     }
+
+
+
 }

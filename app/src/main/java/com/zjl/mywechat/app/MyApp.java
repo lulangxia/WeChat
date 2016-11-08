@@ -1,5 +1,6 @@
 package com.zjl.mywechat.app;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.support.multidex.MultiDex;
@@ -12,6 +13,7 @@ import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,6 +24,9 @@ import java.util.List;
 public class MyApp extends MultiDexApplication {
     private static Context mContext;
     private static MyApp instance;
+    // 需要调用方法给Activities添加初值，退出登录时finish掉多余的Activities
+    private static ArrayList<Activity> activities;
+
 
     // 记录是否已经初始化
     private boolean isInit = false;
@@ -37,6 +42,8 @@ public class MyApp extends MultiDexApplication {
         }
     }
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -49,14 +56,21 @@ public class MyApp extends MultiDexApplication {
 //        }
         Fresco.initialize(this);
 
-
-
         RedPacket.getInstance().initContext(this);
         //打开Log开关 正式发布时请关闭
         RedPacket.getInstance().setDebugMode(true);
 
+    }
+
+
+    // 点击退出按钮时，会finish掉其他的Activity，只留下登录Activity
+    public void destroy() {
 
     }
+
+
+
+
 
     // 解决65533问题
     @Override

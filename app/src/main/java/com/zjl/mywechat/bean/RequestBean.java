@@ -1,10 +1,13 @@
 package com.zjl.mywechat.bean;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.enums.AssignType;
 
-public class RequestBean {
+public class RequestBean implements Parcelable {
 
 
 
@@ -36,6 +39,26 @@ public class RequestBean {
 
     // 判断是否已读（默认是0，来一条新消息就 + 1），总的未读消息数目是所有成员isRead数目之和。
 
+
+    protected RequestBean(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        reason = in.readString();
+        isPositive = in.readInt();
+        isAgree = in.readInt();
+    }
+
+    public static final Creator<RequestBean> CREATOR = new Creator<RequestBean>() {
+        @Override
+        public RequestBean createFromParcel(Parcel in) {
+            return new RequestBean(in);
+        }
+
+        @Override
+        public RequestBean[] newArray(int size) {
+            return new RequestBean[size];
+        }
+    };
 
     public int getIsAgree() {
         return isAgree;
@@ -78,7 +101,31 @@ public class RequestBean {
         this.name = name;
     }
 
-//    public String getImg() {
+
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(reason);
+        dest.writeInt(isPositive);
+        dest.writeInt(isAgree);
+    }
+
+
+
+
+
+
+
+
+    //    public String getImg() {
 //        return img;
 //    }
 //

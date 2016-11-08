@@ -1,4 +1,4 @@
-package com.zjl.mywechat.main;
+package com.zjl.mywechat.tool.tools;
 
 import android.content.Context;
 import android.os.Environment;

@@ -1,7 +1,9 @@
 package com.zjl.mywechat.bean;
 
 
-public class TelListBean {
+import java.io.Serializable;
+
+public class TelListBean implements Serializable {
 
     private String img;
     private String name;

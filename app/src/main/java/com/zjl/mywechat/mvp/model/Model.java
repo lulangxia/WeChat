@@ -68,7 +68,6 @@ public class Model<Q, T> implements ModelInterface<T>{
                 }
             }
         }, bean);
-
     }
 
 

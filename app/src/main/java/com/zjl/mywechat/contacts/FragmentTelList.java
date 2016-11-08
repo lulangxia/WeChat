@@ -201,7 +201,7 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
 
         switch (v.getId()) {
             case R.id.re_newfriends:
-                num = 0;
+                num = -1;
                 tvUnAgreeNum.setVisibility(View.INVISIBLE);
 
                 Intent broadIntent = new Intent("未读消息数目变化");

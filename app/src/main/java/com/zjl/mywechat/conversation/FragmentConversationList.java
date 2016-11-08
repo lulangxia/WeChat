@@ -92,11 +92,11 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
                     Integer readnum =conversation.getUnreadMsgCount();
                     EventBus.getDefault().post(readnum);
-
-
                 }
             }
         });
+
+
 
         conversationListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
