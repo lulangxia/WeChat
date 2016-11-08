@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -199,19 +198,16 @@ public class SocialMainActivity extends BaseActivity {
                 int code = jsonObject.getInteger("code");
                 if (code == 1000) {
                     JSONArray users_temp = jsonObject.getJSONArray("data");
-                    Log.d("SocialMainActivity", "users_temp.size():" + users_temp.size());
                     String time = jsonObject.getString("time");
-                    Log.d("SocialMainActivity", time);
                     MyApp.getApp().setTime(time);
                     if (page_num == 0) {
 
-                        //	datas = users_temp;
+                        //datas = users_temp;
                         articles.clear();
                         sIDs.clear();
                         for (int i = 0; i < users_temp.size(); i++) {
                             JSONObject json = users_temp.getJSONObject(i);
                             String sID = json.getString("sID");
-                            Log.d("SocialMainActivity------>", sID);
                             sIDs.add(sID);
                             articles.add(json);
                         }
