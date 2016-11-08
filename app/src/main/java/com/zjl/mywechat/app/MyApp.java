@@ -6,12 +6,14 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.alibaba.fastjson.JSONObject;
 import com.easemob.redpacketsdk.RedPacket;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
+import com.zjl.mywechat.socalfriend.view.LocalUserUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,10 +30,20 @@ public class MyApp extends MultiDexApplication {
     private static ArrayList<Activity> activities;
 
 
+    private JSONObject userJson;
     // 记录是否已经初始化
     private boolean isInit = false;
     private String username = "";
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    private String time = "";
     public static MyApp getApp(){
         if (instance != null && instance instanceof MyApp) {
             return instance;
@@ -42,7 +54,18 @@ public class MyApp extends MultiDexApplication {
         }
     }
 
+    public  void setUserJson( JSONObject userJson){
 
+        this.userJson=userJson;
+        LocalUserUtil.getInstance().setUserJson(userJson);
+
+    }
+    public  JSONObject getUserJson(){
+        if(userJson==null){
+            userJson=LocalUserUtil.getInstance().getUserJson();
+        }
+        return  userJson;
+    }
 
     @Override
     public void onCreate() {
@@ -50,6 +73,7 @@ public class MyApp extends MultiDexApplication {
         mContext = this;
         instance = this;
         OkHttpManager.init(instance);
+        LocalUserUtil.init(instance);
         initEasemob();
 //        if (getCurrentUserName() != null) {
 //            Log.d("MyApp", getCurrentUserName());

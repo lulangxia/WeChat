@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hyphenate.chat.EMClient;
 import com.litesuits.orm.LiteOrm;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseFragment;
@@ -16,6 +17,9 @@ import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.database.PersonBean;
 
 import java.util.ArrayList;
+
+import static com.android.volley.Request.Method.HEAD;
+
 
 public class FragmentMy extends BaseFragment {
 
@@ -66,6 +70,8 @@ public class FragmentMy extends BaseFragment {
             }
         }
 
+        String name = EMClient.getInstance().getCurrentUser();
+        mUsername.setText(name);
     }
 
 

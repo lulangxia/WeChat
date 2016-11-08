@@ -1,5 +1,6 @@
 package com.zjl.mywechat.socalfriend.view;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,9 +20,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.socalfriend.modle.Param;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
 import com.zjl.mywechat.tool.stringvalue.FXConstant;
+import com.zjl.mywechat.tool.tools.PermissionsChecker;
+import com.zjl.mywechat.widget.PermissionsActivity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -47,6 +51,15 @@ public class SocialMainActivity extends BaseActivity {
     private List<JSONObject> articles = new ArrayList<>();
     private SocialMainAdapter mAdapter;
 
+
+    private static final int REQUEST_CODE = 0; // 请求码
+    // 所需的全部权限
+    static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    };
+    private PermissionsChecker mPermissionsChecker;
+
     @Override
     protected void onCreate(Bundle arg0) {
         setContentView(R.layout.activity_social_main);
@@ -54,6 +67,8 @@ public class SocialMainActivity extends BaseActivity {
         userID = this.getIntent().getStringExtra("userID");
         initFile();
         initView();
+
+        mPermissionsChecker = new PermissionsChecker();
     }
 
 
@@ -180,8 +195,9 @@ public class SocialMainActivity extends BaseActivity {
             intent.putExtra("imagePath", path);
             intent.setClass(SocialMainActivity.this, MomentsPublishActivity.class);
             startActivity(intent);
-
             super.onActivityResult(requestCode, resultCode, data);
+        } else if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
+            finish();
         }
 
     }
@@ -201,7 +217,7 @@ public class SocialMainActivity extends BaseActivity {
                     Log.d("SocialMainActivity", "users_temp.size():" + users_temp.size());
                     String time = jsonObject.getString("time");
                     Log.d("SocialMainActivity", time);
-                    //  DemoApplication.getInstance().setTime(time);
+                    MyApp.getApp().setTime(time);
                     if (page_num == 0) {
 
                         //	datas = users_temp;
@@ -210,7 +226,7 @@ public class SocialMainActivity extends BaseActivity {
                         for (int i = 0; i < users_temp.size(); i++) {
                             JSONObject json = users_temp.getJSONObject(i);
                             String sID = json.getString("sID");
-                            Log.d("SocialMainActivity------>", sID);
+                            //  Log.d("SocialMainActivity------>", sID);
                             sIDs.add(sID);
                             articles.add(json);
                         }
@@ -249,10 +265,22 @@ public class SocialMainActivity extends BaseActivity {
 
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        getData(0);
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        // 缺少权限时, 进入权限配置页面
+
+        if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
+            startPermissionsActivity();
+        }
+    }
+
+    private void startPermissionsActivity() {
+        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
+
+        getData(0);
+    }
+
 }

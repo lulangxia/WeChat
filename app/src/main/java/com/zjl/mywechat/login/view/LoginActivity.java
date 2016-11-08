@@ -64,12 +64,7 @@ public class LoginActivity extends BaseAty implements View.OnClickListener, ILog
             }
         });
 
-        if (EMClient.getInstance().isLoggedInBefore()) {
-            autoLogin = true;
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-            return;
-        }
+
 
 
         // 如果用户名改变，清空密码

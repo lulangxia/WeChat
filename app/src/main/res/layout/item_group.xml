@@ -11,6 +11,7 @@
         android:layout_height="55dp"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="4dp"
+        android:src="@mipmap/default_useravatar"
         android:padding="5dp"
         />
 

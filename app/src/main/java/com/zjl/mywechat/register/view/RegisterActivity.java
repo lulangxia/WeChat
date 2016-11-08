@@ -2,17 +2,13 @@ package com.zjl.mywechat.register.view;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,13 +22,13 @@ import android.widget.Toast;
 import com.hyphenate.EMError;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
-
 import com.zjl.mywechat.login.view.LoginActivity;
 import com.zjl.mywechat.register.presenter.RegisterPresenter;
 import com.zjl.mywechat.tool.stringvalue.FXConstant;
 import com.zjl.mywechat.tool.stringvalue.StringStatic;
+import com.zjl.mywechat.widget.PermissionsActivity;
+import com.zjl.mywechat.tool.tools.PermissionsChecker;
 import com.zjl.mywechat.widget.FXAlertDialog;
 
 import java.io.File;
@@ -56,6 +52,15 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
     private String imageName = "false";
     private RegisterPresenter mPresenter;
     private EditText mNick;
+
+    private static final int REQUEST_CODE = 0; // 请求码
+    // 所需的全部权限
+    static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    };
+    private PermissionsChecker mPermissionsChecker;
+
 
     @Override
     protected int setLayout() {
@@ -97,8 +102,8 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
             @Override
             public void onClick(View v) {
                 //   register();
-                mPresenter.startRequest(mUsername.getText().toString().trim(), mPassword.getText().toString().trim(),(FXConstant.DIR_AVATAR
-                        + imageName),mNick.getText().toString());
+                mPresenter.startRequest(mUsername.getText().toString().trim(), mPassword.getText().toString().trim(), (FXConstant.DIR_AVATAR
+                        + imageName), mNick.getText().toString());
             }
         });
         mShowimg.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +112,8 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
                 showCamera();
             }
         });
+
+        mPermissionsChecker = new PermissionsChecker();
 
 
     }
@@ -125,35 +132,22 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
                     case 0:
                         Log.d("RegisterActivity", "aaa222");
                         imageName = getNowTime() + ".png";
-                        if (ContextCompat.checkSelfPermission(MyApp.getmContext(),
-                                Manifest.permission.CAMERA)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions((Activity) MyApp.getmContext(),
-                                    new String[]{Manifest.permission.CAMERA},
-                                    1);
-                        } else {
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            // 指定调用相机拍照后照片的储存路径
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(FXConstant.DIR_AVATAR, imageName)));
-                            startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
-                        }
+
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        // 指定调用相机拍照后照片的储存路径
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(FXConstant.DIR_AVATAR, imageName)));
+                        startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
+
                         break;
                     case 1:
                         Log.d("RegisterActivity", "aaa11");
                         imageName = getNowTime() + ".png";
-                        if (ContextCompat.checkSelfPermission(MyApp.getmContext(),
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions((Activity) MyApp.getmContext(),
-                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                    2);
 
-                        } else {
-                            Intent intent2 = new Intent(Intent.ACTION_PICK, null);
-                            intent2.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                            startActivityForResult(intent2, PHOTO_REQUEST_GALLERY);
-                            break;
-                        }
+                        Intent intent2 = new Intent(Intent.ACTION_PICK, null);
+                        intent2.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                        startActivityForResult(intent2, PHOTO_REQUEST_GALLERY);
+                        break;
+
                 }
             }
         });
@@ -194,6 +188,8 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
             Bitmap bitmap = BitmapFactory.decodeFile(FXConstant.DIR_AVATAR
                     + imageName);
             mShowimg.setImageBitmap(bitmap);
+        } else if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
+            finish();
         }
     }
 
@@ -334,6 +330,20 @@ public class RegisterActivity extends BaseAty implements IRegisterView {
         return dialog;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 缺少权限时, 进入权限配置页面
+
+        if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
+            startPermissionsActivity();
+        }
+    }
+
+    private void startPermissionsActivity() {
+        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
+    }
 
 
 }

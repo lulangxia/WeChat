@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseFragment;
 import com.zjl.mywechat.socalfriend.modle.PreferenceManager;
-import com.zjl.mywechat.socalfriend.friendcircle.SocialMainActivity;
+
 import com.zjl.mywechat.socalfriend.qrcode.QrcodeActivity;
 
 // 二维码扫描，

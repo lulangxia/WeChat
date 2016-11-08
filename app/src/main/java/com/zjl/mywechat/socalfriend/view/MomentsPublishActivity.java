@@ -115,8 +115,6 @@ public class MomentsPublishActivity extends BaseActivity implements View.OnClick
 
                     break;
             }
-            Log.d("MomentsPublishActivity", path);
-            Log.d("MomentsPublishActivity", "lala");
             getTwoImage(Uri.fromFile(new File(path)), false);
             super.onActivityResult(requestCode, resultCode, data);
         }

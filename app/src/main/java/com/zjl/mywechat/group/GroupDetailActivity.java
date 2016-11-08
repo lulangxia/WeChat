@@ -1,6 +1,8 @@
 package com.zjl.mywechat.group;
 
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.widget.EaseSwitchButton;
+import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
 import com.zjl.mywechat.base.BaseListViewAdapter;
@@ -23,6 +26,7 @@ public class GroupDetailActivity extends BaseAty {
     private EaseSwitchButton mEaseSwitchButton;
     private ImageView mBack;
     private TextView mMembersnum;
+    private List<String> mName;
 
     @Override
     protected int setLayout() {
@@ -40,10 +44,57 @@ public class GroupDetailActivity extends BaseAty {
     @Override
     protected void initData() {
         Intent intent1 = getIntent();
-        String groupId = intent1.getStringExtra("groupId");
-        EMGroup group = EMClient.getInstance().groupManager().getGroup(groupId);
-        List<String> name = group.getMembers();
-        mMembersnum.setText("(" + group.getMemberCount() + ")");
+        final String groupId = intent1.getStringExtra("groupId");
+        Log.d("GroupDetailActivity", groupId);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EMGroup group = null;
+                try {
+                    group = EMClient.getInstance().groupManager().getGroupFromServer(groupId);
+                    mName = group.getMembers();
+                    Log.d("GroupDetailActivity", "name.size():" + mName.size());
+                    Log.d("GroupDetailActivity", "group.getMemberCount():" + group.getMemberCount());
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }).start();
+        new AsyncTask<String, Void, List<String>>() {
+            @Override
+            protected List<String> doInBackground(String... params) {
+                try {
+                    EMGroup  group = EMClient.getInstance().groupManager().getGroupFromServer(params[0]);
+                    mName = group.getMembers();
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                }
+                return mName;
+            }
+
+            @Override
+            protected void onPostExecute(List<String> strings) {
+                super.onPostExecute(strings);
+                mExpandGridView.setAdapter(new BaseListViewAdapter<String>(GroupDetailActivity.this, strings, R.layout.em_grid) {
+                    @Override
+                    public void convent(BaseListViewHolder viewHolder, String s) {
+                        viewHolder.setText(R.id.tv_name, s);
+                    }
+                });
+                mMembersnum.setText("(" + strings.size() + ")");
+            }
+        }.execute(groupId);
+
+
+//        mName = group.getMembers();
+//        Log.d("GroupDetailActivity", "name.size():" + mName.size());
+//        Log.d("GroupDetailActivity", "group.getMemberCount():" + group.getMemberCount());
+
+
+
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,12 +102,7 @@ public class GroupDetailActivity extends BaseAty {
             }
         });
 
-        mExpandGridView.setAdapter(new BaseListViewAdapter<String>(this, name, R.layout.em_grid) {
-            @Override
-            public void convent(BaseListViewHolder viewHolder, String s) {
-                viewHolder.setText(R.id.tv_name, s);
-            }
-        });
+
         mEaseSwitchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

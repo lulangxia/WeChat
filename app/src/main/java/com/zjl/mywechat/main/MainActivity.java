@@ -20,6 +20,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.EMGroupChangeListener;
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
@@ -52,7 +54,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     private TextView mUnreadnum;
     private TextView mUnagreenum;
     private TextView mUnknow;
-    public static MainActivity instance = null;
+    public static MainActivity instance;
 
 
     private int unAgreeNum = 0;
@@ -312,10 +314,68 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         //            }
         //
         //        });
+        //聊天消息监听
+
 
 
         Boolean refresh = true;
         EventBus.getDefault().post(refresh);
+
+        //群组事件监听
+        EMClient.getInstance().groupManager().addGroupChangeListener(new EMGroupChangeListener() {
+            @Override
+            public void onUserRemoved(String groupId, String groupName) {
+                //当前用户被管理员移除出群组
+                Log.d("MainActivity", "被移除");
+            }
+
+            @Override
+            public void onGroupDestroyed(String s, String s1) {
+                //群组被创建者解散
+                Log.d("MainActivity", "群解散");
+            }
+
+            @Override
+            public void onAutoAcceptInvitationFromGroup(String s, String s1, String s2) {
+                Log.d("MainActivity", "自动接受");
+            }
+
+            @Override
+            public void onInvitationReceived(String groupId, String groupName, String inviter, String reason) {
+                //收到加入群组的邀请
+                Log.d("MainActivity", "收到邀请");
+            }
+
+            @Override
+            public void onInvitationDeclined(String groupId, String invitee, String reason) {
+                //群组邀请被拒绝
+                Log.d("MainActivity", "被拒绝");
+            }
+
+
+            @Override
+            public void onApplicationReceived(String groupId, String groupName, String applyer, String reason) {
+                //收到加群申请
+                Log.d("MainActivity", "收到申请");
+            }
+
+            @Override
+            public void onApplicationAccept(String groupId, String groupName, String accepter) {
+                //加群申请被同意
+                Log.d("MainActivity", "被同意");
+            }
+
+            @Override
+            public void onApplicationDeclined(String groupId, String groupName, String decliner, String reason) {
+                // 加群申请被拒绝
+            }
+
+            @Override
+            public void onInvitationAccepted(String s, String s1, String s2) {
+                //群组邀请被接受
+                Log.d("MainActivity", "邀请被接受");
+            }
+        });
     }
 
 
@@ -397,13 +457,16 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             mUnreadnum.setVisibility(View.INVISIBLE);
             mToolbar.setTitle("微信");
             mFirstNum = 0;
+            spET.putInt("unreadnum", mFirstNum);
+            spET.commit();
         } else {
             mUnreadnum.setVisibility(View.VISIBLE);
             mUnreadnum.setText((mFirstNum) + "");
             mToolbar.setTitle("微信" + "(" + (mFirstNum) + ")");
+            spET.putInt("unreadnum", mFirstNum);
+            spET.commit();
+
         }
-        spET.putInt("unreadnum", mFirstNum);
-        spET.commit();
         Log.d("MainActivity", "mFirstNum:" + mFirstNum);
     }
 
@@ -450,7 +513,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             }
 
 
-
             RequestBean requestBean = intent.getParcelableExtra("RequestBean");
             if (requestBean != null) {
                 Log.d("TAGGG_MainActivity", "?.");
@@ -459,18 +521,10 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             }
 
 
-
-
             ArrayList<EMMessage> messages = intent.getParcelableArrayListExtra("EMMessage");
             if (messages != null) {
-                    messageChange(messages);
+                messageChange(messages);
             }
-
-
-
-
-
-
 
         }
     }
@@ -491,15 +545,13 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     }
 
 
-
-
     private class MyConnection implements ServiceConnection {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             myBinder = (MyService.MyBinder) service;
-//            myBinder.requestReceiveListener();
-//            myBinder.messageReceiveListener();
+            //            myBinder.requestReceiveListener();
+            //            myBinder.messageReceiveListener();
 
         }
 
@@ -508,6 +560,5 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
         }
     }
-
 
 }
