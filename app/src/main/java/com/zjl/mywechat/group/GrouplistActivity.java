@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +20,10 @@ import com.zjl.mywechat.base.BaseAty;
 import com.zjl.mywechat.base.BaseListViewAdapter;
 import com.zjl.mywechat.base.BaseListViewHolder;
 import com.zjl.mywechat.conversation.ChatActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -42,11 +47,20 @@ public class GrouplistActivity extends BaseAty {
 
         mListView = bindView(R.id.groupListView);
         mToolbar = bindView(R.id.toolbar_group);
+        View footerView = LayoutInflater.from(this).inflate(R.layout.fx_item_group_footer, null);
+        tv_total = (TextView) footerView.findViewById(R.id.tv_total);
 
+        mListView.addFooterView(footerView, null, false);
     }
 
     @Override
     protected void initData() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+            Log.d("FragmentConversationLis", "re");
+        }
+
+
         mToolbar.setTitle("群聊");
         mToolbar.setTitleTextColor(Color.WHITE);
         mToolbar.setNavigationIcon(R.drawable.fx_top_bar_back);
@@ -57,10 +71,7 @@ public class GrouplistActivity extends BaseAty {
                 finish();
             }
         });
-        View footerView = LayoutInflater.from(this).inflate(R.layout.fx_item_group_footer, null);
-        tv_total = (TextView) footerView.findViewById(R.id.tv_total);
 
-        mListView.addFooterView(footerView, null, false);
 
         new AsyncTask<Void, Void, List>() {
             @Override
@@ -80,13 +91,13 @@ public class GrouplistActivity extends BaseAty {
 
                 tv_total.setText(String.valueOf(list.size()) + "个群聊");
 
-               // mListView.setAdapter(groupAdapter);
+                // mListView.setAdapter(groupAdapter);
 
                 mListView.setAdapter(new BaseListViewAdapter<EMGroup>(GrouplistActivity.this, list, R.layout.test_group_item) {
                     @Override
                     public void convent(BaseListViewHolder viewHolder, EMGroup emGroup) {
                         viewHolder.setText(R.id.te_name, emGroup.getGroupName());
-                       // viewHolder.setImage(R.id.iv_avatar, emGroup.getGroupName());
+                        // viewHolder.setImage(R.id.iv_avatar, emGroup.getGroupName());
                     }
                 });
 
@@ -115,4 +126,17 @@ public class GrouplistActivity extends BaseAty {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void uiRefresh(String s) {
+        if (s.equals("changegroupname")) {
+          initData();
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

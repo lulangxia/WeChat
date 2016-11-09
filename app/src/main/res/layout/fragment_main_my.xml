@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#D0D0D0"
+              android:background="#EBEBEB"
               android:orientation="vertical"
     >
 
@@ -20,7 +20,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:padding="10dp"
-            android:src="@mipmap/my_head_pic"
+            android:src="@mipmap/fx_default_useravatar"
             />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_my_headPic"
-            android:text="用户名"
+            style="@style/TextMain"
             />
         <!--那张图太小了，无奈设成background-->
         <ImageView
@@ -76,6 +76,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/iv_my_photoablum"
                 android:text="相册"
+                style="@style/TextMain"
                 />
         </RelativeLayout>
 
@@ -111,6 +112,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/iv_my_collected"
                 android:text="收藏"
+                style="@style/TextMain"
                 />
         </RelativeLayout>
 
@@ -141,6 +143,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/iv_my_wallet"
                 android:text="钱包"
+                style="@style/TextMain"
                 />
 
             <ImageView
@@ -184,6 +187,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/iv_my_cardpackage"
                 android:text="卡包"
+                style="@style/TextMain"
                 />
         </RelativeLayout>
 
@@ -205,7 +209,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/iv_my_express"
             android:text="表情"
-            android:textSize="15dp"
+            style="@style/TextMain"
             />
 
         <ImageView
@@ -238,7 +242,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/iv_my_install"
             android:text="设置"
-            android:textSize="15dp"
+            style="@style/TextMain"
             />
 
         <ImageView

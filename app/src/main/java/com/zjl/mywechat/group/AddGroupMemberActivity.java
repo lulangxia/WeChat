@@ -54,6 +54,8 @@ public class AddGroupMemberActivity extends BaseAty {
     private AddGroupAdapter mListAdapter;
     private String mGroupId;
 
+    private boolean newgroup;
+
     @Override
     protected int setLayout() {
         return R.layout.activity_add_group;
@@ -81,6 +83,7 @@ public class AddGroupMemberActivity extends BaseAty {
                 finish();
             }
         });
+        newgroup = intent.getBooleanExtra("newgroupboo",true);
 
 
         mMembers = new ArrayList<>();
@@ -141,7 +144,7 @@ public class AddGroupMemberActivity extends BaseAty {
         }
         if (isCreatingNewGroup) {
             //只有一個人，直接进入聊天界面
-            if (addList.size() == 1) {
+            if (addList.size() == 1 && newgroup == true) {
                 String userId = addList.get(0);
                 startActivity(new Intent(getApplicationContext(),
                         ChatActivity.class).putExtra("userId", userId));

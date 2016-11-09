@@ -69,42 +69,81 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".main.MainActivity">
+        <activity
+            android:name=".main.MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".login.view.LoginActivity">
+        <activity
+            android:name=".login.view.LoginActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".register.view.RegisterActivity">
+        <activity
+            android:name=".register.view.RegisterActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".conversation.ChatActivity">
+        <activity
+            android:name=".conversation.ChatActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".addfriends.RequestActivity">
+        <activity
+            android:name=".addfriends.RequestActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".addfriends.AddFriendsActivity">
+        <activity
+            android:name=".addfriends.AddFriendsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
 
         <!-- <activity android:name=".view.SocialMainActivity"> -->
         <!-- </activity> -->
 
-        <activity android:name=".socalfriend.view.SocialMainActivity">
+        <activity
+            android:name=".socalfriend.view.SocialMainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".me.TestOptionActivity"/>
-        <activity android:name=".socalfriend.view.MomentsPublishActivity"/>
-
-
-
-
-        <activity android:name=".socalfriend.qrcode.QrcodeActivity">
-        </activity>
-        <activity android:name=".group.GrouplistActivity">
-        </activity>
-        <activity android:name=".group.GroupDetailActivity">
-        </activity>
-
-        <activity android:name=".group.AddGroupMemberActivity">
+        <activity
+            android:name=".me.TestOptionActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
 
         </activity>
+        <activity
+            android:name=".socalfriend.view.MomentsPublishActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
 
-        <activity android:name=".group.AddGroupActivity">
+        </activity>
+
+
+        <activity android:name=".socalfriend.qrcode.QrcodeActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".group.GrouplistActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".group.GroupDetailActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".group.AddGroupMemberActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity android:name=".group.AddGroupActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:screenOrientation="portrait">
 
         </activity>
 
@@ -151,9 +190,9 @@
         <!-- 红包相关界面end -->
 
 
-
-
-        <activity android:name=".ui.WelcomActivity">
+        <activity android:name=".ui.WelcomActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -165,24 +204,21 @@
         <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"/>
 
 
-
         <!-- 百度地图所需的service -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
+            android:process=":remote"/>
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="3ecea51f560650b1ed8a4b99808f52e8" />
+            android:value="3ecea51f560650b1ed8a4b99808f52e8"/>
 
 
         <activity android:name=".socalfriend.view.BigImageActivity">
         </activity>
 
     </application>
-
-
 
 
 </manifest>
