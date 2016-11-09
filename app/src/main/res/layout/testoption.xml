@@ -4,9 +4,89 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_clearNum"
+        android:text="清空未读消息数目"
+        android:padding="15dp"
+        android:clickable="true"
+        android:background="@drawable/btn_list_item_bg"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#000"
+        />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="清除聊天记录"
+        android:id="@+id/tv_clearRecord"
+        android:padding="15dp"
+        android:clickable="true"
+        android:background="@drawable/btn_list_item_bg"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#000"
+        />
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_list_item_bg"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="清除缓存"
+            android:id="@+id/tv_clearMemory"
+            android:padding="15dp"
+            android:clickable="true"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_currentMemory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前缓存 : 0.0KB"
+            android:padding="15dp"
+            android:layout_alignParentRight="true"
+            />
+
+
+    </RelativeLayout>
+
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#000"
+        />
+
+
+
     <Button
         android:id="@+id/outlogin"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="退出登录"/>
+        android:text="退出登录"
+        />
+
+
+
 </LinearLayout>

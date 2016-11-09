@@ -113,7 +113,8 @@ public class DBTools {
 
     // 查询所有数据
     public <T> void getAll(final QueryListener<T> queryListener,final Class<T> clazz) {
-     //   final Class<T> clazz = null;
+
+        
         threadPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -124,6 +125,9 @@ public class DBTools {
             }
         });
 
+
+        // 封装起来
+        // threadPool.execute(new QueryRunnable<>(clazz, queryListener));
 
 
     }
@@ -182,18 +186,6 @@ public class DBTools {
 
 
 
-
-
-
-
-    public interface CheckListener<T> {
-        void onCheck(RequestBean bean);
-    }
-
-
-
-
-
     public <T> void check(final CheckListener<T> listener, final RequestBean requestBean) {
         threadPool.execute(new Runnable() {
             @Override
@@ -204,12 +196,16 @@ public class DBTools {
 
                     Log.d("DBTools", "name:" + bean.getName());
                 }
+                // 得到结果，开始回传参数
                 listener.onCheck(bean);
-
             }
         });
     }
 
+
+    public interface CheckListener<T> {
+        void onCheck(RequestBean bean);
+    }
 
 
 

@@ -189,6 +189,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <!-- 红包相关界面end -->
 
+        <service android:name=".base.Service"/>
 
         <activity android:name=".ui.WelcomActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"

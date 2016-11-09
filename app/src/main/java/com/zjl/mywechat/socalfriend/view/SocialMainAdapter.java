@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -333,7 +334,18 @@ public class SocialMainAdapter extends BaseAdapter {
                     is_good_temp = false;
                 }
             }
+
+            if (commentArray != null && commentArray.size() != 0) {
+                holder.tv_commentmenbers.setVisibility(View.VISIBLE);
+                setCommentTextClick(holder.tv_commentmenbers, commentArray,
+                        view_pop, goodArray.size());
+
+            }
+
             final boolean is_good = is_good_temp;
+
+
+
             String goodStr = "赞";
             if (is_good) {
                 goodStr = "取消";
@@ -341,7 +353,7 @@ public class SocialMainAdapter extends BaseAdapter {
             iv_temp.setTag(goodStr);
 
             final TextView tv_good_temp = holder.tv_goodmenbers;
-        final TextView tv_commentmembers_temp = holder.tv_commentmenbers;
+            final TextView tv_commentmembers_temp = holder.tv_commentmenbers;
             // 显示时间
             holder.tv_time.setText(getTime(rel_time, MyApp.getApp().getTime()));
 
@@ -367,7 +379,7 @@ public class SocialMainAdapter extends BaseAdapter {
                     iv_temp.getLocationOnScreen(location);
                     popupWindow.showAtLocation(iv_temp, Gravity.NO_GRAVITY,
                             (location[0] - width1) * 2 / 5, location[1]);
-                    if (((String)iv_temp.getTag()).equals("赞")) {
+                    if (((String) iv_temp.getTag()).equals("赞")) {
                         tv_good.setText("取消");
                         iv_temp.setTag("取消");
                     } else {
@@ -378,16 +390,16 @@ public class SocialMainAdapter extends BaseAdapter {
                     ll_zan.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (((String)iv_temp.getTag()).equals("赞")) {
+                            if (((String) iv_temp.getTag()).equals("赞")) {
                                 iv_temp.setTag("取消");
-                                setGood(sID, tv_good_temp,goodArray
-                                ,ll_goodmembers_temp,view_pop,commentArray.size());
+                                setGood(sID, tv_good_temp, goodArray
+                                        , ll_goodmembers_temp, view_pop, commentArray.size());
                                 popupWindow.dismiss();
 
                             } else {
                                 iv_temp.setTag("赞");
-                                cancelGood(sID, tv_good_temp,goodArray
-                                        ,ll_goodmembers_temp,view_pop,commentArray.size());
+                                cancelGood(sID, tv_good_temp, goodArray
+                                        , ll_goodmembers_temp, view_pop, commentArray.size());
                                 popupWindow.dismiss();
                             }
                         }
@@ -399,32 +411,11 @@ public class SocialMainAdapter extends BaseAdapter {
                     ll_pl.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                                popupWindow.dismiss();
-                            if (re_edittext == null || re_edittext.getVisibility() != View.VISIBLE) {
+                            popupWindow.dismiss();
 
-                                re_edittext.setVisibility(View.VISIBLE);
-                                final EditText et_comment = (EditText) context.findViewById(R.id.et_comment);
-                                Button btn_send = (Button) context.findViewById(R.id.btn_send);
+                            showCommentEditText(sID, tv_commentmembers_temp
+                                    , commentArray, view_pop, goodArray.size());
 
-                                btn_send.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        String comment = et_comment.getText().toString().trim();
-                                        if (TextUtils.isEmpty(comment)) {
-                                            Toast.makeText(context, "请输入评论", Toast.LENGTH_SHORT).show();
-                                            return;
-                                        }
-                                        //et_comment.setText("");
-
-                                    }
-
-                                });
-
-                            }
-//                            Toast.makeText(context, "这是评论", Toast.LENGTH_SHORT).show();
-//
-//                                showCommentEditText(sID,tv_commentmembers_temp
-//                                ,commentArray,view_pop,goodArray.size());
                         }
                     });
                 }
@@ -471,7 +462,7 @@ public class SocialMainAdapter extends BaseAdapter {
     }
 
     public void cancelGood(String sID, TextView tv_good, JSONArray jsons,
-                           LinearLayout ll_goodmembers_temp, View view, int cSize){
+                           LinearLayout ll_goodmembers_temp, View view, int cSize) {
         // 即时改变当前UI
         for (int i = 0; i < jsons.size(); i++) {
             JSONObject json = jsons.getJSONObject(i);
@@ -502,6 +493,7 @@ public class SocialMainAdapter extends BaseAdapter {
         });
 
     }
+
     private void setGoodTextClick(TextView mTextView2
             , JSONArray data, LinearLayout ll_goodmembers, View view_pop, int size) {
         if (data == null || data.size() == 0) {
@@ -518,10 +510,10 @@ public class SocialMainAdapter extends BaseAdapter {
             String nick = userID_temp;
 
             if (userID_temp.equals(myuserID)) {
-                nick = "djaiodja";
+                nick = myuserID;
 
             } else {
-                    nick = "陌生人";
+                nick = myuserID;
             }
 
             if (i != (data.size() - 1) && data.size() > 1) {
@@ -529,13 +521,14 @@ public class SocialMainAdapter extends BaseAdapter {
             } else {
                 ssb.append(nick);
             }
-            ssb.setSpan(new TextViewURLSpan(nick,userID_temp,0)
-                    ,start
-                    ,start + nick.length()
-                    ,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ssb.setSpan(new TextViewURLSpan(nick, userID_temp, 0)
+                    , start
+                    , start + nick.length()
+                    , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             start = ssb.length();
         }
     }
+
     private class TextViewURLSpan extends ClickableSpan {
         private String userID;
         // 0是点赞里面的名字。1是评论里面的名字；2是评论中的删除
@@ -599,7 +592,7 @@ public class SocialMainAdapter extends BaseAdapter {
             if (type == 2) {
 //                showDeleteDialog(userID, postion, scID, type, ctextView, cjsons,
 //                        view, goodSize);
-                Toast.makeText(context, "lalalal", Toast.LENGTH_SHORT).show();
+
 
             } else {
 
@@ -872,6 +865,7 @@ public class SocialMainAdapter extends BaseAdapter {
 
     /**
      * 显示发表评论的输入框
+     *
      * @param sID
      * @param tv_comment
      * @param jsons
@@ -879,7 +873,7 @@ public class SocialMainAdapter extends BaseAdapter {
      * @param goodSize
      */
     public void showCommentEditText(final String sID, final TextView tv_comment,
-                                    final JSONArray jsons, final View view, final int goodSize){
+                                    final JSONArray jsons, final View view, final int goodSize) {
 
         if (re_edittext == null || re_edittext.getVisibility() != View.VISIBLE) {
 
@@ -890,16 +884,140 @@ public class SocialMainAdapter extends BaseAdapter {
             btn_send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        String comment = et_comment.getText().toString().trim();
+                    String comment = et_comment.getText().toString().trim();
                     if (TextUtils.isEmpty(comment)) {
                         Toast.makeText(context, "请输入评论", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    //et_comment.setText("");
+                    submitComment(sID, comment, tv_comment, jsons, view,
+                            goodSize);
+                    et_comment.setText("");
+                    hideCommentEditText();
 
                 }
             });
 
         }
     }
+
+    /**
+     * 隐藏输入框
+     */
+    public void hideCommentEditText(){
+        if (re_edittext != null && re_edittext.getVisibility() == View.VISIBLE) {
+            re_edittext.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     *  提交评论
+     *
+     * @param sID
+     * @param comment
+     * @param tv_comment
+     * @param jsons
+     * @param view
+     * @param goodSize
+     */
+
+    private void submitComment(String sID, String comment,
+                               TextView tv_comment, JSONArray jsons, View view, int goodSize) {
+
+        String tag = String.valueOf(SystemClock.currentThreadTimeMillis());
+        Log.d("SocialMainAdapter", tag);
+        // 即时改变当前UI
+        JSONObject json = new JSONObject();
+        json.put("user", myuserID);
+        json.put("content", comment);
+        // 本地标记，方便本地定位删除，服务器端用不到这个字段
+        json.put("tag", tag);
+        jsons.add(json);
+        setCommentTextClick(tv_comment, jsons, view, goodSize);
+        // 更新后台
+        List<Param> params = new ArrayList<>();
+        params.add(new Param("sID",sID));
+        params.add(new Param("content",comment));
+        params.add(new Param("userID",myuserID));
+        params.add(new Param("tag",tag));
+        OkHttpManager.getInstance().post(params, FXConstant.URL_SOCIAL_COMMENT, new OkHttpManager.HttpCallBack() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+               int code = jsonObject.getIntValue("code");
+                if (code != 1000) {
+                    Toast.makeText(context, "服务器端响应失败...", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMsg) {
+                Toast.makeText(context, "服务器无响应...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+     // 设置评论
+
+    private void setCommentTextClick(TextView tv_comment,
+                                     JSONArray data, View view, int goodSize) {
+        if (goodSize > 0 && data.size() > 0) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.GONE);
+        }
+        if (data.size() ==0) {
+            tv_comment.setVisibility(View.GONE);
+        } else {
+            tv_comment.setVisibility(View.VISIBLE);
+        }
+
+        SpannableStringBuilder ssb = new SpannableStringBuilder();
+        int start = 0;
+        for (int i = 0; i < data.size(); i++) {
+            JSONObject json = data.getJSONObject(i);
+            String userID_temp = json.getString("userID");
+            String nick = userID_temp;
+            if (userID_temp ==null || userID_temp.equals(myuserID)){
+                nick = myuserID;
+                userID_temp = myuserID;
+            } else {
+                nick = myuserID;
+            }
+
+            String content = json.getString("content");
+            String scID = json.getString("scID");
+
+            String content_0 = "";
+            String content_1 = ": " + content;
+            String content_2 = ": " + content + "\n";
+            if (i == (data.size() - 1) || (data.size() == 1 && i == 0)) {
+                ssb.append(nick + content_1);
+                content_0 = content_1;
+            } else {
+
+                ssb.append(nick + content_2);
+                content_0 = content_2;
+            }
+
+            try {
+                ssb.setSpan(new TextViewURLSpan(nick, userID_temp, 1), start,
+                        start + nick.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (userID_temp == null || userID_temp.equals(myuserID)) {
+
+                ssb.setSpan(
+                        new TextViewURLSpan(nick, userID_temp, i, scID, 2,
+                                tv_comment, data, view, goodSize),
+                        start, start + nick.length() + content_0.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            start = ssb.length();
+
+        }
+
+        tv_comment.setText(ssb);
+        tv_comment.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
 }

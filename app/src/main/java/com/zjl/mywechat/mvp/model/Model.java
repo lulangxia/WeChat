@@ -66,10 +66,8 @@ public class Model<Q, T> implements ModelInterface<T>{
                     // 拒绝请求2 或者 未读请求0
                     listener.unAgreeThisData();
                 }
-
             }
         }, bean);
-
     }
 
 

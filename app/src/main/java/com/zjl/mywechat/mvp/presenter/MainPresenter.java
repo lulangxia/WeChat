@@ -2,12 +2,12 @@ package com.zjl.mywechat.mvp.presenter;
 
 import android.util.Log;
 
-import com.zjl.mywechat.bean.RequestBean;
 import com.zjl.mywechat.mvp.model.IsHasThisData;
 import com.zjl.mywechat.mvp.model.Model;
+import com.zjl.mywechat.mvp.view.MainView;
+import com.zjl.mywechat.bean.RequestBean;
 import com.zjl.mywechat.mvp.model.ModelInterface;
 import com.zjl.mywechat.mvp.model.OnFinishListener;
-import com.zjl.mywechat.mvp.view.MainView;
 
 import java.util.ArrayList;
 
@@ -26,11 +26,7 @@ public class MainPresenter {
 
     // 主动加好友 被加好友
     // 允许 拒绝
-
-
     // 已读 未读
-
-
 
     public void hasData(final RequestBean bean) {
 
@@ -44,9 +40,6 @@ public class MainPresenter {
             public void noThisData() {
                 // 不存在这个数据，执行插入操作
                 model.insertDB(bean);
-
-
-
                 view.showMessageView();
                 Log.d("MainPresenter", "请求2");
             }
@@ -64,7 +57,6 @@ public class MainPresenter {
 
                 Log.d("MainPresenter", "请求3");
             }
-
 
         }, bean);
     }

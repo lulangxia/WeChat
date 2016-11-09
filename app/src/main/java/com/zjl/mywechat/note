@@ -6,6 +6,28 @@
 
     // 笔记
 
+
+
+    数据流相关的写到子线程里
+    先写成泛型，后写成构造方法
+    Fragment要用setArgument传值，不能用构造方法传值
+    右键 ImageAsset 创建xml矢量图片，不会被拉伸
+
+    onStart能看见了，onResume能交互了，onPost之后要onResume，onDestroy之后要onStart，
+    onPause里不能执行耗时操作，不然第二个Activity显示前要等好久
+
+
+    // SingleInstance,SingleTask,SingleTop
+    接口，适配多个Activity，用接口绑定Activity
+
+
+
+    帧布局保证了占位和内部控件的相对位置
+
+
+    inputType:password密码类型
+
+
     // 内部类可以直接调用外部类的对象
     // 静态内部类可以直接外部类.内部类()或者直接new静态内部类，不会加载外部类的对象，
     // 只能调用外部类的静态属性，不能调用外部类的其他属性  外部类存在的意义相当于一个路径

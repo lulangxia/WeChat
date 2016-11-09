@@ -1,11 +1,14 @@
 package com.zjl.mywechat.main;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.IBinder;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -17,18 +20,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hyphenate.EMContactListener;
 import com.hyphenate.EMGroupChangeListener;
-import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
+import com.zjl.mywechat.base.MyService;
 import com.zjl.mywechat.bean.RequestBean;
 import com.zjl.mywechat.contacts.FragmentTelList;
 import com.zjl.mywechat.conversation.ChatActivity;
 import com.zjl.mywechat.conversation.FragmentConversationList;
-import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.me.FragmentMy;
 import com.zjl.mywechat.mvp.presenter.MainPresenter;
 import com.zjl.mywechat.mvp.view.MainView;
@@ -66,6 +67,10 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     private int mFirstNum = 0;
     private MainPresenter presenter;
     private ZeroReceiver receiver;
+    private SharedPreferences.Editor setEditor;
+    private MyService.MyBinder myBinder;
+    private Intent intentService;
+    private MyConnection myConnection;
 
 
     @Override
@@ -75,24 +80,23 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
     @Override
     protected void initView() {
+
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
-            Log.d("FragmentConversationLis", "re");
+            Log.d("TAGGG_MainActivity", "re");
         }
 
-        instance = this;
+        instance = this;// 退出登录时，finish掉MainActivity
         mTabLayout = bindView(R.id.tb_titles_main);
         mViewPager = bindView(R.id.vp_fragments_main);
         mToolbar = bindView(R.id.toolbar_main);
 
 
-        // 初始化DBTools,要挪到别的地方
-        DBTools dbTools = DBTools.getInstance();
-
-        // 控制层
+        // 初始化控制层
         presenter = new MainPresenter(this);
 
 
+        // 初始化广播
         receiver = new ZeroReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction("未读消息数目变化");
@@ -153,162 +157,169 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         }
 
 
+        SharedPreferences sharedSetting = this.getSharedPreferences("unAgreeNum", MODE_PRIVATE);
+        setEditor = sharedSetting.edit();
+
+        unAgreeNum = 0;
+        // 持久化技术存放
+        unAgreeNum = sharedSetting.getInt("unAgreeNum", 0);
+        if (unAgreeNum <= 0) {
+            mUnagreenum.setVisibility(View.INVISIBLE);
+        } else {
+            mUnagreenum.setVisibility(View.VISIBLE);
+            mUnagreenum.setText(unAgreeNum + "");
+        }
+
+
+        // 服务
+        Log.d("TAGGG_MainActivity", "start service");
+        Intent intentService = new Intent(this, MyService.class);
+        startService(intentService);
+        myConnection = new MyConnection();
+        bindService(intentService, myConnection, BIND_AUTO_CREATE);
+
+
+        //        // 有关消息的监听
+        //        EMMessageListener msgListener = new EMMessageListener() {
+        //
+        //            @Override
+        //            public void onMessageReceived(final List<EMMessage> messages) {
+        //                //收到消息
+        //                Log.d("MainActivity", "收到消息");
+        //                Log.d("MainActivity", "messages.size():" + messages.size());
+        //                Log.d("MainActivity", messages.get(0).getBody().toString());
+        //
+        //
+        //                runOnUiThread(new Runnable() {
+        //                    @Override
+        //                    public void run() {
+        //                        Log.d("MainActivity", "消息增加");
+        //                        if (!ChatActivity.instance.flag) {
+        //                            mFirstNum = mFirstNum + messages.size();
+        //                            mUnreadnum.setText(mFirstNum + "");// 底部数字的改变
+        //                            mUnreadnum.setVisibility(View.VISIBLE);
+        //                            mToolbar.setTitle("微信" + "(" + mFirstNum + ")");// ToolBar的数字个数改变
+        //                            Boolean newmsg = true;
+        //                            EventBus.getDefault().post(newmsg);
+        //                            spET.putInt("unreadnum", mFirstNum);// 持久化保存
+        //                            spET.commit();
+        //                            Log.d("MainActivity", "mFirstNum:" + mFirstNum);
+        //                        }
+        //                    }
+        //                });
+        //
+        //
+        //            }
+        //
+        //            @Override
+        //            public void onCmdMessageReceived(List<EMMessage> messages) {
+        //                //收到透传消息
+        //                Log.d("MainActivity", "透传消息");
+        //            }
+        //
+        //            @Override
+        //            public void onMessageReadAckReceived(List<EMMessage> list) {
+        //
+        //                //收到已读回执
+        //                Log.d("MainActivity", "收到已读回执");
+        //            }
+        //
+        //
+        //            @Override
+        //            public void onMessageDeliveryAckReceived(List<EMMessage> message) {
+        //                //收到已送达回执
+        //                Log.d("MainActivity", "收到已送达回执");
+        //
+        //            }
+        //
+        //            @Override
+        //            public void onMessageChanged(EMMessage message, Object change) {
+        //                Log.d("MainActivity", change.toString());
+        //                //消息状态变动
+        //            }
+        //        };
+        //        EMClient.getInstance().chatManager().addMessageListener(msgListener);
+        //
+        //        // 有关好友请求的监听
+        //        EMClient.getInstance().contactManager().setContactListener(new EMContactListener() {
+        //
+        //            @Override
+        //            public void onContactAgreed(String username) {
+        //                //好友请求被同意
+        //                Log.d("MainActivity", "邀请1");
+        //                //                Boolean refresh = true;
+        //                //                EventBus.getDefault().post(refresh);
+        //
+        //
+        //                RequestBean requestBean = new RequestBean();
+        //                requestBean.setIsPositive(2);
+        //                requestBean.setIsAgree(1);
+        //                requestBean.setName(username);
+        //                DBTools.getInstance().getmLiteOrm().update(requestBean);
+        //
+        //            }
+        //
+        //            @Override
+        //            public void onContactRefused(String username) {
+        //                //好友请求被拒绝
+        //                Log.d("MainActivity", "邀请2");
+        //                RequestBean requestBean = new RequestBean();
+        //                requestBean.setIsPositive(3);
+        //                requestBean.setIsAgree(2);
+        //                requestBean.setName(username);
+        //                DBTools.getInstance().getmLiteOrm().update(requestBean);
+        //            }
+        //
+        //
+        //            @Override
+        //            public void onContactInvited(String username, String reason) {
+        //                Log.d("MainActivity", "邀请3");
+        //
+        //                // EventBus
+        //                RequestBean bean = new RequestBean();
+        //                bean.setName(username);
+        //                bean.setReason(reason);
+        //                EventBus.getDefault().post(bean);
+        //
+        //                presenter.hasData(bean);
+        //
+        //
+        //                // 跳转，传值，MainActivity显示角标，新的朋友右侧显示1+
+        //                // 点进去是一个listView，存储主动请求和被动请求（数据库），右边填写同意or不同意
+        //            }
+        //
+        //
+        //            @Override
+        //            public void onContactDeleted(String username) {
+        //                //被删除时回调此方法
+        //                Log.d("MainActivity", "邀请4你已被删除");
+        //
+        //                RequestBean bean = new RequestBean();
+        //                bean.setName(username);
+        //
+        //                DBTools.getInstance().getmLiteOrm().delete(bean);
+        //                Boolean refresh = true;
+        //                EventBus.getDefault().post(refresh);
+        //            }
+        //
+        //
+        //            @Override
+        //            public void onContactAdded(String username) {
+        //                //增加了联系人时回调此方法
+        //                Log.d("MainActivity", "邀请5");
+        //
+        //                Boolean refresh = true;
+        //                EventBus.getDefault().post(refresh);
+        //
+        //            }
+        //
+        //        });
         //聊天消息监听
-        EMMessageListener msgListener = new EMMessageListener() {
-            @Override
-            public void onMessageReceived(final List<EMMessage> messages) {
-                //收到消息
-                Log.d("MainActivity", "收到消息");
-                Log.d("MainActivity", "messages.size():" + messages.size());
-                Log.d("MainActivity", messages.get(0).getBody().toString());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d("MainActivity", "消息增加");
-                        if (!ChatActivity.instance.flag) {
-                            mFirstNum = mFirstNum + messages.size();
-                            mUnreadnum.setText(mFirstNum + "");
-                            mUnreadnum.setVisibility(View.VISIBLE);
-                            mToolbar.setTitle("微信" + "(" + mFirstNum + ")");
-                            Boolean newmsg = true;
-                            EventBus.getDefault().post(newmsg);
-                            spET.putInt("unreadnum", mFirstNum);
-                            spET.commit();
-                            Log.d("MainActivity", "mFirstNum:" + mFirstNum);
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onCmdMessageReceived(List<EMMessage> messages) {
-                //收到透传消息
-                Log.d("MainActivity", "透传消息");
-            }
-
-            @Override
-            public void onMessageReadAckReceived(List<EMMessage> list) {
-
-                //收到已读回执
-                Log.d("MainActivity", "收到已读回执");
-            }
 
 
-            @Override
-            public void onMessageDeliveryAckReceived(List<EMMessage> message) {
-                //收到已送达回执
-                Log.d("MainActivity", "收到已送达回执");
-
-            }
-
-            @Override
-            public void onMessageChanged(EMMessage message, Object change) {
-                Log.d("MainActivity", change.toString());
-                //消息状态变动
-            }
-        };
-        EMClient.getInstance().chatManager().addMessageListener(msgListener);
-
-
-        // 邀请信息
-        EMClient.getInstance().contactManager().setContactListener(new EMContactListener() {
-
-            @Override
-            public void onContactAgreed(String username) {
-                //好友请求被同意
-                Log.d("MainActivity", "邀请1");
-//                Boolean refresh = true;
-//                EventBus.getDefault().post(refresh);
-
-
-                RequestBean requestBean = new RequestBean();
-                requestBean.setIsPositive(2);
-                requestBean.setIsAgree(1);
-                requestBean.setName(username);
-                DBTools.getInstance().getmLiteOrm().update(requestBean);
-
-            }
-
-            @Override
-            public void onContactRefused(String username) {
-                //好友请求被拒绝
-                Log.d("MainActivity", "邀请2");
-                RequestBean requestBean = new RequestBean();
-                requestBean.setIsPositive(3);
-                requestBean.setIsAgree(2);
-                requestBean.setName(username);
-                DBTools.getInstance().getmLiteOrm().update(requestBean);
-            }
-
-
-            @Override
-            public void onContactInvited(String username, String reason) {
-                Log.d("MainActivity", "邀请3");
-
-
-                // 发个广播
-                //                Intent intent = new Intent("加好友");
-                //                intent.putExtra("num", ++unAgreeNum);
-                //                intent.putExtra("name", username);
-                //                intent.putExtra("reason", reason);
-                //                sendBroadcast(intent);
-
-
-                Log.d("MainActivity", username);
-
-
-                // EventBus
-                RequestBean bean = new RequestBean();
-                bean.setName(username);
-                bean.setReason(reason);
-                EventBus.getDefault().post(bean);
-
-
-                presenter.hasData(bean);
-
-
-                ArrayList<RequestBean> arr = DBTools.getInstance().getmLiteOrm().query(RequestBean.class);
-                Log.d("MainActivity", "arr.size():" + arr.size());
-
-
-                for (int i = 0; i < arr.size(); i++) {
-                    Log.d("MainActivity", "litOrmLog");
-                    Log.d("MainActivity", arr.get(i).getName());
-                }
-
-
-                // 跳转，传值，MainActivity显示角标，新的朋友右侧显示1+
-                // 点进去是一个listView，存储主动请求和被动请求（数据库），右边填写同意or不同意
-            }
-
-
-            @Override
-            public void onContactDeleted(String username) {
-                //被删除时回调此方法
-                Log.d("MainActivity", "邀请4你已被删除");
-
-                RequestBean bean = new RequestBean();
-                bean.setName(username);
-
-                DBTools.getInstance().getmLiteOrm().delete(bean);
-                Boolean refresh = true;
-                EventBus.getDefault().post(refresh);
-            }
-
-
-            @Override
-            public void onContactAdded(String username) {
-                //增加了联系人时回调此方法
-                Log.d("MainActivity", "邀请5");
-                Boolean refresh = true;
-                EventBus.getDefault().post(refresh);
-            }
-
-        });
 
         Boolean refresh = true;
         EventBus.getDefault().post(refresh);
-
 
         //群组事件监听
         EMClient.getInstance().groupManager().addGroupChangeListener(new EMGroupChangeListener() {
@@ -374,10 +385,12 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         return super.onCreateOptionsMenu(menu);
     }
 
+    // ToolsBar点击
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
+
                 Toast.makeText(MainActivity.this, "静待后续版本实现", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_add:
@@ -390,16 +403,17 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     }
 
 
-    // 持久化技术去存未读消息，来新消息了就 + 1
-    // view层点进去就直接清零
-    // 别在这里获取个数了，太累
-
+    // P层控制view层调用的方法1
     @Override
     public void showMessageView() {
 
         // 显示下方的消息个数
         ++unAgreeNum;
-        Log.d("MainActivity", "unAgreeNum:" + unAgreeNum);
+
+
+        setEditor.putInt("unAgreeNum", unAgreeNum);
+        Log.d("FragmentTelList66666", "unAgreeNum:" + unAgreeNum);
+        setEditor.commit();
 
 
         Intent intent = new Intent("加好友");
@@ -420,7 +434,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         });
     }
 
-
+    // P层控制view层调用的方法2
     @Override
     public void showUnAgreeView(ArrayList<RequestBean> arraylist) {
     }
@@ -430,12 +444,14 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
+        unbindService(myConnection);
         EventBus.getDefault().unregister(this);
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void readNum(Integer i) {
+        Log.d("MainActivity", "？？？");
         mFirstNum = mFirstNum - i;
         if (mFirstNum <= 0) {
             mUnreadnum.setVisibility(View.INVISIBLE);
@@ -445,7 +461,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             spET.commit();
         } else {
             mUnreadnum.setVisibility(View.VISIBLE);
-
             mUnreadnum.setText((mFirstNum) + "");
             mToolbar.setTitle("微信" + "(" + (mFirstNum) + ")");
             spET.putInt("unreadnum", mFirstNum);
@@ -456,14 +471,94 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     }
 
 
-    private class ZeroReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            intent.getIntExtra("zeroNum", 0);
-            unAgreeNum = 0;
-            mUnagreenum.setVisibility(View.INVISIBLE);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    private void getRequestBean(RequestBean bean) {
+        Log.d("TAGGG_MainActivity", "?.");
+        Log.d("TAGGG_MainActivity", bean.getName());
+        presenter.hasData(bean);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    private void getMessageBeen(final List<EMMessage> messages) {
+        Log.d("MainActivity", "消息增加");
+        if (!ChatActivity.instance.flag) {
+            mFirstNum = mFirstNum + messages.size();
+            mUnreadnum.setText(mFirstNum + "");// 底部数字的改变
+            mUnreadnum.setVisibility(View.VISIBLE);
+            mToolbar.setTitle("微信" + "(" + mFirstNum + ")");// ToolBar的数字个数改变
+            // Boolean newmsg = true;
+            // EventBus.getDefault().post(newmsg);
+            spET.putInt("unreadnum", mFirstNum);// 持久化保存
+            spET.commit();
+            Log.d("MainActivity", "mFirstNum:" + mFirstNum);
         }
     }
 
+
+    // 点击邀请信息后，下标清零
+    private class ZeroReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            // 未阅读的好友添加数
+
+            if (intent.getIntExtra("zeroNum", 0) < 0) {
+                // FragmentTelList发送的值是 -1
+                unAgreeNum = 0;
+                mUnagreenum.setVisibility(View.INVISIBLE);
+                // 数据持久化置零
+                setEditor.putInt("unAgreeNum", 0);
+                setEditor.commit();
+            }
+
+
+            RequestBean requestBean = intent.getParcelableExtra("RequestBean");
+            if (requestBean != null) {
+                Log.d("TAGGG_MainActivity", "?.");
+                Log.d("TAGGG_MainActivity", requestBean.getName());
+                presenter.hasData(requestBean);
+            }
+
+
+            ArrayList<EMMessage> messages = intent.getParcelableArrayListExtra("EMMessage");
+            if (messages != null) {
+                messageChange(messages);
+            }
+
+        }
+    }
+
+    private void messageChange(ArrayList<EMMessage> messages) {
+        Log.d("MainActivity", "消息增加");
+        if (!ChatActivity.instance.flag) {
+            mFirstNum = mFirstNum + messages.size();
+            mUnreadnum.setText(mFirstNum + "");// 底部数字的改变
+            mUnreadnum.setVisibility(View.VISIBLE);
+            mToolbar.setTitle("微信" + "(" + mFirstNum + ")");// ToolBar的数字个数改变
+            // Boolean newmsg = true;
+            // EventBus.getDefault().post(newmsg);
+            spET.putInt("unreadnum", mFirstNum);// 持久化保存
+            spET.commit();
+            Log.d("MainActivity", "mFirstNum:" + mFirstNum);
+        }
+    }
+
+
+    private class MyConnection implements ServiceConnection {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            myBinder = (MyService.MyBinder) service;
+            //            myBinder.requestReceiveListener();
+            //            myBinder.messageReceiveListener();
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    }
 
 }

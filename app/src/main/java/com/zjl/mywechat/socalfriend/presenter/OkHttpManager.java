@@ -59,7 +59,6 @@ public class OkHttpManager {
                         httpCallBack.onFailure((String) msg.obj);
                         Toast.makeText(context, "响应数据解析错误", Toast.LENGTH_SHORT).show();
                     }
-                    Log.d("OkHttpManager", result);
                     break;
             }
 
