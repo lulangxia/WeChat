@@ -2,19 +2,18 @@ package com.zjl.mywechat.conversation;
 
 import android.Manifest;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.base.BaseAty;
 import com.zjl.mywechat.group.GroupDetailActivity;
-import com.zjl.mywechat.widget.PermissionsActivity;
 import com.zjl.mywechat.tool.tools.PermissionsChecker;
+import com.zjl.mywechat.widget.PermissionsActivity;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends BaseAty {
     public static ChatActivity instance = null;
     public static boolean flag;
 
@@ -26,10 +25,19 @@ public class ChatActivity extends AppCompatActivity {
     };
     private PermissionsChecker mPermissionsChecker;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+    protected int setLayout() {
+        return R.layout.activity_chat;
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
         mPermissionsChecker = new PermissionsChecker();
 
         // EaseChatFragment easeChatFragment = new EaseChatFragment();
@@ -97,7 +105,6 @@ public class ChatActivity extends AppCompatActivity {
         super.onResume();
 
         // 缺少权限时, 进入权限配置页面
-
         if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
             startPermissionsActivity();
         }
@@ -114,5 +121,11 @@ public class ChatActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        flag = false;
     }
 }

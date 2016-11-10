@@ -27,6 +27,7 @@
             android:headerDividersEnabled="false"
             android:listSelector="#f0f0f0"
             android:smoothScrollbar="true"/>
+
     </FrameLayout>
 
     <RelativeLayout
@@ -35,7 +36,8 @@
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:background="#fff"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <View
             android:layout_width="match_parent"

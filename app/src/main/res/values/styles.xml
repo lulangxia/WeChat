@@ -36,6 +36,12 @@
     </style>
 
 
+    <style name="TextMain" >
+        <item name="android:textColor">@color/logintitle</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+
 
 
 

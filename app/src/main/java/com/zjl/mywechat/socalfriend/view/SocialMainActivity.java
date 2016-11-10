@@ -1,5 +1,6 @@
 package com.zjl.mywechat.socalfriend.view;
 
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -266,12 +267,15 @@ public class SocialMainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
+
         getData(0);
+
         // 缺少权限时, 进入权限配置页面
 
         if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
             startPermissionsActivity();
         }
+
     }
 
     private void startPermissionsActivity() {
