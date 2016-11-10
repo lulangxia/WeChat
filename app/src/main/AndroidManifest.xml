@@ -4,8 +4,8 @@
           package="com.zjl.mywechat">
 
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="19"
+        android:minSdkVersion="15"
+        android:targetSdkVersion="24"
         tools:overrideLibrary="com.easemob.redpacketui"/>
 
     <!-- Required -->
@@ -15,11 +15,10 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-    <!-- 获取当前位置信息（粗糙位置） -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
@@ -32,11 +31,18 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
+    <!-- 这个权限用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <!-- 这个权限用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+
+
+
+
+
+
+
     <!-- 注册MyApp -->
-
-
-    <android:uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"/> <!-- 注册MyApp -->
 
     <application
         android:name=".app.MyApp"
@@ -122,28 +128,33 @@
         </activity>
 
 
-        <activity android:name=".socalfriend.qrcode.QrcodeActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".socalfriend.qrcode.QrcodeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".group.GrouplistActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".group.GrouplistActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".group.GroupDetailActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:screenOrientation="portrait">
-        </activity>
-
-        <activity android:name=".group.AddGroupMemberActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:screenOrientation="portrait">
-
+        <activity
+            android:name=".group.GroupDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".group.AddGroupActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".group.AddGroupMemberActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".group.AddGroupActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
 
         </activity>
 
@@ -189,11 +200,12 @@
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <!-- 红包相关界面end -->
 
-        <service android:name=".base.Service"/>
+        <service android:name=".base.MyService"/>
 
-        <activity android:name=".ui.WelcomActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".ui.WelcomActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
