@@ -266,7 +266,7 @@ public class SocialMainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-
+        getData(0);
         // 缺少权限时, 进入权限配置页面
 
         if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
@@ -277,7 +277,7 @@ public class SocialMainActivity extends BaseActivity {
     private void startPermissionsActivity() {
         PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
 
-        getData(0);
+
     }
 
 }
