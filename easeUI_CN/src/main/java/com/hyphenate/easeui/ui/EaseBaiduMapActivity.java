@@ -88,6 +88,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity {
 		super.onCreate(savedInstanceState);
 		instance = this;
 		//initialize SDK with context, should call this before setContentView
+		//你这个崩了
         SDKInitializer.initialize(getApplicationContext());
 		setContentView(R.layout.ease_activity_baidumap);
 		mMapView = (MapView) findViewById(R.id.bmapView);

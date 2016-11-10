@@ -95,5 +95,17 @@ public class MyChatFragment extends EaseChatFragment {
     }
 
 
+//    protected void startVoiceCall() {
+//        if (!EMClient.getInstance().isConnected()) {
+//            Toast.makeText(getActivity(), R.string.not_connect_to_server, Toast.LENGTH_SHORT).show();
+//        } else {
+//            startActivity(new Intent(getActivity(), VoiceCallActivity.class).putExtra("username", toChatUsername)
+//                    .putExtra("isComingCall", false));
+//            // voiceCallBtn.setEnabled(false);
+//            inputMenu.hideExtendMenuContainer();
+//        }
+//    }
+
+
 
 }

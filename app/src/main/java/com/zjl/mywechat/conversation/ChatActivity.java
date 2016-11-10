@@ -38,6 +38,7 @@ public class ChatActivity extends BaseAty {
 
     @Override
     protected void initData() {
+        instance = this;
         mPermissionsChecker = new PermissionsChecker();
 
         // EaseChatFragment easeChatFragment = new EaseChatFragment();
