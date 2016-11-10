@@ -18,8 +18,6 @@ import com.zjl.mywechat.database.PersonBean;
 
 import java.util.ArrayList;
 
-import static com.android.volley.Request.Method.HEAD;
-
 
 public class FragmentMy extends BaseFragment {
 
@@ -51,9 +49,6 @@ public class FragmentMy extends BaseFragment {
 
         LiteOrm litorm = DBTools.getInstance().getmLiteOrm();
         ArrayList<PersonBean> myinfo = litorm.query(PersonBean.class);
-
-
-
 
 
 

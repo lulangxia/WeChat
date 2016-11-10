@@ -54,5 +54,11 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void initData();
 
 
+    // 返回获取Activity的方法
+    public BaseAty getBaseAty() {
+        return (BaseAty) getActivity();
+    }
+
+
 
 }

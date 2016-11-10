@@ -18,7 +18,19 @@ MainActivity的好友添加监听，添加好友列表刷新
 定位
 
 
+生成签名文件
+/Users/dllo/Desktop/WeChat/app/build/outputs/apk更改此路径下的
+Build-generate sign Apk
 
+cmd + ";"   app下新建BuildType，Signing新建一个文件，将他俩关联，
+Debugble -> false
+
+
+
+.gitIgnore里面
+*.apk
+*.jks
+不允许上传
 
 
 

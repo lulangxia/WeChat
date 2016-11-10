@@ -1,6 +1,5 @@
 package com.zjl.mywechat.app;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.support.multidex.MultiDex;
@@ -15,7 +14,6 @@ import com.hyphenate.easeui.controller.EaseUI;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
 import com.zjl.mywechat.socalfriend.view.LocalUserUtil;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,14 +24,12 @@ import java.util.List;
 public class MyApp extends MultiDexApplication {
     private static Context mContext;
     private static MyApp instance;
-    // 需要调用方法给Activities添加初值，退出登录时finish掉多余的Activities
-    private static ArrayList<Activity> activities;
+
 
 
     private JSONObject userJson;
     // 记录是否已经初始化
     private boolean isInit = false;
-    private String username = "";
 
     public String getTime() {
         return time;
@@ -75,9 +71,7 @@ public class MyApp extends MultiDexApplication {
         OkHttpManager.init(instance);
         LocalUserUtil.init(instance);
         initEasemob();
-//        if (getCurrentUserName() != null) {
-//            Log.d("MyApp", getCurrentUserName());
-//        }
+
         Fresco.initialize(this);
 
         RedPacket.getInstance().initContext(this);
@@ -85,13 +79,6 @@ public class MyApp extends MultiDexApplication {
         RedPacket.getInstance().setDebugMode(true);
 
     }
-
-
-    // 点击退出按钮时，会finish掉其他的Activity，只留下登录Activity
-    public void destroy() {
-
-    }
-
 
 
 

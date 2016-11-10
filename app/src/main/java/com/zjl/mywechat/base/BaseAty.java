@@ -5,19 +5,40 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import static com.zjl.mywechat.base.CreateAndDeleteMap.onCre;
+import static com.zjl.mywechat.base.CreateAndDeleteMap.onDel;
+
 
 /**
  * Created by dllo on 16/9/19.
  */
 public abstract class BaseAty extends AppCompatActivity {
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(setLayout());
 
+        // 异常处理日志文件 因为要传this，所以要放到BaseActivity里
+        ExceptionHandler handler = new ExceptionHandler(this);
+        Thread.setDefaultUncaughtExceptionHandler(handler);
+
+        onCre(this);
+
         initView();
         initData();
+
     }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        onDel(this.getClass().getSimpleName());
+    }
+
 
     /**
      * 设置布局
@@ -49,15 +70,9 @@ public abstract class BaseAty extends AppCompatActivity {
         return (T) findViewById(id);
     }
 
-    public void back(View view){
+    public void back(View view) {
         finish();
     }
-
-
-
-
-
-
 
 
 }
