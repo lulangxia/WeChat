@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
 
     private Button mButton;
     private TextView tvClearRecord;
-    private TextView tvClearMemory;
+    private RelativeLayout tvClearMemory;
     private TextView tvClearNum;
     private TextView tvCurrentMemory;
 
@@ -66,7 +67,6 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
     }
 
 
-
     @Override
     public void onClick(View v) {
 
@@ -79,23 +79,21 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
                 break;
             case R.id.tv_clearNum:
                 clearNum();
-                finish();
+               // finish();
                 break;
             case R.id.tv_clearRecord:
                 // 清除聊天记录
                 clearRecord();
-                finish();
+               // finish();
                 break;
             case R.id.tv_clearMemory:
                 // 清除缓存
                 clearMemory();
-                finish();
+               // finish();
                 break;
         }
 
     }
-
-
 
 
     private void logout() {
@@ -120,11 +118,8 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
                         Log.d("BaseAty*****", MainActivity.class.getSimpleName());
 
 
-
-
                         Activity activity = onDel(MainActivity.class.getSimpleName());
 
-                        Activity activity1 = activity;
 
                         if (activity != null) {
                             activity.finish();
@@ -158,7 +153,6 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
     private void clearNum() {
 
 
-
         int sum = 0;
         Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
         Iterator iter = conversations.entrySet().iterator();
@@ -170,7 +164,7 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
             // 获取单人的未读消息数
             EMConversation conversation = EMClient.getInstance().chatManager().getConversation(key);
             if (conversation != null) {
-                sum +=conversation.getUnreadMsgCount();
+                sum += conversation.getUnreadMsgCount();
 
                 Log.d("TestOptionActivity", "sum:" + sum);
             }
@@ -189,8 +183,6 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
     }
 
 
-
-
     private void clearRecord() {
 
         Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
@@ -207,7 +199,6 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
         EventBus.getDefault().post(i);
 
         Toast.makeText(this, "聊天记录已清空", Toast.LENGTH_SHORT).show();
-
 
 
         //删除当前会话的某条聊天记录
@@ -236,6 +227,9 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
     }
 
 
+    public void back(View view) {
+        finish();
+    }
 
 
 }

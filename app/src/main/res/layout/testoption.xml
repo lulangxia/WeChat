@@ -1,92 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
+
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_top_bar"
+        android:background="@color/black_deep">
+
+        <View
+            android:id="@+id/view_temp"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/iv_back"
+            android:background="#14191A"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/view_temp"
+            android:text="设置"
+            android:textColor="#ffffff"
+            android:textSize="18sp"/>
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:onClick="back"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/fx_top_bar_back"/>
+
+
+    </RelativeLayout>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/tv_clearNum"
-        android:text="清空未读消息数目"
-        android:padding="15dp"
-        android:clickable="true"
-        android:background="@drawable/btn_list_item_bg"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#000"
-        />
-
-
-
-    <TextView
+        style="@style/TextOption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="清除聊天记录"
-        android:id="@+id/tv_clearRecord"
-        android:padding="15dp"
+        android:layout_marginTop="15dp"
         android:clickable="true"
-        android:background="@drawable/btn_list_item_bg"
+        android:padding="15dp"
+        android:text="清空未读消息数目"
         />
 
     <TextView
+        style="@style/Margin"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#000"
+        android:background="#999999"
         />
 
+
+    <TextView
+        android:id="@+id/tv_clearRecord"
+        style="@style/TextOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:padding="15dp"
+        android:text="清除聊天记录"
+        />
+
+    <TextView
+        style="@style/Margin"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#999999"
+        />
 
 
     <RelativeLayout
+        android:id="@+id/tv_clearMemory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_list_item_bg"
+        android:clickable="true"
         >
 
         <TextView
+
+            style="@style/TextOption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="清除缓存"
-            android:id="@+id/tv_clearMemory"
             android:padding="15dp"
-            android:clickable="true"
+            android:text="清除缓存"
             />
 
 
         <TextView
             android:id="@+id/tv_currentMemory"
+            style="@style/TextOption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="当前缓存 : 0.0KB"
-            android:padding="15dp"
             android:layout_alignParentRight="true"
+            android:padding="15dp"
+            android:text="当前缓存 : 0.0KB"
+            android:textColor="@color/gray_normal"
             />
 
 
     </RelativeLayout>
 
 
-
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#000"
+        style="@style/Margin"
+        android:background="#999999"
         />
-
 
 
     <Button
         android:id="@+id/outlogin"
+        style="@style/Margin"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/fx_exit_group"
         android:text="退出登录"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
         />
-
 
 
 </LinearLayout>

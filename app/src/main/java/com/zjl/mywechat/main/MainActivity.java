@@ -489,7 +489,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     @Subscribe(threadMode = ThreadMode.MAIN)
     private void getMessageBeen(final List<EMMessage> messages) {
         Log.d("MainActivity", "消息增加");
-        if (!ChatActivity.instance.flag) {
+        if (!ChatActivity.instance.flag&&messages.get(0).getUserName()==) {
             mFirstNum = mFirstNum + messages.size();
             mUnreadnum.setText(mFirstNum + "");// 底部数字的改变
             mUnreadnum.setVisibility(View.VISIBLE);

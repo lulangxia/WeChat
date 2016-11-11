@@ -205,7 +205,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void uiRefresh(Boolean msg) {
-        // Log.d("FragmentConversationLis", "sub");
+         Log.d("FragmentConversationLis", "sub");
         if (msg) {
             refresh();
             Log.d("FragmentConversationLis", "sub");
