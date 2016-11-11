@@ -634,8 +634,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                     selectPicFromLocal();
                     break;
                 case ITEM_LOCATION:
-                    Toast.makeText(getActivity(), "静待后续版本实现", Toast.LENGTH_SHORT).show();
-                   // startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);
+                    //Toast.makeText(getActivity(), "静待后续版本实现", Toast.LENGTH_SHORT).show();
+                   startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);
                     break;
 
 
