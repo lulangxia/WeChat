@@ -39,6 +39,10 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
     private TextView tvClearMemory;
     private TextView tvClearNum;
     private TextView tvCurrentMemory;
+    private DataCleanManager manager1;
+
+    private String memoryPath = "";
+
 
     @Override
     protected int setLayout() {
@@ -53,6 +57,9 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
         tvClearMemory = bindView(R.id.tv_clearMemory);
         tvCurrentMemory = bindView(R.id.tv_currentMemory);
 
+        // 清空缓存
+        manager1 = new DataCleanManager();
+
     }
 
     @Override
@@ -62,6 +69,19 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
         tvClearNum.setOnClickListener(this);
         tvClearRecord.setOnClickListener(this);
         tvClearMemory.setOnClickListener(this);
+
+
+        // Context.getExternalFilesDir() --> SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
+        // Context.getExternalCacheDir() --> SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据
+        File file = new File("/sdcard/Android/data/com.zjl.mywechat/");
+        // File file = MyApp.getmContext().getExternalFilesDir(null);// 得到应用程序的文件目录的根目录
+        try {
+            String n = manager1.getCacheSize(file);
+            tvCurrentMemory.setText("当前缓存 : " + n);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -79,17 +99,14 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
                 break;
             case R.id.tv_clearNum:
                 clearNum();
-                finish();
                 break;
             case R.id.tv_clearRecord:
                 // 清除聊天记录
                 clearRecord();
-                finish();
                 break;
             case R.id.tv_clearMemory:
                 // 清除缓存
                 clearMemory();
-                finish();
                 break;
         }
 
@@ -119,18 +136,11 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
                         startActivity(new Intent(TestOptionActivity.this, LoginActivity.class));
                         Log.d("BaseAty*****", MainActivity.class.getSimpleName());
 
-
-
-
+                        // 安卓内存虚拟机会释放掉那个页面，Java的activity对象在下次内存回收时会被清楚
                         Activity activity = onDel(MainActivity.class.getSimpleName());
-
-                        Activity activity1 = activity;
-
                         if (activity != null) {
                             activity.finish();
                         }
-
-
                         finish();
                     }
                 });
@@ -217,23 +227,16 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
 
 
     private void clearMemory() {
-        // Context.getExternalFilesDir() --> SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
-        // Context.getExternalCacheDir() --> SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据
 
-        // 清空缓存
-        DataCleanManager manager1 = new DataCleanManager();
-        File file = MyApp.getmContext().getExternalFilesDir(null);// 得到应用程序的文件目录的根目录
-        try {
-            String n = manager1.getCacheSize(file);
-            tvCurrentMemory.setText("当前缓存 : " + n + " KB");
-            Log.d("MainActivity", "+++++++++++++" + n);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        manager1.cleanApplicationData(MyApp.getmContext());
+        // 数组
+        String[] path = {"/sdcard/Android/data/com.zjl.mywechat/1132161022178628#zjl/core_log/"};
+
+        manager1.cleanApplicationData(MyApp.getmContext(), path);
+        tvCurrentMemory.setText("当前缓存 : 0.0 MB");
 
         Toast.makeText(this, "缓存已清空", Toast.LENGTH_SHORT).show();
     }
+
 
 
 

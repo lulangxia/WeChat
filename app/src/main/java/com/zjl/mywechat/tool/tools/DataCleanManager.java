@@ -3,6 +3,7 @@ package com.zjl.mywechat.tool.tools;
 import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -96,6 +97,7 @@ public class DataCleanManager {
         for (String filePath : filepath) {
             cleanCustomCache(filePath);
         }
+        Toast.makeText(context, "?", Toast.LENGTH_SHORT).show();
     }
 
     /**
