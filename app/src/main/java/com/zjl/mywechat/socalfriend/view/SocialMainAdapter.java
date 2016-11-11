@@ -3,6 +3,8 @@ package com.zjl.mywechat.socalfriend.view;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -590,9 +592,9 @@ public class SocialMainAdapter extends BaseAdapter {
             }
 
             if (type == 2) {
-//                showDeleteDialog(userID, postion, scID, type, ctextView, cjsons,
-//                        view, goodSize);
-
+                showDeleteDialog(userID, postion, scID, type, ctextView, cjsons,
+                        view, goodSize);
+              //  Toast.makeText(context, "lalal", Toast.LENGTH_SHORT).show();
 
             } else {
 
@@ -602,6 +604,82 @@ public class SocialMainAdapter extends BaseAdapter {
                 Toast.makeText(context, "SocialFriendActivity", Toast.LENGTH_SHORT).show();
             }
         }
+
+    }
+
+    private void showDeleteDialog(final String userID, final int postion,
+                                  final String scID, final int type, final TextView ctextView,
+                                  final JSONArray cjsons, final View view, final int goodSize) {
+        final AlertDialog dlg = new AlertDialog.Builder(context).create();
+        dlg.show();
+        Window window = dlg.getWindow();
+        window.setContentView(R.layout.fx_dialog_social_main);
+        TextView tv_paizhao = (TextView) window.findViewById(R.id.tv_content1);
+        tv_paizhao.setText("复制");
+        tv_paizhao.setOnClickListener(new View.OnClickListener() {
+            @SuppressWarnings("deprecation")
+            @SuppressLint("SdCardPath")
+            public void onClick(View v) {
+                ClipboardManager cmb = (ClipboardManager) context
+                        .getSystemService(Context.CLIPBOARD_SERVICE);
+                cmb.setText(cjsons.getJSONObject(postion).getString("content")
+                        .trim());
+
+                //cmb.setPrimaryClip(ClipData clip);
+
+                dlg.cancel();
+            }
+        });
+        TextView tv_xiangce = (TextView) window.findViewById(R.id.tv_content2);
+        tv_xiangce.setText("删除");
+        tv_xiangce.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                deleteComment(userID, postion, scID, type, ctextView, cjsons,
+                        view, goodSize);
+
+                dlg.cancel();
+            }
+        });
+
+    }
+    // 删除评论
+    private void deleteComment(String userID, final int postion, String scID,
+                               int type, TextView ctextView, final JSONArray cjsons, View view,
+                               int goodSize) {
+
+        if (scID == null) {
+            scID = "LOCAL";
+        }
+        ;
+        String tag = cjsons.getJSONObject(postion).getString("tag");
+        if (tag == null) {
+            tag = String.valueOf(System.currentTimeMillis());
+        }
+        // 更新UI
+        cjsons.remove(postion);
+        setCommentTextClick(ctextView, cjsons, view, goodSize);
+        // 更新服务器
+        // 更新后台
+        List<Param> params = new ArrayList<>();
+        params.add(new Param("scID", scID));
+        params.add(new Param("tag", tag));
+        // params.add(new Param("userID", myuserID));
+
+        OkHttpManager.getInstance().post(params, FXConstant.URL_SOCIAL_DELETE_COMMENT, new OkHttpManager.HttpCallBack() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                int code = jsonObject.getIntValue("code");
+                if (code != 1000) {
+                    Toast.makeText(context, "服务器端响应失败...", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMsg) {
+                Toast.makeText(context, "服务器端响应失败...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
@@ -1017,6 +1095,13 @@ public class SocialMainAdapter extends BaseAdapter {
         }
 
         tv_comment.setText(ssb);
+
+//        tv_comment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(context, "lalal", Toast.LENGTH_SHORT).show();
+//            }
+//        });
         tv_comment.setMovementMethod(LinkMovementMethod.getInstance());
     }
 

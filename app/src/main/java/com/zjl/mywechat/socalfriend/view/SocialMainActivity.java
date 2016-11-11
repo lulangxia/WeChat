@@ -266,6 +266,8 @@ public class SocialMainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+
         getData(0);
 
         // 缺少权限时, 进入权限配置页面

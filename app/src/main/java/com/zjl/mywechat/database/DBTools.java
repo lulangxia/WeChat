@@ -114,31 +114,19 @@ public class DBTools {
     // 查询所有数据
     public <T> void getAll(final QueryListener<T> queryListener,final Class<T> clazz) {
 
-        
-        threadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                // 参数是(实体类.class)
-                final ArrayList<T> been = mLiteOrm.query(clazz);
-
-                mHandler.post(new HandlerRunnable<>(been, queryListener));
-            }
-        });
-
+//        threadPool.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                // 参数是(实体类.class)
+//                final ArrayList<T> been = mLiteOrm.query(clazz);
+//
+//                mHandler.post(new HandlerRunnable<>(been, queryListener));
+//            }
+//        });
 
         // 封装起来
-        // threadPool.execute(new QueryRunnable<>(clazz, queryListener));
-
-
+         threadPool.execute(new QueryRunnable<>(clazz, queryListener));
     }
-
-
-
-
-
-
-
-
 
 
 
@@ -186,6 +174,7 @@ public class DBTools {
 
 
 
+    // 检索数据库是否存在这个对象
     public <T> void check(final CheckListener<T> listener, final RequestBean requestBean) {
         threadPool.execute(new Runnable() {
             @Override
@@ -193,7 +182,6 @@ public class DBTools {
                 // 子线程进行数据的查询
                 RequestBean bean = mLiteOrm.queryById(requestBean.getName(), RequestBean.class);
                 if (bean!=null) {
-
                     Log.d("DBTools", "name:" + bean.getName());
                 }
                 // 得到结果，开始回传参数

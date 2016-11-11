@@ -1,9 +1,19 @@
+// 代表一个可运行的安卓程序
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'chen'
+            keyPassword '19941227'
+            storeFile file('/Users/dllo/Desktop/qianmingwenjian.jks')
+            storePassword '19941227'
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "25.0.0"
     defaultConfig {
+        //下面的Id可以由applicationIdSuffix/versionNameSuffix拼接，上不同的平台
         applicationId "com.zjl.mywechat"
         minSdkVersion 15
         targetSdkVersion 24
@@ -16,9 +26,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 签名版的App
+            signingConfig signingConfigs.config
+        }
+        liuType {
+            debuggable false
+            // 签名版的App
+            signingConfig signingConfigs.config
+            // cmd + ";" BuildType - liuType下修改
+            applicationIdSuffix 'aaa'
+            versionNameSuffix 'aaa'
         }
     }
-
 }
 
 dependencies {
@@ -32,17 +51,15 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile files('libs/pinyin4j-2.5.0.jar')
-    // liteOrm又小又快的数据存储
+    // liteOrm
     compile files('libs/lite-orm-1.9.2.jar')
-//    compile project(':easeUI_CN')
+    //    compile project(':easeUI_CN')
     compile 'org.greenrobot:eventbus:3.0.0'
     compile project(':librar')
     compile 'com.facebook.fresco:fresco:0.14.1'
     compile files('libs/umeng-analytics-v5.2.4.jar')
-
     // 解决65533问题
     compile 'com.android.support:multidex:1.0.1'
-
     compile project(':redpacketlibrary')
 
 
@@ -51,13 +68,15 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxandroid:2.0.0-RC1'
 
 
-
-
     // 二维码
     compile 'cn.bingoogolapple:bga-qrcodecore:1.1.3@aar'
     compile 'cn.bingoogolapple:bga-zbar:1.1.3@aar'
-
-
     compile files('libs/fastjson-1.2.5.jar')
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
 }
+
+task run(type: Exec, dependsOn: 'installDebug') {
+    description 'Installs the APK and runs the main activity: "gradlew :samples:???:run"'
+    commandLine "${android.sdkDirectory}/platform-tools/adb", 'shell', 'am', 'start', '-n', 'com.bumptech.glide.samples.flickr/.FlickrSearchActivity'
+}
+

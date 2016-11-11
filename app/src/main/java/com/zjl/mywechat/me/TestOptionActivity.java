@@ -1,5 +1,6 @@
 package com.zjl.mywechat.me;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.Log;
@@ -16,14 +17,16 @@ import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.base.BaseAty;
 import com.zjl.mywechat.database.DBTools;
 import com.zjl.mywechat.login.view.LoginActivity;
-import com.zjl.mywechat.tool.tools.DataCleanManager;
 import com.zjl.mywechat.main.MainActivity;
+import com.zjl.mywechat.tool.tools.DataCleanManager;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.Iterator;
 import java.util.Map;
+
+import static com.zjl.mywechat.base.CreateAndDeleteMap.onDel;
 
 /**
  * Created by dllo on 16/10/26.
@@ -114,7 +117,20 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
                         // 将数据库对象置空，这样下次登录新号会新建一个库
                         DBTools.getInstance().setDbToolsNull();
                         startActivity(new Intent(TestOptionActivity.this, LoginActivity.class));
-                        MainActivity.instance.finish();
+                        Log.d("BaseAty*****", MainActivity.class.getSimpleName());
+
+
+
+
+                        Activity activity = onDel(MainActivity.class.getSimpleName());
+
+                        Activity activity1 = activity;
+
+                        if (activity != null) {
+                            activity.finish();
+                        }
+
+
                         finish();
                     }
                 });

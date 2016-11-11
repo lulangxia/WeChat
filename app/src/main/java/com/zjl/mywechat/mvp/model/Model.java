@@ -51,6 +51,7 @@ public class Model<Q, T> implements ModelInterface<T>{
 
 
 
+    // 查重
     @Override
     public void checkDB(final IsHasThisData listener, RequestBean bean) {
 

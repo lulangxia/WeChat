@@ -58,7 +58,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     private TextView mUnreadnum;
     private TextView mUnagreenum;
     private TextView mUnknow;
-    public static MainActivity instance;
+//    public static MainActivity instance;
 
 
     private int unAgreeNum = 0;
@@ -90,7 +90,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             Log.d("TAGGG_MainActivity", "re");
         }
 
-        instance = this;// 退出登录时，finish掉MainActivity
+//        instance = this;// 退出登录时，finish掉MainActivity
         mTabLayout = bindView(R.id.tb_titles_main);
         mViewPager = bindView(R.id.vp_fragments_main);
         mToolbar = bindView(R.id.toolbar_main);
@@ -557,9 +557,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             myBinder = (MyService.MyBinder) service;
-            //            myBinder.requestReceiveListener();
-            //            myBinder.messageReceiveListener();
-
         }
 
         @Override
