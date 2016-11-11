@@ -106,7 +106,7 @@
     <string name="join_need_owner_approval">加入公开群需要群主同意</string>
     <string name="blacklist">黑名单列表</string>
     <string name="serach_group_message">消息搜索</string>
-    <string name="Empty_the_chat_record">清空聊天记录</string>
+    <string name="Empty_the_chat_record">清空群聊天记录</string>
     <string name="Shielding_of_the_message">屏蔽群消息</string>
     <string name="dismiss_group">解散群聊</string>
     <string name="Select_the_contact">选择联系人</string>

@@ -17,6 +17,7 @@ public class PreferenceManager {
     private static PreferenceManager mPreferenceManager;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
+
     public PreferenceManager(Context context) {
         mSharedPreferences = context.getSharedPreferences(PREFERENCE_NAME,Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();

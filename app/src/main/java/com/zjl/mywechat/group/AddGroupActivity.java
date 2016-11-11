@@ -77,7 +77,7 @@ public class AddGroupActivity extends BaseAty {
                             }
                             Log.d("AddGroupActivity", mGroupid);
                             Toast.makeText(AddGroupActivity.this, "建群成功", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(AddGroupActivity.this, AddGroupMemberActivity.class).putExtra("newgroupid", mGroupid));
+                            startActivity(new Intent(AddGroupActivity.this, AddGroupMemberActivity.class).putExtra("newgroupid", mGroupid).putExtra("newgroupboo",true));
                         }
                     });
                 } catch (final HyphenateException e) {

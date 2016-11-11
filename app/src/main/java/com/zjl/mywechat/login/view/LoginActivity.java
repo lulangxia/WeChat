@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -232,6 +233,28 @@ public class LoginActivity extends BaseAty implements View.OnClickListener, ILog
         ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("正在登陆，请稍后...");
         return dialog;
+    }
+
+
+    private long clickTime = 0; //记录第一次点击的时间
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void exit() {
+        if ((System.currentTimeMillis() - clickTime) > 2000) {
+            Toast.makeText(getApplicationContext(), "再按一次退出应用",
+                    Toast.LENGTH_SHORT).show();
+            clickTime = System.currentTimeMillis();
+        } else {
+            this.finish();
+        }
     }
 
 

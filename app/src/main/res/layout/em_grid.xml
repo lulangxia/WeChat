@@ -31,8 +31,10 @@
 
     <ImageView
         android:id="@+id/badge_delete"
+        android:background="@drawable/em_appitem_del_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible" />
+        android:visibility="gone"
+        />
 
 </RelativeLayout>
