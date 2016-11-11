@@ -32,12 +32,9 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         mPermissionsChecker = new PermissionsChecker();
 
-        // EaseChatFragment easeChatFragment = new EaseChatFragment();
         MyChatFragment easeChatFragment = new MyChatFragment();
 
-
         flag = true;
-        //  EaseChatFragment easeChatFragment = new EaseChatFragment();
 
         easeChatFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(R.id.chat_fr, easeChatFragment).commit();

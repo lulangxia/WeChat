@@ -4,39 +4,9 @@
 
 // 适配器里面的ViewHolder必须写成静态的内部类
 
-
-
-
-未读消息个数存到数据库，每个人都有一个单独的未读消息个数，下面的数字是求和
-
-
-
-
 MainActivity的好友添加监听，添加好友列表刷新
 服务器
 
 定位
-
-
-生成签名文件
-/Users/dllo/Desktop/WeChat/app/build/outputs/apk更改此路径下的
-Build-generate sign Apk
-
-cmd + ";"   app下新建BuildType，Signing新建一个文件，将他俩关联，
-Debugble -> false
-
-
-
-.gitIgnore里面
-*.apk
-*.jks
-不允许上传
-
-
-
-
-
-
-
 
 

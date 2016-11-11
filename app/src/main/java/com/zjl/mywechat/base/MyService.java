@@ -3,6 +3,7 @@ package com.zjl.mywechat.base;
 
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -119,9 +120,10 @@ public class MyService extends android.app.Service {
                     bean.setReason(reason);
 
 
-
                     broadIntent.putExtra("RequestBean", bean);
                     sendBroadcast(broadIntent);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("?", bean);
 
 
 
