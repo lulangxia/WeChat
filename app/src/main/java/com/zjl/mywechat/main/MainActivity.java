@@ -21,6 +21,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMError;
 import com.hyphenate.EMGroupChangeListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -31,6 +33,7 @@ import com.zjl.mywechat.bean.RequestBean;
 import com.zjl.mywechat.contacts.FragmentTelList;
 import com.zjl.mywechat.conversation.ChatActivity;
 import com.zjl.mywechat.conversation.FragmentConversationList;
+import com.zjl.mywechat.login.view.LoginActivity;
 import com.zjl.mywechat.me.FragmentMy;
 import com.zjl.mywechat.mvp.presenter.MainPresenter;
 import com.zjl.mywechat.mvp.view.MainView;
@@ -108,6 +111,9 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
 
     @Override
     protected void initData() {
+        EMClient.getInstance().addConnectionListener(new MyConnectionListener());
+
+
         sp = getSharedPreferences("shared", MODE_PRIVATE);
         spET = sp.edit();
 
@@ -580,6 +586,36 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             clickTime = System.currentTimeMillis();
         } else {
             this.finish();
+        }
+    }
+
+
+
+
+    //实现ConnectionListener接口
+    private class MyConnectionListener implements EMConnectionListener {
+        @Override
+        public void onConnected() {
+        }
+        @Override
+        public void onDisconnected(final int error) {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    if(error == EMError.USER_REMOVED){
+                        // 显示帐号已经被移除
+                        Toast.makeText(MainActivity.this, "账号已被删除", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        finish();
+                    }else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
+                        // 显示帐号在其他设备登录
+                        Toast.makeText(MainActivity.this, "同一账号在其他设备登录", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                }
+            });
         }
     }
 
