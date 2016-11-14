@@ -35,7 +35,6 @@ public class Model<Q, T> implements ModelInterface<T>{
         DBTools.getInstance().getAll(new DBTools.QueryListener<RequestBean>() {
             @Override
             public void onQuery(ArrayList<RequestBean> persons) {
-
                 if (persons.size() == 0) {
                     // 不能判空，要去判断长度
                     listener.onError();
@@ -43,7 +42,6 @@ public class Model<Q, T> implements ModelInterface<T>{
                     // 如果非空
                     listener.onSuccess(persons);
                 }
-
             }
         }, RequestBean.class);
     }

@@ -67,12 +67,6 @@ public class RequestActivity extends BaseAty implements MainView{
 
 
 
-
-
-
-
-
-
     }
 
 
