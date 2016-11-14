@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
 
     private Button mButton;
     private TextView tvClearRecord;
-    private TextView tvClearMemory;
+    private RelativeLayout tvClearMemory;
     private TextView tvClearNum;
     private TextView tvCurrentMemory;
     private DataCleanManager manager1;
@@ -86,7 +87,6 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
     }
 
 
-
     @Override
     public void onClick(View v) {
 
@@ -99,20 +99,26 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
                 break;
             case R.id.tv_clearNum:
                 clearNum();
+
+               // finish();
+
                 break;
             case R.id.tv_clearRecord:
                 // 清除聊天记录
                 clearRecord();
+               // finish();
+
                 break;
             case R.id.tv_clearMemory:
                 // 清除缓存
                 clearMemory();
+
+               // finish();
+
                 break;
         }
 
     }
-
-
 
 
     private void logout() {
@@ -136,8 +142,13 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
                         startActivity(new Intent(TestOptionActivity.this, LoginActivity.class));
                         Log.d("BaseAty*****", MainActivity.class.getSimpleName());
 
+
+
+
+
                         // 安卓内存虚拟机会释放掉那个页面，Java的activity对象在下次内存回收时会被清楚
                         Activity activity = onDel(MainActivity.class.getSimpleName());
+
                         if (activity != null) {
                             activity.finish();
                         }
@@ -168,7 +179,6 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
     private void clearNum() {
 
 
-
         int sum = 0;
         Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
         Iterator iter = conversations.entrySet().iterator();
@@ -180,7 +190,7 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
             // 获取单人的未读消息数
             EMConversation conversation = EMClient.getInstance().chatManager().getConversation(key);
             if (conversation != null) {
-                sum +=conversation.getUnreadMsgCount();
+                sum += conversation.getUnreadMsgCount();
 
                 Log.d("TestOptionActivity", "sum:" + sum);
             }
@@ -197,8 +207,6 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
         EventBus.getDefault().post(i);
 
     }
-
-
 
 
     private void clearRecord() {
@@ -219,7 +227,6 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
         Toast.makeText(this, "聊天记录已清空", Toast.LENGTH_SHORT).show();
 
 
-
         //删除当前会话的某条聊天记录
 //        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(username);
 //        conversation.removeMessage(deleteMsg.msgId);
@@ -232,12 +239,15 @@ public class TestOptionActivity extends BaseAty implements View.OnClickListener 
         String[] path = {"/sdcard/Android/data/com.zjl.mywechat/1132161022178628#zjl/core_log/"};
 
         manager1.cleanApplicationData(MyApp.getmContext(), path);
-        tvCurrentMemory.setText("当前缓存 : 0.0 MB");
+        tvCurrentMemory.setText("当前缓存 : 0.0 KB");
 
         Toast.makeText(this, "缓存已清空", Toast.LENGTH_SHORT).show();
     }
 
 
+    public void back(View view) {
+        finish();
+    }
 
 
 
