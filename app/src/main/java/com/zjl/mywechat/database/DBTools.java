@@ -181,7 +181,6 @@ public class DBTools {
             public void run() {
                 // 子线程进行数据的查询
                 RequestBean bean = mLiteOrm.queryById(requestBean.getName(), RequestBean.class);
-
                 if (bean!=null) {
                     Log.d("DBTools", "name:" + bean.getName());
                 }
