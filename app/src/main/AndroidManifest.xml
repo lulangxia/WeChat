@@ -37,12 +37,7 @@
     <!-- 这个权限用于访问GPS定位-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-
-
-
-
-
-
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"/>
 
 
     <!-- 注册MyApp -->
@@ -99,12 +94,12 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".addfriends.RequestActivity"
+            android:name=".contacts.addfriends.RequestActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".addfriends.AddFriendsActivity"
+            android:name=".contacts.addfriends.AddFriendsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
         </activity>
@@ -118,7 +113,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".me.TestOptionActivity"
+            android:name=".me.OptionActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
 
@@ -137,25 +132,25 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".group.GrouplistActivity"
+            android:name=".contacts.group.GrouplistActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".group.GroupDetailActivity"
+            android:name=".contacts.group.GroupDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".group.AddGroupMemberActivity"
+            android:name=".contacts.group.AddGroupMemberActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
 
         </activity>
 
         <activity
-            android:name=".group.AddGroupActivity"
+            android:name=".contacts.group.AddGroupActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
 
@@ -203,10 +198,10 @@
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <!-- 红包相关界面end -->
 
-        <service android:name=".base.MyService"/>
+        <service android:name=".service.MyService"/>
 
         <activity
-            android:name=".ui.WelcomActivity"
+            android:name=".welcome.WelcomActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -216,8 +211,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".widget.PermissionsActivity"/>
-
-        <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"/>
+        <activity android:name=".socalfriend.view.BigImageActivity">
+        </activity>
 
 
         <!-- 百度地图所需的service -->
@@ -231,9 +226,7 @@
             android:value="3ecea51f560650b1ed8a4b99808f52e8"/>
 
 
-        <activity android:name=".socalfriend.view.BigImageActivity">
-        </activity>
-
+        <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"/>
     </application>
 
 

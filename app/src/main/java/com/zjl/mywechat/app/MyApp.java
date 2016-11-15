@@ -12,7 +12,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
-import com.zjl.mywechat.socalfriend.view.LocalUserUtil;
+import com.zjl.mywechat.socalfriend.modle.LocalUserUtil;
 
 import java.util.Iterator;
 import java.util.List;
@@ -113,7 +113,7 @@ public class MyApp extends MultiDexApplication {
         EaseUI.getInstance().init(mContext, initOptions());
 
         // 设置开启debug模式
-        EMClient.getInstance().setDebugMode(true);
+        EMClient.getInstance().setDebugMode(false);
 
         // 设置初始化已经完成
         isInit = true;

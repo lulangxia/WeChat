@@ -6,10 +6,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * 点击事件
- * Created by DevWiki on 2016/7/16.
- */
+
 
 public class ItemClickListener extends RecyclerView.SimpleOnItemTouchListener {
 

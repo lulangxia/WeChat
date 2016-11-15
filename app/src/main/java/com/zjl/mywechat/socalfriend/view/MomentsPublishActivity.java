@@ -30,10 +30,11 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.zjl.mywechat.R;
+import com.zjl.mywechat.socalfriend.adapter.ImageAdapter;
 import com.zjl.mywechat.socalfriend.modle.Param;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
-import com.zjl.mywechat.tool.stringvalue.FXConstant;
-import com.zjl.mywechat.tool.tools.PictureUtil;
+import com.zjl.mywechat.stringvalue.FXConstant;
+import com.zjl.mywechat.tools.PictureUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 /**
  * 基础的ViewHolder<br>
  * ViewHolder只作View的缓存,不关心数据内容
- * Created by DevWiki on 2016/5/17.
  */
 public class BaseHolder extends RecyclerView.ViewHolder {
 

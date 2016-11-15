@@ -65,6 +65,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity {
 	public static EaseBaiduMapActivity instance = null;
 	ProgressDialog progressDialog;
 	private BaiduMap mBaiduMap;
+	private LocationClientOption mOption;
 
 	public class BaiduSDKReceiver extends BroadcastReceiver {
 		public void onReceive(Context context, Intent intent) {
@@ -159,15 +160,17 @@ public class EaseBaiduMapActivity extends EaseBaseActivity {
 		mLocClient = new LocationClient(this);
 		mLocClient.registerLocationListener(myListener);
 
-		LocationClientOption option = new LocationClientOption();
-		option.setOpenGps(true);// open gps
-		// option.setCoorType("bd09ll"); 
+
+		mOption = new LocationClientOption();
+		mOption.setOpenGps(true);// open gps
+		//mOption.setCoorType("bd09ll");
 		// Johnson change to use gcj02 coordination. chinese national standard
 		// so need to conver to bd09 everytime when draw on baidu map
-		option.setCoorType("gcj02");
-		option.setScanSpan(30000);
-		option.setAddrType("all");
-		mLocClient.setLocOption(option);
+		mOption.setCoorType("gcj02");
+		mOption.setScanSpan(30000);
+		mOption.setAddrType("all");
+		mOption.setIsNeedAddress(true);
+		mLocClient.setLocOption(mOption);
 	}
 
 	@Override
@@ -256,6 +259,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity {
 		intent.putExtra("longitude", lastLocation.getLongitude());
 		intent.putExtra("address", lastLocation.getAddrStr());
 		this.setResult(RESULT_OK, intent);
+		Log.d(TAG, "aaa");
 		finish();
 		overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
 	}

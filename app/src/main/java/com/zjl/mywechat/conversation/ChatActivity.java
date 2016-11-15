@@ -9,8 +9,8 @@ import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
-import com.zjl.mywechat.group.GroupDetailActivity;
-import com.zjl.mywechat.tool.tools.PermissionsChecker;
+import com.zjl.mywechat.contacts.group.GroupDetailActivity;
+import com.zjl.mywechat.tools.PermissionsChecker;
 import com.zjl.mywechat.widget.PermissionsActivity;
 
 public class ChatActivity extends BaseAty {

@@ -21,10 +21,11 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.app.MyApp;
+import com.zjl.mywechat.socalfriend.adapter.SocialMainAdapter;
 import com.zjl.mywechat.socalfriend.modle.Param;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
-import com.zjl.mywechat.tool.stringvalue.FXConstant;
-import com.zjl.mywechat.tool.tools.PermissionsChecker;
+import com.zjl.mywechat.stringvalue.FXConstant;
+import com.zjl.mywechat.tools.PermissionsChecker;
 import com.zjl.mywechat.widget.PermissionsActivity;
 
 import java.io.File;

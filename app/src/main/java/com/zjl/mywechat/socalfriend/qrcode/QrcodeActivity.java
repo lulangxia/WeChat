@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
-import com.zjl.mywechat.tool.tools.PermissionsChecker;
+import com.zjl.mywechat.tools.PermissionsChecker;
 import com.zjl.mywechat.widget.PermissionsActivity;
 
 import cn.bingoogolapple.qrcode.core.QRCodeView;

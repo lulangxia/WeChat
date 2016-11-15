@@ -27,17 +27,17 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
-import com.zjl.mywechat.base.MyService;
 import com.zjl.mywechat.bean.RequestBean;
 import com.zjl.mywechat.contacts.FragmentTelList;
 import com.zjl.mywechat.conversation.ChatActivity;
 import com.zjl.mywechat.conversation.FragmentConversationList;
 import com.zjl.mywechat.login.view.LoginActivity;
+import com.zjl.mywechat.main.adapter.MainAdapter;
 import com.zjl.mywechat.me.FragmentMy;
 import com.zjl.mywechat.mvp.presenter.MainPresenter;
 import com.zjl.mywechat.mvp.view.MainView;
-import com.zjl.mywechat.socalfriend.view.FragmentFind;
-import com.zjl.mywechat.ui.adapter.MainAdapter;
+import com.zjl.mywechat.service.MyService;
+import com.zjl.mywechat.socalfriend.FragmentFind;
 import com.zjl.mywechat.widget.AddPopwindow;
 
 import org.greenrobot.eventbus.EventBus;
@@ -45,7 +45,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickListener, MainView {
@@ -294,21 +293,21 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    private void getMessageBeen(final List<EMMessage> messages) {
-        Log.d("MainActivity", "消息增加");
-        if (!ChatActivity.instance.flag) {
-            mFirstNum = mFirstNum + messages.size();
-            mUnreadnum.setText(mFirstNum + "");// 底部数字的改变
-            mUnreadnum.setVisibility(View.VISIBLE);
-            mToolbar.setTitle("微信" + "(" + mFirstNum + ")");// ToolBar的数字个数改变
-            // Boolean newmsg = true;
-            // EventBus.getDefault().post(newmsg);
-            spET.putInt("unreadnum", mFirstNum);// 持久化保存
-            spET.commit();
-            Log.d("MainActivity", "mFirstNum:" + mFirstNum);
-        }
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    private void getMessageBeen(final List<EMMessage> messages) {
+//        Log.d("MainActivity", "消息增加");
+//        if (!ChatActivity.instance.flag) {
+//            mFirstNum = mFirstNum + messages.size();
+//            mUnreadnum.setText(mFirstNum + "");// 底部数字的改变
+//            mUnreadnum.setVisibility(View.VISIBLE);
+//            mToolbar.setTitle("微信" + "(" + mFirstNum + ")");// ToolBar的数字个数改变
+//            // Boolean newmsg = true;
+//            // EventBus.getDefault().post(newmsg);
+//            spET.putInt("unreadnum", mFirstNum);// 持久化保存
+//            spET.commit();
+//            Log.d("MainActivity123", "mFirstNum:" + mFirstNum);
+//        }
+//    }
 
 
     // 点击邀请信息后，下标清零
@@ -317,7 +316,6 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
         public void onReceive(Context context, Intent intent) {
 
             // 未阅读的好友添加数
-
             if (intent.getIntExtra("zeroNum", 0) < 0) {
                 // FragmentTelList发送的值是 -1
                 unAgreeNum = 0;
@@ -347,6 +345,8 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     private void messageChange(ArrayList<EMMessage> messages) {
         Log.d("MainActivity", "消息增加");
         if (!ChatActivity.instance.flag) {
+            Log.d("MainActivity", "messages.get(0).getBody():" + messages.get(0).getBody());
+
             mFirstNum = mFirstNum + messages.size();
             mUnreadnum.setText(mFirstNum + "");// 底部数字的改变
             mUnreadnum.setVisibility(View.VISIBLE);
@@ -355,7 +355,7 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
             // EventBus.getDefault().post(newmsg);
             spET.putInt("unreadnum", mFirstNum);// 持久化保存
             spET.commit();
-            Log.d("MainActivity", "mFirstNum:" + mFirstNum);
+            Log.d("MainActivity123123123", "mFirstNum:" + mFirstNum);
         }
     }
 
@@ -398,25 +398,24 @@ public class MainActivity extends BaseAty implements Toolbar.OnMenuItemClickList
     }
 
 
-
-
     //实现ConnectionListener接口
     private class MyConnectionListener implements EMConnectionListener {
         @Override
         public void onConnected() {
         }
+
         @Override
         public void onDisconnected(final int error) {
             runOnUiThread(new Runnable() {
 
                 @Override
                 public void run() {
-                    if(error == EMError.USER_REMOVED){
+                    if (error == EMError.USER_REMOVED) {
                         // 显示帐号已经被移除
                         Toast.makeText(MainActivity.this, "账号已被删除", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         finish();
-                    }else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
+                    } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
                         // 显示帐号在其他设备登录
                         Toast.makeText(MainActivity.this, "同一账号在其他设备登录", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));

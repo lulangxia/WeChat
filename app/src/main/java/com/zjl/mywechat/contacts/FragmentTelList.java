@@ -23,10 +23,10 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.addfriends.RequestActivity;
 import com.zjl.mywechat.bean.RequestBean;
+import com.zjl.mywechat.contacts.addfriends.RequestActivity;
+import com.zjl.mywechat.contacts.group.GrouplistActivity;
 import com.zjl.mywechat.conversation.ChatActivity;
-import com.zjl.mywechat.group.GrouplistActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -213,7 +213,8 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
                 editor.putInt("Num", 0);
                 editor.commit();
 
-
+                // 改变标志位的
+                flag = 1;
 
                 // 跳转
                 Intent intent = new Intent(getActivity(), RequestActivity.class);
@@ -286,18 +287,30 @@ public class FragmentTelList extends EaseContactListFragment implements View.OnC
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        flag = 0;
+    }
+
+    private static int flag = 0;
+
     private class UnAgreeRequest extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            num = intent.getIntExtra("num", 0);
-            tvUnAgreeNum.setVisibility(View.VISIBLE);
-            tvUnAgreeNum.setText(num + "");
-            Log.d("UnAgreeRequest", "num:" + num);
+
+            if (flag == 0) {
+                num = intent.getIntExtra("num", 0);
+                tvUnAgreeNum.setVisibility(View.VISIBLE);
+                tvUnAgreeNum.setText(num + "");
+                Log.d("UnAgreeRequest", "num:" + num);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("Num", num);
+                editor.commit();
+            }
 
 
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt("Num", num);
-            editor.commit();
         }
     }
 

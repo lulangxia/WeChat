@@ -22,7 +22,7 @@ import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.hyphenate.util.NetUtils;
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.tool.stringvalue.Constant;
+import com.zjl.mywechat.stringvalue.Constant;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

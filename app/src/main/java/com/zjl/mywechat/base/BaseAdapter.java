@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * 基础的Adapter
  * <p>
- * Created by DevWiki on 2016/7/13.
  */
 
 public abstract class BaseAdapter<M, VH extends BaseHolder> extends AbsAdapter<M, VH> {

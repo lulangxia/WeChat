@@ -10,7 +10,7 @@ import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.tool.stringvalue.Constant;
+import com.zjl.mywechat.stringvalue.Constant;
 
 import java.util.List;
 

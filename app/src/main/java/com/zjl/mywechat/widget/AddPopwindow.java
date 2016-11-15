@@ -14,8 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.addfriends.AddFriendsActivity;
-import com.zjl.mywechat.group.AddGroupActivity;
+import com.zjl.mywechat.contacts.addfriends.AddFriendsActivity;
+import com.zjl.mywechat.contacts.group.AddGroupActivity;
 import com.zjl.mywechat.socalfriend.qrcode.QrcodeActivity;
 
 

@@ -21,7 +21,7 @@ import com.zjl.mywechat.login.presenter.LoginPresrnter;
 import com.zjl.mywechat.main.MainActivity;
 import com.zjl.mywechat.register.view.RegisterActivity;
 import com.zjl.mywechat.socalfriend.modle.PreferenceManager;
-import com.zjl.mywechat.tool.stringvalue.StringStatic;
+import com.zjl.mywechat.stringvalue.StringStatic;
 
 public class LoginActivity extends BaseAty implements View.OnClickListener, ILoginView {
 

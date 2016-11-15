@@ -43,7 +43,7 @@ public class FragmentMy extends BaseFragment {
         mOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivity(new Intent(getActivity(), TestOptionActivity.class));
+                getActivity().startActivity(new Intent(getActivity(), OptionActivity.class));
             }
         });
 

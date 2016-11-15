@@ -11,10 +11,7 @@ import com.zjl.mywechat.R;
 
 import java.util.List;
 
-/**
- * Created by huangfangyi on 2016/7/3.\
- * QQ:84543217
- */
+
 public class FXAlertDialog {
     private Context context;
     private String title;

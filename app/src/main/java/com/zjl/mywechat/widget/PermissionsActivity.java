@@ -14,7 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.tool.tools.PermissionsChecker;
+import com.zjl.mywechat.tools.PermissionsChecker;
 
 /**
  * Created by dllo on 16/11/5.

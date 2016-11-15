@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import static com.zjl.mywechat.base.CreateAndDeleteMap.onCre;
-import static com.zjl.mywechat.base.CreateAndDeleteMap.onDel;
+import com.zjl.mywechat.tools.ExceptionHandler;
+
+import static com.zjl.mywechat.tools.CreateAndDeleteMap.onCre;
+import static com.zjl.mywechat.tools.CreateAndDeleteMap.onDel;
 
 
 /**

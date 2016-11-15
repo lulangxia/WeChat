@@ -25,10 +25,10 @@ import com.zjl.mywechat.R;
 import com.zjl.mywechat.base.BaseAty;
 import com.zjl.mywechat.login.view.LoginActivity;
 import com.zjl.mywechat.register.presenter.RegisterPresenter;
-import com.zjl.mywechat.tool.stringvalue.FXConstant;
-import com.zjl.mywechat.tool.stringvalue.StringStatic;
+import com.zjl.mywechat.stringvalue.FXConstant;
+import com.zjl.mywechat.stringvalue.StringStatic;
 import com.zjl.mywechat.widget.PermissionsActivity;
-import com.zjl.mywechat.tool.tools.PermissionsChecker;
+import com.zjl.mywechat.tools.PermissionsChecker;
 import com.zjl.mywechat.widget.FXAlertDialog;
 
 import java.io.File;
