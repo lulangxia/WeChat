@@ -21,6 +21,12 @@
         android:id="@+id/fl_error_item"
         >
     </FrameLayout>
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/zero_conver"
+		>
+	</FrameLayout>
 
 
     <com.hyphenate.easeui.widget.EaseConversationList
@@ -32,5 +38,6 @@
         android:divider="@null"
         hyphenate:cvsListPrimaryTextSize="16sp"
          />
+
 
 </LinearLayout>

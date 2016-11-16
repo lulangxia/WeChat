@@ -24,7 +24,7 @@ import com.zjl.mywechat.app.MyApp;
 import com.zjl.mywechat.socalfriend.adapter.SocialMainAdapter;
 import com.zjl.mywechat.socalfriend.modle.Param;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
-import com.zjl.mywechat.stringvalue.FXConstant;
+import com.zjl.mywechat.values.FXConstant;
 import com.zjl.mywechat.tools.PermissionsChecker;
 import com.zjl.mywechat.widget.PermissionsActivity;
 

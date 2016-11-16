@@ -10,9 +10,8 @@ import com.zjl.mywechat.tools.ExceptionHandler;
 import static com.zjl.mywechat.tools.CreateAndDeleteMap.onCre;
 import static com.zjl.mywechat.tools.CreateAndDeleteMap.onDel;
 
-
 /**
- * Created by dllo on 16/9/19.
+ *
  */
 public abstract class BaseAty extends AppCompatActivity {
 

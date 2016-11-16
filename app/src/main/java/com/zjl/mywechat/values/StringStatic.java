@@ -1,4 +1,4 @@
-package com.zjl.mywechat.stringvalue;
+package com.zjl.mywechat.values;
 
 /**
  * Created by dllo on 16/10/22.

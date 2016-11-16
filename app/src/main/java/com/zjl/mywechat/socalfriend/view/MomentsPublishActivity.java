@@ -33,7 +33,7 @@ import com.zjl.mywechat.R;
 import com.zjl.mywechat.socalfriend.adapter.ImageAdapter;
 import com.zjl.mywechat.socalfriend.modle.Param;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
-import com.zjl.mywechat.stringvalue.FXConstant;
+import com.zjl.mywechat.values.FXConstant;
 import com.zjl.mywechat.tools.PictureUtil;
 
 import java.io.ByteArrayOutputStream;

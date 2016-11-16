@@ -15,7 +15,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.stringvalue.FXConstant;
+import com.zjl.mywechat.values.FXConstant;
 
 import java.util.ArrayList;
 import java.util.List;

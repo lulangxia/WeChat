@@ -41,7 +41,7 @@ import com.zjl.mywechat.socalfriend.modle.Param;
 import com.zjl.mywechat.socalfriend.modle.PreferenceManager;
 import com.zjl.mywechat.socalfriend.presenter.OkHttpManager;
 import com.zjl.mywechat.socalfriend.view.BigImageActivity;
-import com.zjl.mywechat.stringvalue.FXConstant;
+import com.zjl.mywechat.values.FXConstant;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

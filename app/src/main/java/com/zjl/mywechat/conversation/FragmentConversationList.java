@@ -22,7 +22,7 @@ import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.hyphenate.util.NetUtils;
 import com.zjl.mywechat.R;
-import com.zjl.mywechat.stringvalue.Constant;
+import com.zjl.mywechat.values.Constant;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,7 +52,10 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
         super.initView();
         View errorView = (LinearLayout) View.inflate(getActivity(), R.layout.fragment_conversationlist, null);
+        View zeroView = (LinearLayout) View.inflate(getActivity(), R.layout.zeroconver, null);
         errorItemContainer.addView(errorView);
+        zeroConver.addView(zeroView);
+        //zeroView.setVisibility(View.GONE);
         mErrorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
         this.titleBar.setVisibility(View.GONE);
 
@@ -65,6 +68,13 @@ public class FragmentConversationList extends EaseConversationListFragment {
         mNumIntent = new Intent(Constant.UNREAD_MSG);
 
         registerForContextMenu(conversationListView);
+        if (conversationListView.getCount() == 0) {
+            Log.d("FragmentConversationLis", "1");
+            zeroConver.setVisibility(View.VISIBLE);
+        } else {
+            Log.d("FragmentConversationLis", "2");
+            zeroConver.setVisibility(View.GONE);
+        }
         conversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -90,12 +100,11 @@ public class FragmentConversationList extends EaseConversationListFragment {
                     intent.putExtra(Constant.EXTRA_USER_ID, username);
                     startActivity(intent);
 
-                    Integer readnum =conversation.getUnreadMsgCount();
+                    Integer readnum = conversation.getUnreadMsgCount();
                     EventBus.getDefault().post(readnum);
                 }
             }
         });
-
 
 
         conversationListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -104,7 +113,7 @@ public class FragmentConversationList extends EaseConversationListFragment {
                 EMConversation conversation = conversationListView.getItem(position);
                 String username = conversation.getUserName();
                 showPopwindow(username);
-                Integer readnum =conversation.getUnreadMsgCount();
+                Integer readnum = conversation.getUnreadMsgCount();
                 EventBus.getDefault().post(readnum);
                 return true;
             }
@@ -205,9 +214,17 @@ public class FragmentConversationList extends EaseConversationListFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void uiRefresh(Boolean msg) {
-         Log.d("FragmentConversationLis", "sub");
+        Log.d("FragmentConversationLis", "sub");
         if (msg) {
             refresh();
+            Log.d("FragmentConversationLis", "conversationList.size():" + conversationList.size());
+            if (conversationList.size() == 0) {
+                Log.d("FragmentConversationLis", "1");
+                zeroConver.setVisibility(View.VISIBLE);
+            } else {
+                Log.d("FragmentConversationLis", "2");
+                zeroConver.setVisibility(View.GONE);
+            }
             Log.d("FragmentConversationLis", "sub");
 
         }

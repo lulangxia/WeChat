@@ -46,6 +46,7 @@ public class EaseConversationListFragment extends EaseBaseFragment{
     protected List<EMConversation> conversationList = new ArrayList<EMConversation>();
     protected EaseConversationList conversationListView;
     protected FrameLayout errorItemContainer;
+    protected FrameLayout zeroConver;
 
     protected boolean isConflict;
     
@@ -78,6 +79,7 @@ public class EaseConversationListFragment extends EaseBaseFragment{
         // button to clear content in search bar
         clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
         errorItemContainer = (FrameLayout) getView().findViewById(R.id.fl_error_item);
+        zeroConver = (FrameLayout) getView().findViewById(R.id.zero_conver);
         View view = (View) getView().findViewById(R.id.search);
         view.setVisibility(View.GONE);
     }

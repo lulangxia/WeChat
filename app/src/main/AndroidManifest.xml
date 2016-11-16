@@ -201,7 +201,7 @@
         <service android:name=".service.MyService"/>
 
         <activity
-            android:name=".welcome.WelcomActivity"
+            android:name=".welcome.WelcomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
             <intent-filter>

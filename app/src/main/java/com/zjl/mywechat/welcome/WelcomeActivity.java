@@ -11,7 +11,7 @@ import com.zjl.mywechat.R;
 import com.zjl.mywechat.login.view.LoginActivity;
 import com.zjl.mywechat.main.MainActivity;
 
-public class WelcomActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
     private RelativeLayout rootLayout;
     private boolean autoLogin;
 
@@ -50,14 +50,14 @@ public class WelcomActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-                    startActivity(new Intent(WelcomActivity.this, MainActivity.class));
+                    startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                     finish();
                 } else {
                     try {
                         Thread.sleep(sleepTime);
                     } catch (InterruptedException e) {
                     }
-                    startActivity(new Intent(WelcomActivity.this, LoginActivity.class));
+                    startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
                     finish();
                 }
             }

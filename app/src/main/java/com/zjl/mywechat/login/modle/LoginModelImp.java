@@ -17,7 +17,6 @@ public class LoginModelImp implements ILoginModel {
 
                     @Override
                     public void onSuccess() {
-
                         onFinishListener.onFinished(username, password);
                     }
 
@@ -33,9 +32,6 @@ public class LoginModelImp implements ILoginModel {
                 });
             }
         }).start();
-
-
-
 
     }
 }
